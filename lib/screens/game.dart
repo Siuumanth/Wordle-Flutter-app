@@ -1,40 +1,124 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
-//import 'package:wordle/screens/home.dart';
 
 class gameScreen extends StatefulWidget {
-  const gameScreen({super.key});
+  final String word;
+  const gameScreen({required this.word, super.key});
 
   @override
   State<gameScreen> createState() => _gameScreenState();
 }
 
 class _gameScreenState extends State<gameScreen> {
+  List<List<dynamic>>? grid;
+  int counter = 0;
+  final List<GlobalKey<GameBoxState>> _keys =
+      List.generate(30, (index) => GlobalKey<GameBoxState>());
+
+  void change_color() {
+    if (counter < _keys.length) {
+      _keys[counter]
+          .currentState
+          ?.changeColor(); // Call changeColor on the specific box
+      counter++;
+      if (counter >= _keys.length) {
+        counter = 0; // Reset counter to loop back to the start
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    grid = List.generate(6, (_) => List.filled(5, null));
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double boxWidth = screenWidth / 6;
+    double boxWidth = screenWidth / 7;
 
     return Scaffold(
       appBar: gameAppBar(context),
-      body: Column(
-        children: [gameBox(boxWidth)],
+      body: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.all(screenWidth / 42),
+            child: GridView.count(
+              crossAxisCount: 5,
+              physics: const BouncingScrollPhysics(),
+              children: List.generate(
+                30,
+                (index) {
+                  return GameBox(
+                    width: boxWidth,
+                    key: _keys[index],
+                    initialColor: Colors.white,
+                  );
+                },
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 20, // Position the button at the bottom
+            left: (screenWidth / 2) - 50, // Center the button
+            child: ElevatedButton(
+              onPressed: () {
+                change_color();
+              },
+              child: Text("Press"),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-Widget gameBox(width) {
-  return Container(
-    height: width,
-    width: width,
-    decoration: BoxDecoration(
-        border: Border.all(width: 2, color: black),
-        borderRadius: BorderRadius.circular(10)),
-  );
+class GameBox extends StatefulWidget {
+  final double width;
+  final Color initialColor;
+
+  const GameBox({required this.width, required this.initialColor, super.key});
+
+  @override
+  GameBoxState createState() => GameBoxState();
 }
 
-AppBar gameAppBar(context) {
+class GameBoxState extends State<GameBox> {
+  late Color boxColor;
+
+  @override
+  void initState() {
+    super.initState();
+    boxColor = widget.initialColor; // Use initial color from the widget
+  }
+
+  void changeColor() {
+    setState(() {
+      boxColor =
+          boxColor == Colors.white ? Colors.cyan : Colors.white; // Toggle color
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(2),
+      height: widget.width,
+      width: widget.width,
+      decoration: BoxDecoration(
+        color: boxColor, // Use the state color
+        border: Border.all(width: 1.5, color: black),
+        borderRadius: BorderRadius.circular(5),
+      ),
+    );
+  }
+}
+
+AppBar gameAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: theme,
     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -72,13 +156,12 @@ AppBar gameAppBar(context) {
                               borderRadius: BorderRadius.circular(20),
                               child: Image.asset(
                                 'assets/images/mepic.jpg',
-                                // Replace with your image path
                                 fit: BoxFit.cover,
                               ),
                             )));
                   });
             },
-          ))
+          )),
     ]),
   );
 }
