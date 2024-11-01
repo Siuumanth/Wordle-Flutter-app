@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
+import 'package:wordle/screens/game.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,7 +15,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: buildAppBar(BuildContext),
       body: Stack(
-        children: [buildFAB(), buildStartButton()],
+        children: [buildFAB(), buildStartButton(context)],
       ),
     );
   }
@@ -40,18 +41,21 @@ Widget buildFAB() {
   );
 }
 
-Widget buildStartButton() {
+Widget buildStartButton(BuildContext context) {
   return Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
+        SizedBox(
           height: 160,
           width: 160,
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: theme, foregroundColor: grey),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => gameScreen()));
+              },
               child: const Center(
                 child: Text(
                   "START",
