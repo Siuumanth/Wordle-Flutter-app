@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
+import 'package:wordle/widgets/keyboard.dart';
 
 class gameScreen extends StatefulWidget {
   final String word;
@@ -17,18 +18,6 @@ class _gameScreenState extends State<gameScreen> {
   final List<GlobalKey<GameBoxState>> _keys =
       List.generate(30, (index) => GlobalKey<GameBoxState>());
 
-  void change_color() {
-    if (counter < _keys.length) {
-      _keys[counter]
-          .currentState
-          ?.changeColor(); // Call changeColor on the specific box
-      counter++;
-      if (counter >= _keys.length) {
-        counter = 0; // Reset counter to loop back to the start
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -38,40 +27,47 @@ class _gameScreenState extends State<gameScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    //  double screenHeight = MediaQuery.of(context).size.height;
     double boxWidth = screenWidth / 7;
+    double pad = screenWidth / 42;
 
     return Scaffold(
       appBar: gameAppBar(context),
-      body: Stack(
-        children: [
-          Container(
-            padding: EdgeInsets.all(screenWidth / 42),
-            child: GridView.count(
-              crossAxisCount: 5,
-              physics: const BouncingScrollPhysics(),
-              children: List.generate(
-                30,
-                (index) {
-                  return GameBox(
-                    width: boxWidth,
-                    key: _keys[index],
-                    initialColor: Colors.white,
-                  );
-                },
+      body: Container(
+        padding: EdgeInsets.only(top: 10),
+        color: white,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 4, // Adjust the flex to occupy more space
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: pad, vertical: pad),
+                child: GridView.count(
+                  crossAxisCount: 5,
+                  physics: const BouncingScrollPhysics(),
+                  children: List.generate(
+                    30,
+                    (index) {
+                      return GameBox(
+                        width: boxWidth,
+                        key: _keys[index],
+                        initialColor: Colors.white,
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 20, // Position the button at the bottom
-            left: (screenWidth / 2) - 50, // Center the button
-            child: ElevatedButton(
-              onPressed: () {
-                change_color();
-              },
-              child: Text("Press"),
+            Expanded(
+              flex: 2, // Adjust the flex to control the height of the keyboard
+              child: Container(
+                margin: EdgeInsets.all(10),
+                color: Colors.white,
+                child: CustomKeyboard(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -88,18 +84,35 @@ class GameBox extends StatefulWidget {
 }
 
 class GameBoxState extends State<GameBox> {
-  late Color boxColor;
+  Color boxColor = Colors.white;
+  Color textColor = const Color(0xff444242);
 
   @override
   void initState() {
     super.initState();
-    boxColor = widget.initialColor; // Use initial color from the widget
   }
 
-  void changeColor() {
+  void changeBoxColorGreen() {
     setState(() {
-      boxColor =
-          boxColor == Colors.white ? Colors.cyan : Colors.white; // Toggle color
+      boxColor = boxGreen;
+    });
+  }
+
+  void changeBoxColorGrey() {
+    setState(() {
+      boxColor = boxGrey;
+    });
+  }
+
+  void changeBoxColorYellow() {
+    setState(() {
+      boxColor = boxYellow;
+    });
+  }
+
+  void changeTextColorWhite() {
+    setState(() {
+      textColor = Colors.white;
     });
   }
 
@@ -110,10 +123,16 @@ class GameBoxState extends State<GameBox> {
       height: widget.width,
       width: widget.width,
       decoration: BoxDecoration(
-        color: boxColor, // Use the state color
+        color: boxColor,
         border: Border.all(width: 1.5, color: black),
         borderRadius: BorderRadius.circular(5),
       ),
+      child: Center(
+          child: Text(
+        "Z",
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: widget.width / 1.1),
+      )),
     );
   }
 }
@@ -122,7 +141,7 @@ AppBar gameAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: theme,
     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(""),
+      const Text(""),
       const Text(
         'WORDLE  ',
         style:

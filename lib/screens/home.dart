@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
-import 'package:wordle/screens/game.dart';
+import 'package:wordle/screens/gamescreen.dart';
 //import 'package:wordle/screens/keytest.dart';
 
 class Home extends StatefulWidget {
@@ -55,7 +55,7 @@ Widget buildStartButton(BuildContext context) {
                   backgroundColor: theme, foregroundColor: grey),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => gameScreen(word: 'CLEAR')));
+                    builder: (context) => const gameScreen(word: 'CLEAR')));
               },
               child: const Center(
                 child: Text(

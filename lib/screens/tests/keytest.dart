@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/material.dart';
 
 class SwapNumbersWidget extends StatefulWidget {
-  const SwapNumbersWidget({Key? key}) : super(key: key);
+  const SwapNumbersWidget({super.key});
 
   @override
   _SwapNumbersWidgetState createState() => _SwapNumbersWidgetState();
