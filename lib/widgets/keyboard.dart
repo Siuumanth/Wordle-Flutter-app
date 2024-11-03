@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
+import 'package:wordle/screens/gamescreen.dart';
+//import 'package:wordle/screens/gamescreen.dart';
 
 class CustomKeyboard extends StatefulWidget {
-  const CustomKeyboard({super.key});
+  final changeAlpha;
+  final backSpace;
+  final fiveDone;
+  const CustomKeyboard(
+      {required this.fiveDone,
+      required this.backSpace,
+      required this.changeAlpha,
+      super.key});
 
   @override
   State<CustomKeyboard> createState() => _CustomKeyboardState();
@@ -13,11 +22,7 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double keyHeight = screenHeight * 0.07;
-    print("Height and width is " +
-        screenHeight.toString() +
-        "and " +
-        screenWidth.toString());
+    double keyHeight = screenHeight * 0.08;
 
     List<String> kbCharacters = [
       'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', // Row 1
@@ -33,11 +38,13 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
             for (String ch in kbCharacters.sublist(start, end))
               Expanded(
                 child: ButtonBox(
-                  screenWidth: screenWidth,
-                  ch: ch,
-                  screenHeight: screenHeight,
-                  keyHeight: keyHeight,
-                ),
+                    screenWidth: screenWidth,
+                    ch: ch,
+                    screenHeight: screenHeight,
+                    keyHeight: keyHeight,
+                    changeAlpha: widget.changeAlpha,
+                    backSpace: widget.backSpace,
+                    fiveDone: widget.fiveDone),
               )
           ],
         ),
@@ -59,11 +66,18 @@ class ButtonBox extends StatefulWidget {
   final double screenHeight;
   final double keyHeight;
   final String ch;
+  final backSpace;
+  final changeAlpha;
+  final fiveDone;
+
   const ButtonBox(
       {required this.keyHeight,
       required this.screenHeight,
       required this.ch,
       required this.screenWidth,
+      required this.changeAlpha,
+      required this.backSpace,
+      required this.fiveDone,
       super.key});
 
   @override
@@ -71,30 +85,78 @@ class ButtonBox extends StatefulWidget {
 }
 
 class _ButtonBoxState extends State<ButtonBox> {
+  Color keyColor = kbgrey;
+  Color keyTextColor = black;
+
+  void changeBoxColorGreen() {
+    setState(() {
+      keyColor = boxGreen;
+      keyTextColor = white;
+    });
+  }
+
+  void changeBoxColorGrey() {
+    setState(() {
+      keyColor = boxGrey;
+      keyTextColor = white;
+    });
+  }
+
+  void changeBoxColorYellow() {
+    setState(() {
+      keyColor = boxYellow;
+      keyTextColor = white;
+    });
+  }
+
+  void changeTextColorWhite() {
+    setState(() {
+      keyTextColor = Colors.white;
+    });
+  }
+
+  bool isFiveDone() {
+    return (currentIndex == istop) && currentIndex <= grid.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     Text text = Text(
       widget.ch,
       style: TextStyle(
           fontSize: widget.ch != "Enter"
-              ? widget.keyHeight / 2.5
+              ? widget.keyHeight / 3
               : widget.keyHeight / 5,
-          fontWeight: FontWeight.w700),
+          fontWeight: FontWeight.w700,
+          color: keyTextColor),
     );
 
     return InkWell(
+      onTap: () {
+        if (!isFiveDone()) {
+          if (widget.ch != 'Backspace') {
+            widget.changeAlpha(widget.ch);
+          } else {
+            widget.backSpace();
+          }
+        } else {
+          widget.fiveDone(widget.ch);
+        }
+      }, // Change here
+
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: kbgrey,
         ),
         height: widget.keyHeight,
-        //  width: widget.screenWidth / 12.55,
         margin: EdgeInsets.all(widget.screenWidth / 130),
-
         child: Center(
-            child:
-                widget.ch != 'Backspace' ? text : const Icon(Icons.backspace)),
+            child: widget.ch != 'Backspace'
+                ? text
+                : const Icon(
+                    Icons.backspace,
+                  )),
       ),
     );
   }

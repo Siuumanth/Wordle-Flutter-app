@@ -1,8 +1,11 @@
 // ignore_for_file: camel_case_types
-
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/widgets/keyboard.dart';
+
+List<String> grid = List.filled(30, '');
+int currentIndex = 0;
+int istart = 0, istop = 5;
 
 class gameScreen extends StatefulWidget {
   final String word;
@@ -13,7 +16,6 @@ class gameScreen extends StatefulWidget {
 }
 
 class _gameScreenState extends State<gameScreen> {
-  List<List<dynamic>>? grid;
   int counter = 0;
   final List<GlobalKey<GameBoxState>> _keys =
       List.generate(30, (index) => GlobalKey<GameBoxState>());
@@ -21,7 +23,94 @@ class _gameScreenState extends State<gameScreen> {
   @override
   void initState() {
     super.initState();
-    grid = List.generate(6, (_) => List.filled(5, null));
+    grid = List.filled(30, '');
+    currentIndex = 0;
+    istart = 0;
+    istop = 5;
+  }
+
+  void changeAlpha(String alpha) {
+    setState(() {
+      grid[currentIndex] = alpha;
+      currentIndex++;
+      print(currentIndex);
+    });
+  }
+
+  void backSpace() {
+    if (currentIndex == istart) {
+      return;
+    }
+
+    setState(() {
+      if (currentIndex > 0) {
+        currentIndex--;
+      }
+      grid[currentIndex] = "";
+    });
+    print(currentIndex);
+  }
+
+  Future<void> fiveDone(String ch) async {
+    if (ch == 'Enter') {
+      checkTheWord();
+    } else if (ch == 'Backspace') {
+      backSpace();
+    } else {
+      return;
+    }
+  }
+
+  Future<void> checkLetters(String word, alphaList) async {
+    List<String> correctAlphaList = widget.word.split('');
+    for (int i = 0; i < 5; i++) {
+      if (alphaList[i] == correctAlphaList[i]) {
+        _keys[istart + i].currentState!.changeBoxColorGreen();
+      } else if (widget.word.contains(alphaList[i])) {
+        _keys[istart + i].currentState!.changeBoxColorYellow();
+      } else {
+        _keys[istart + i].currentState!.changeBoxColorGrey();
+      }
+      await Future.delayed(const Duration(seconds: 0, milliseconds: 500));
+    }
+
+    if (word == widget.word) {
+      showSnackBar("Congrats you won");
+    } else {
+      showSnackBar("Oops, try again");
+      continueGame();
+    }
+  }
+
+  void continueGame() {
+    setState(() {
+      istart += 5;
+      istop += 5;
+      currentIndex = istart;
+    });
+    print(
+        "continueGame - istart: $istart, istop: $istop, currentIndex: $currentIndex");
+  }
+
+  Future<void> checkTheWord() async {
+    var wordList = grid.sublist(istart, istop);
+    print("Word :" + wordList.join(''));
+
+    await checkLetters(wordList.join(''), wordList);
+  }
+
+  void showSnackBar(String snackText) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          snackText,
+          style: TextStyle(color: grey),
+        ),
+        backgroundColor: white,
+        dismissDirection: DismissDirection.horizontal,
+        elevation: 2,
+      ),
+    );
   }
 
   @override
@@ -29,7 +118,7 @@ class _gameScreenState extends State<gameScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     //  double screenHeight = MediaQuery.of(context).size.height;
     double boxWidth = screenWidth / 7;
-    double pad = screenWidth / 42;
+    double pad = screenWidth / 35;
 
     return Scaffold(
       appBar: gameAppBar(context),
@@ -49,10 +138,9 @@ class _gameScreenState extends State<gameScreen> {
                     30,
                     (index) {
                       return GameBox(
-                        width: boxWidth,
-                        key: _keys[index],
-                        initialColor: Colors.white,
-                      );
+                          width: boxWidth,
+                          key: _keys[index],
+                          alpha: grid[index]);
                     },
                   ),
                 ),
@@ -63,7 +151,11 @@ class _gameScreenState extends State<gameScreen> {
               child: Container(
                 margin: EdgeInsets.all(10),
                 color: Colors.white,
-                child: CustomKeyboard(),
+                child: CustomKeyboard(
+                  changeAlpha: changeAlpha,
+                  backSpace: backSpace,
+                  fiveDone: fiveDone,
+                ),
               ),
             ),
           ],
@@ -75,16 +167,16 @@ class _gameScreenState extends State<gameScreen> {
 
 class GameBox extends StatefulWidget {
   final double width;
-  final Color initialColor;
+  final String alpha;
 
-  const GameBox({required this.width, required this.initialColor, super.key});
+  const GameBox({required this.width, required this.alpha, super.key});
 
   @override
   GameBoxState createState() => GameBoxState();
 }
 
 class GameBoxState extends State<GameBox> {
-  Color boxColor = Colors.white;
+  Color boxColor = white;
   Color textColor = const Color(0xff444242);
 
   @override
@@ -95,18 +187,21 @@ class GameBoxState extends State<GameBox> {
   void changeBoxColorGreen() {
     setState(() {
       boxColor = boxGreen;
+      textColor = white;
     });
   }
 
   void changeBoxColorGrey() {
     setState(() {
       boxColor = boxGrey;
+      textColor = white;
     });
   }
 
   void changeBoxColorYellow() {
     setState(() {
       boxColor = boxYellow;
+      textColor = white;
     });
   }
 
@@ -125,13 +220,15 @@ class GameBoxState extends State<GameBox> {
       decoration: BoxDecoration(
         color: boxColor,
         border: Border.all(width: 1.5, color: black),
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(2),
       ),
       child: Center(
           child: Text(
-        "Z",
+        widget.alpha,
         style: TextStyle(
-            fontWeight: FontWeight.bold, fontSize: widget.width / 1.1),
+            fontWeight: FontWeight.bold,
+            fontSize: widget.width / 1.2,
+            color: textColor),
       )),
     );
   }
