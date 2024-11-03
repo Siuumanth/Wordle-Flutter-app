@@ -17,7 +17,7 @@ class gameScreen extends StatefulWidget {
 
 class _gameScreenState extends State<gameScreen> {
   int counter = 0;
-  final List<GlobalKey<GameBoxState>> _keys =
+  final List<GlobalKey<GameBoxState>> _gameBoxKeys =
       List.generate(30, (index) => GlobalKey<GameBoxState>());
 
   @override
@@ -65,11 +65,20 @@ class _gameScreenState extends State<gameScreen> {
     List<String> correctAlphaList = widget.word.split('');
     for (int i = 0; i < 5; i++) {
       if (alphaList[i] == correctAlphaList[i]) {
-        _keys[istart + i].currentState!.changeBoxColorGreen();
+        _gameBoxKeys[istart + i].currentState!.changeBoxColorGreen();
+        buttonBoxKeys[kbCharacters.indexOf(alphaList[i])]
+            .currentState!
+            .changeButtonColorGreen();
       } else if (widget.word.contains(alphaList[i])) {
-        _keys[istart + i].currentState!.changeBoxColorYellow();
+        _gameBoxKeys[istart + i].currentState!.changeBoxColorYellow();
+        buttonBoxKeys[kbCharacters.indexOf(alphaList[i])]
+            .currentState!
+            .changeButtonColorYellow();
       } else {
-        _keys[istart + i].currentState!.changeBoxColorGrey();
+        _gameBoxKeys[istart + i].currentState!.changeBoxColorGrey();
+        buttonBoxKeys[kbCharacters.indexOf(alphaList[i])]
+            .currentState!
+            .changeButtonColorGrey();
       }
       await Future.delayed(const Duration(seconds: 0, milliseconds: 500));
     }
@@ -94,7 +103,7 @@ class _gameScreenState extends State<gameScreen> {
 
   Future<void> checkTheWord() async {
     var wordList = grid.sublist(istart, istop);
-    print("Word :" + wordList.join(''));
+    print("Word :${wordList.join('')}");
 
     await checkLetters(wordList.join(''), wordList);
   }
@@ -104,7 +113,7 @@ class _gameScreenState extends State<gameScreen> {
       SnackBar(
         content: Text(
           snackText,
-          style: TextStyle(color: grey),
+          style: const TextStyle(color: grey),
         ),
         backgroundColor: white,
         dismissDirection: DismissDirection.horizontal,
@@ -123,7 +132,7 @@ class _gameScreenState extends State<gameScreen> {
     return Scaffold(
       appBar: gameAppBar(context),
       body: Container(
-        padding: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 10),
         color: white,
         child: Column(
           children: [
@@ -139,7 +148,7 @@ class _gameScreenState extends State<gameScreen> {
                     (index) {
                       return GameBox(
                           width: boxWidth,
-                          key: _keys[index],
+                          key: _gameBoxKeys[index],
                           alpha: grid[index]);
                     },
                   ),
@@ -149,7 +158,7 @@ class _gameScreenState extends State<gameScreen> {
             Expanded(
               flex: 2, // Adjust the flex to control the height of the keyboard
               child: Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 color: Colors.white,
                 child: CustomKeyboard(
                   changeAlpha: changeAlpha,

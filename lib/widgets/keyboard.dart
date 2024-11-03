@@ -3,6 +3,15 @@ import 'package:wordle/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';
 //import 'package:wordle/screens/gamescreen.dart';
 
+final List<GlobalKey<_ButtonBoxState>> buttonBoxKeys =
+    List.generate(28, (index) => GlobalKey<_ButtonBoxState>());
+
+List<String> kbCharacters = [
+  'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', // Row 1
+  'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', // Row 2
+  'Enter', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Backspace' // Row 3
+];
+
 class CustomKeyboard extends StatefulWidget {
   final changeAlpha;
   final backSpace;
@@ -24,12 +33,6 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
     double screenHeight = MediaQuery.of(context).size.height;
     double keyHeight = screenHeight * 0.08;
 
-    List<String> kbCharacters = [
-      'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', // Row 1
-      'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', // Row 2
-      'Enter', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Backspace' // Row 3
-    ];
-
     Widget kbRow(int start, int end) {
       return Expanded(
         child: Row(
@@ -38,13 +41,15 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
             for (String ch in kbCharacters.sublist(start, end))
               Expanded(
                 child: ButtonBox(
-                    screenWidth: screenWidth,
-                    ch: ch,
-                    screenHeight: screenHeight,
-                    keyHeight: keyHeight,
-                    changeAlpha: widget.changeAlpha,
-                    backSpace: widget.backSpace,
-                    fiveDone: widget.fiveDone),
+                  screenWidth: screenWidth,
+                  ch: ch,
+                  screenHeight: screenHeight,
+                  keyHeight: keyHeight,
+                  changeAlpha: widget.changeAlpha,
+                  backSpace: widget.backSpace,
+                  fiveDone: widget.fiveDone,
+                  key: buttonBoxKeys[kbCharacters.indexOf(ch)],
+                ),
               )
           ],
         ),
@@ -88,28 +93,28 @@ class _ButtonBoxState extends State<ButtonBox> {
   Color keyColor = kbgrey;
   Color keyTextColor = black;
 
-  void changeBoxColorGreen() {
+  void changeButtonColorGreen() {
     setState(() {
       keyColor = boxGreen;
       keyTextColor = white;
     });
   }
 
-  void changeBoxColorGrey() {
+  void changeButtonColorGrey() {
     setState(() {
       keyColor = boxGrey;
       keyTextColor = white;
     });
   }
 
-  void changeBoxColorYellow() {
+  void changeButtonColorYellow() {
     setState(() {
       keyColor = boxYellow;
       keyTextColor = white;
     });
   }
 
-  void changeTextColorWhite() {
+  void changeButtonColorWhite() {
     setState(() {
       keyTextColor = Colors.white;
     });
@@ -147,7 +152,7 @@ class _ButtonBoxState extends State<ButtonBox> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: kbgrey,
+          color: keyColor,
         ),
         height: widget.keyHeight,
         margin: EdgeInsets.all(widget.screenWidth / 130),

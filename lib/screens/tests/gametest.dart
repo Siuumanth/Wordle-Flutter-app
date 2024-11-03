@@ -14,16 +14,16 @@ class gameScreen extends StatefulWidget {
 class _gameScreenState extends State<gameScreen> {
   List<List<dynamic>>? grid;
   int counter = 0;
-  final List<GlobalKey<GameBoxState>> _keys =
+  final List<GlobalKey<GameBoxState>> _gameBoxKeys =
       List.generate(30, (index) => GlobalKey<GameBoxState>());
 
   void change_color() {
-    if (counter < _keys.length) {
-      _keys[counter]
+    if (counter < _gameBoxKeys.length) {
+      _gameBoxKeys[counter]
           .currentState
           ?.changeColor(); // Call changeColor on the specific box
       counter++;
-      if (counter >= _keys.length) {
+      if (counter >= _gameBoxKeys.length) {
         counter = 0; // Reset counter to loop back to the start
       }
     }
@@ -54,7 +54,7 @@ class _gameScreenState extends State<gameScreen> {
                 (index) {
                   return GameBox(
                     width: boxWidth,
-                    key: _keys[index],
+                    key: _gameBoxKeys[index],
                     initialColor: Colors.white,
                   );
                 },
