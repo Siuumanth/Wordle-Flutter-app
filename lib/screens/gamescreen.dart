@@ -82,7 +82,9 @@ class _gameScreenState extends State<gameScreen> {
       }
       await Future.delayed(const Duration(seconds: 0, milliseconds: 500));
     }
-
+    if (currentIndex == 30) {
+      showSnackBar("You lost");
+    }
     if (word == widget.word) {
       showSnackBar("Congrats you won");
     } else {
@@ -103,7 +105,6 @@ class _gameScreenState extends State<gameScreen> {
 
   Future<void> checkTheWord() async {
     var wordList = grid.sublist(istart, istop);
-    print("Word :${wordList.join('')}");
 
     await checkLetters(wordList.join(''), wordList);
   }

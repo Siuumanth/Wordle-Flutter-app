@@ -109,7 +109,7 @@ class _ButtonBoxState extends State<ButtonBox> {
 
   void changeButtonColorYellow() {
     setState(() {
-      keyColor = boxYellow;
+      keyColor = keyColor == boxGreen ? boxGreen : boxYellow;
       keyTextColor = white;
     });
   }
