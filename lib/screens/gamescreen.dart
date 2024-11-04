@@ -6,10 +6,11 @@ import 'package:wordle/widgets/keyboard.dart';
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;
 int istart = 0, istop = 5;
+late String wordle;
 
 class gameScreen extends StatefulWidget {
   final String word;
-  const gameScreen({required this.word, super.key});
+  gameScreen({required this.word, super.key});
 
   @override
   State<gameScreen> createState() => _gameScreenState();
@@ -29,6 +30,7 @@ class _gameScreenState extends State<gameScreen> {
     istop = 5;
   }
 
+  Future<void> read_files() async {}
   void changeAlpha(String alpha) {
     setState(() {
       grid[currentIndex] = alpha;
@@ -246,7 +248,7 @@ class GameBoxState extends State<GameBox> {
 
 AppBar gameAppBar(BuildContext context) {
   return AppBar(
-    backgroundColor: theme,
+    backgroundColor: white,
     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       const Text(""),
       const Text(

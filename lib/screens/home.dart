@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';
+import 'dart:io';
+import 'dart:math';
+
 //import 'package:wordle/screens/keytest.dart';
 
 class Home extends StatefulWidget {
@@ -8,6 +11,47 @@ class Home extends StatefulWidget {
 
   @override
   State<Home> createState() => _HomeState();
+}
+
+Future<void> startMadu(context) async {
+  var fwordfile = File('assets/filtered-words.txt');
+
+  String contentsF = await fwordfile.readAsString();
+
+  List<String> fwords = contentsF.split('\n');
+
+  var random = Random();
+  String finalWord = fwords[random.nextInt(fwords.length)];
+  print(finalWord);
+
+  Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => gameScreen(word: finalWord)));
+}
+
+Widget buildStartButton(BuildContext context) {
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 160,
+          width: 160,
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: theme, foregroundColor: grey),
+              onPressed: () {
+                startMadu(context);
+              },
+              child: const Center(
+                child: Text(
+                  "START",
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
+                ),
+              )),
+        )
+      ],
+    ),
+  );
 }
 
 class _HomeState extends State<Home> {
@@ -38,33 +82,6 @@ Widget buildFAB() {
           child: Image.asset('assets/images/trophy.png'),
         ),
       ),
-    ),
-  );
-}
-
-Widget buildStartButton(BuildContext context) {
-  return Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 160,
-          width: 160,
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: theme, foregroundColor: grey),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const gameScreen(word: 'CLEAR')));
-              },
-              child: const Center(
-                child: Text(
-                  "START",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
-                ),
-              )),
-        )
-      ],
     ),
   );
 }
