@@ -103,6 +103,7 @@ adhan
 adieu
 adios
 adits
+adlib
 adman
 admen
 admin
@@ -470,6 +471,7 @@ appro
 appui
 appuy
 apres
+april
 apron
 apses
 apsis
@@ -5479,6 +5481,7 @@ jarps
 jarta
 jarul
 jasey
+jason
 jaspe
 jasps
 jatos
@@ -7584,6 +7587,7 @@ nuddy
 nuder
 nudes
 nudge
+nudgy
 nudie
 nudzh
 nuffs
@@ -9309,6 +9313,7 @@ rorty
 rosed
 roses
 roset
+rosey
 roshi
 rosin
 rosit
@@ -12787,6 +12792,7 @@ zebub
 zebus
 zedas
 zeins
+zelda
 zendo
 zerda
 zerks

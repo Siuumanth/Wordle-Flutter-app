@@ -197,9 +197,7 @@ Daisy
 Damar
 Dance
 Dandy
-Danke
 Daric
-Dayum
 Deary
 Debut
 Deeds
@@ -213,7 +211,6 @@ Ditto
 Diver
 Dodge
 Doily
-Doink
 Dolly
 Donor
 Downy
@@ -246,7 +243,6 @@ Endow
 Enjoy
 Enter
 Envoy
-Eonic
 Epoch
 Equip
 Erase
@@ -339,7 +335,6 @@ Giant
 Giddy
 Girly
 Giver
-Glacé
 Glaze
 Glazy
 Gleam
@@ -434,7 +429,6 @@ Inlay
 Input
 Inure
 Ivied
-Ivily
 Jaffa
 Jammy
 Japer
@@ -504,7 +498,6 @@ Liked
 Limit
 Linen
 Lithe
-Livel
 Liven
 Llama
 Lobby
@@ -535,13 +528,11 @@ Maker
 Manly
 Manna
 Maple
-Maply
 March
 Marry
 Marsh
 Match
 Medal
-Merci
 Mercy
 Merge
 Merit
@@ -568,14 +559,12 @@ Musky
 Natty
 Nerdy
 Nervy
-Neven
 Newsy
 Nicer
 Nifty
 Nippy
 Nitid
 Nobby
-Nobel
 Noble
 Noted
 Novel
@@ -671,7 +660,6 @@ Purge
 Quack
 Quaff
 Quail
-Qudos
 Queen
 Queer
 Quell
@@ -874,7 +862,6 @@ Twine
 Utile
 Ultra
 Unity
-Urbly
 Union
 Usher
 Unarm
@@ -946,20 +933,16 @@ Whirl
 Whisk
 Woody
 Withy
-Wrily
 Woops
 Woosh
 Whale
 Wheat
 Winch
-Woolf
 Worth
 Widen
 Wield
-Xotic
 Xerox
 Yacht
-Yajna
 Yearn
 Yield
 Young
@@ -974,7 +957,6 @@ Yeast
 Zesty
 Zingy
 Zippy
-Zenly
 Zebec
 Zelda
 

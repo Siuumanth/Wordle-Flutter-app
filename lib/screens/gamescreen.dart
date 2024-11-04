@@ -2,11 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/widgets/keyboard.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;
 int istart = 0, istop = 5;
-late String wordle;
+late List<String> allWords;
 
 class gameScreen extends StatefulWidget {
   final String word;
@@ -28,9 +29,33 @@ class _gameScreenState extends State<gameScreen> {
     currentIndex = 0;
     istart = 0;
     istop = 5;
+    read_files();
   }
 
-  Future<void> read_files() async {}
+  Future<void> read_files() async {
+    String contentsA = await rootBundle.loadString("assets/twelveK.txt");
+    allWords = contentsA.split('\n');
+  }
+
+  int binarySearch(String target) {
+    int left = 0;
+    int right = allWords.length - 1;
+
+    while (left <= right) {
+      int mid = left + (right - left) ~/ 2;
+
+      if (allWords[mid].substring(0, 5).toUpperCase() == target) {
+        return mid;
+      } else if (allWords[mid].substring(0, 5).toUpperCase().compareTo(target) <
+          0) {
+        left = mid + 1;
+      } else {
+        right = mid - 1;
+      }
+    }
+    return -1;
+  }
+
   void changeAlpha(String alpha) {
     setState(() {
       grid[currentIndex] = alpha;
@@ -65,6 +90,11 @@ class _gameScreenState extends State<gameScreen> {
 
   Future<void> checkLetters(String word, alphaList) async {
     List<String> correctAlphaList = widget.word.split('');
+    int checker = binarySearch(word);
+    if (checker == -1) {
+      showSnackBar("Word doesn't exist, try again");
+      return;
+    }
     for (int i = 0; i < 5; i++) {
       if (alphaList[i] == correctAlphaList[i]) {
         _gameBoxKeys[istart + i].currentState!.changeBoxColorGreen();

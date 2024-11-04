@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';
-import 'dart:io';
 import 'dart:math';
+import 'package:flutter/services.dart' show rootBundle;
 
 //import 'package:wordle/screens/keytest.dart';
 
@@ -14,14 +14,13 @@ class Home extends StatefulWidget {
 }
 
 Future<void> startMadu(context) async {
-  var fwordfile = File('assets/filtered-words.txt');
-
-  String contentsF = await fwordfile.readAsString();
+  String contentsF = await rootBundle.loadString("assets/filtered-words.txt");
 
   List<String> fwords = contentsF.split('\n');
 
   var random = Random();
-  String finalWord = fwords[random.nextInt(fwords.length)];
+  String finalWord =
+      fwords[random.nextInt(fwords.length)].substring(0, 5).toUpperCase();
   print(finalWord);
 
   Navigator.of(context).push(
