@@ -3,8 +3,10 @@ import 'package:wordle/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';
 import 'dart:math';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/login/SignUp.dart';
 //import 'package:wordle/screens/keytest.dart';
+import 'package:wordle/screens/profile.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -100,9 +102,16 @@ AppBar buildAppBar(context) {
             child: ClipOval(
               child: Image.asset('assets/images/mepic.jpg'),
             ),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const SignUp()));
+            onTap: () async {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(
+                builder: (context) => const Login(),
+              ))
+                  .then((_) {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ProfilePage(),
+                ));
+              });
             },
           ))
     ]),

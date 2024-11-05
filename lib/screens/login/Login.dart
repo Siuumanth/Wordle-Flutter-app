@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/screens/login/SignUp.dart';
+//import 'package:wordle/screens/login/SignUp.dart';
+import 'package:wordle/screens/login/auth_service.dart';
+import 'package:wordle/screens/profile.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -10,6 +13,8 @@ class Login extends StatefulWidget {
 }
 
 class _SignUpState extends State<Login> {
+  final _auth = AuthService();
+
   // late TextEditingController nameController = TextEditingController();
   late TextEditingController mailController = TextEditingController();
   late TextEditingController passController = TextEditingController();
@@ -28,11 +33,16 @@ class _SignUpState extends State<Login> {
     return Scaffold(
       appBar: loginAppBar(context),
       body: Container(
-        color: Colors.white,
+        color: white,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Text(
+                "Login",
+                style: TextStyle(
+                    fontSize: 35, fontWeight: FontWeight.w600, color: grey),
+              ),
               const SizedBox(
                 height: 30,
               ),
@@ -99,7 +109,9 @@ class _SignUpState extends State<Login> {
                       backgroundColor: darktheme,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.only(left: 45, right: 45)),
-                  onPressed: () {},
+                  onPressed: () {
+                    loginuser();
+                  },
                   child: Center(
                     child: Text(
                       verify,
@@ -109,21 +121,36 @@ class _SignUpState extends State<Login> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),
       ),
     );
   }
+
+  Future<void> loginuser() async {
+    final user = await _auth.loginUserWithEmailPassword(
+      mailController.text,
+      passController.text,
+    );
+    if (user != null) {
+      print("User logged in suuccessfully");
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const ProfilePage()));
+    }
+  }
 }
 
 AppBar loginAppBar(BuildContext context) {
   return AppBar(
-    backgroundColor: theme,
+    backgroundColor: white,
     title: const Row(
       children: [
         Text(
-          'Log in  ',
+          ' ',
           style: TextStyle(
               fontWeight: FontWeight.w400, color: black, fontSize: 24),
         ),
@@ -137,8 +164,10 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     height: 60,
-    decoration:
-        BoxDecoration(borderRadius: BorderRadius.circular(10), color: theme),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(color: theme, width: 2),
+    ),
     margin: const EdgeInsets.symmetric(horizontal: 25),
     child: TextField(
       cursorHeight: 30,
