@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
+import 'package:wordle/screens/login/SignUp.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -9,7 +10,7 @@ class Login extends StatefulWidget {
 }
 
 class _SignUpState extends State<Login> {
-  late TextEditingController nameController = TextEditingController();
+  // late TextEditingController nameController = TextEditingController();
   late TextEditingController mailController = TextEditingController();
   late TextEditingController passController = TextEditingController();
   String verify = "Verify";
@@ -19,7 +20,7 @@ class _SignUpState extends State<Login> {
     super.dispose();
     mailController.dispose();
     passController.dispose();
-    nameController.dispose();
+    //   nameController.dispose();
   }
 
   @override
@@ -32,16 +33,6 @@ class _SignUpState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              textField(
-                  nameController,
-                  const Icon(
-                    Icons.account_circle_sharp,
-                    color: grey,
-                    size: 30,
-                  ),
-                  "Username",
-                  0,
-                  TextInputType.emailAddress),
               const SizedBox(
                 height: 30,
               ),
@@ -71,9 +62,31 @@ class _SignUpState extends State<Login> {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Already have an account? Login',
-                style: TextStyle(fontSize: 17),
+              Center(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Dont have an account?',
+                      style: TextStyle(fontSize: 17),
+                    ),
+                    const SizedBox(width: 5),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const SignUp()));
+                      },
+                      child: const Text(
+                        'Sign up',
+                        style: TextStyle(
+                            color: darktheme,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18),
+                      ),
+                    )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 40,
@@ -108,11 +121,9 @@ AppBar loginAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: theme,
     title: const Row(
-      //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        //    Text(""),
         Text(
-          'Sign up  ',
+          'Log in  ',
           style: TextStyle(
               fontWeight: FontWeight.w400, color: black, fontSize: 24),
         ),
