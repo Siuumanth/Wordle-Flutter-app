@@ -11,7 +11,7 @@ late List<String> allWords;
 
 class gameScreen extends StatefulWidget {
   final String word;
-  gameScreen({required this.word, super.key});
+  const gameScreen({required this.word, super.key});
 
   @override
   State<gameScreen> createState() => _gameScreenState();
@@ -120,7 +120,6 @@ class _gameScreenState extends State<gameScreen> {
     if (word == widget.word) {
       showSnackBar("Congrats you won");
     } else {
-      showSnackBar("Oops, try again");
       continueGame();
     }
   }
@@ -165,14 +164,15 @@ class _gameScreenState extends State<gameScreen> {
     return Scaffold(
       appBar: gameAppBar(context),
       body: Container(
-        padding: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 20),
         color: white,
         child: Column(
           children: [
             Expanded(
               flex: 4, // Adjust the flex to occupy more space
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: pad, vertical: pad),
+                padding: EdgeInsets.symmetric(
+                    horizontal: pad * 1.3, vertical: pad * 1.3),
                 child: GridView.count(
                   crossAxisCount: 5,
                   physics: const BouncingScrollPhysics(),
@@ -261,7 +261,8 @@ class GameBoxState extends State<GameBox> {
       width: widget.width,
       decoration: BoxDecoration(
         color: boxColor,
-        border: Border.all(width: 1.5, color: black),
+        border: Border.all(
+            width: 1.5, color: const Color.fromARGB(177, 26, 25, 25)),
         borderRadius: BorderRadius.circular(2),
       ),
       child: Center(
@@ -279,14 +280,16 @@ class GameBoxState extends State<GameBox> {
 AppBar gameAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: white,
-    title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      const Text(""),
-      const Text(
-        'WORDLE  ',
-        style:
-            TextStyle(fontWeight: FontWeight.w600, color: black, fontSize: 24),
-      ),
-      Container(
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(""),
+        const Text(
+          'WORDLE  ',
+          style: TextStyle(
+              fontWeight: FontWeight.w600, color: black, fontSize: 24),
+        ),
+        Container(
           height: 50,
           width: 50,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
@@ -299,27 +302,32 @@ AppBar gameAppBar(BuildContext context) {
             onTap: () {
               FocusScope.of(context).unfocus();
               showDialog(
-                  barrierDismissible: true,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Dialog(
-                        insetPadding: const EdgeInsets.all(10),
-                        backgroundColor: Colors.transparent,
-                        child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
-                                'assets/images/mepic.jpg',
-                                fit: BoxFit.cover,
-                              ),
-                            )));
-                  });
+                barrierDismissible: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return Dialog(
+                    insetPadding: const EdgeInsets.all(10),
+                    backgroundColor: Colors.transparent,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(
+                          'assets/images/mepic.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
             },
-          )),
-    ]),
+          ),
+        ),
+      ],
+    ),
   );
 }

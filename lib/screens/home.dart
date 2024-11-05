@@ -3,7 +3,7 @@ import 'package:wordle/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';
 import 'dart:math';
 import 'package:flutter/services.dart' show rootBundle;
-
+import 'package:wordle/screens/login/SignUp.dart';
 //import 'package:wordle/screens/keytest.dart';
 
 class Home extends StatefulWidget {
@@ -15,14 +15,11 @@ class Home extends StatefulWidget {
 
 Future<void> startMadu(context) async {
   String contentsF = await rootBundle.loadString("assets/filtered-words.txt");
-
   List<String> fwords = contentsF.split('\n');
-
   var random = Random();
   String finalWord =
       fwords[random.nextInt(fwords.length)].substring(0, 5).toUpperCase();
   print(finalWord);
-
   Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => gameScreen(word: finalWord)));
 }
@@ -57,7 +54,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(BuildContext),
+      appBar: buildAppBar(context),
       body: Stack(
         children: [buildFAB(), buildStartButton(context)],
       ),
@@ -104,28 +101,8 @@ AppBar buildAppBar(context) {
               child: Image.asset('assets/images/mepic.jpg'),
             ),
             onTap: () {
-              FocusScope.of(context).unfocus();
-              showDialog(
-                  barrierDismissible: true,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Dialog(
-                        insetPadding: const EdgeInsets.all(10),
-                        backgroundColor: Colors.transparent,
-                        child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
-                                'assets/images/mepic.jpg',
-                                // Replace with your image path
-                                fit: BoxFit.cover,
-                              ),
-                            )));
-                  });
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const SignUp()));
             },
           ))
     ]),

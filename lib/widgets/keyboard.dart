@@ -152,11 +152,11 @@ class _ButtonBoxState extends State<ButtonBox> {
 
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(4),
           color: keyColor,
         ),
         height: widget.keyHeight,
-        margin: EdgeInsets.all(widget.screenWidth / 130),
+        margin: EdgeInsets.all(widget.screenWidth / 140),
         child: Center(
             child: widget.ch != 'Backspace'
                 ? text
