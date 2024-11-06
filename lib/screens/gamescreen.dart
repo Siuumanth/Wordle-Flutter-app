@@ -32,6 +32,7 @@ class _gameScreenState extends State<gameScreen> {
     read_files();
   }
 
+  // ignore: non_constant_identifier_names
   Future<void> read_files() async {
     String contentsA = await rootBundle.loadString("assets/twelveK.txt");
     allWords = contentsA.split('\n');
@@ -57,6 +58,9 @@ class _gameScreenState extends State<gameScreen> {
   }
 
   void changeAlpha(String alpha) {
+    if (alpha == "Enter") {
+      return;
+    }
     setState(() {
       grid[currentIndex] = alpha;
       currentIndex++;
