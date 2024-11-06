@@ -4,16 +4,18 @@ import 'package:wordle/screens/gamescreen.dart';
 import 'dart:math';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:wordle/screens/login/Login.dart';
-import 'package:wordle/screens/login/SignUp.dart';
 //import 'package:wordle/screens/keytest.dart';
 import 'package:wordle/screens/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
+
+final user = FirebaseAuth.instance.currentUser;
 
 Future<void> startMadu(context) async {
   String contentsF = await rootBundle.loadString("assets/filtered-words.txt");
@@ -52,7 +54,7 @@ Widget buildStartButton(BuildContext context) {
   );
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,15 +105,17 @@ AppBar buildAppBar(context) {
               child: Image.asset('assets/images/mepic.jpg'),
             ),
             onTap: () async {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(
-                builder: (context) => const Login(),
-              ))
-                  .then((_) {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const ProfilePage(),
-                ));
-              });
+              if (user == null) {
+                // User is not logged in, navigate to Login page
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              } else {
+                // User is logged in, navigate to Profile page
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              }
             },
           ))
     ]),

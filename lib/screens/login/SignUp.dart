@@ -149,7 +149,7 @@ class _SignUpState extends State<SignUp> {
 
   void goToLogin() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const Login()));
+        .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   Future<User?> _signup() async {
@@ -160,6 +160,7 @@ class _SignUpState extends State<SignUp> {
       print("User created Successfully");
       goToProfile();
     }
+    return null;
   }
 }
 

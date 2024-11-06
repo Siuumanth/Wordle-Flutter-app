@@ -26,9 +26,9 @@ class _WrapperState extends State<Wrapper> {
           } else {
             if (snapshot.data == null) {
               //not logged in
-              return const Login();
+              return const LoginScreen();
             } else {
-              return Home();
+              return const HomeScreen();
             }
           }
         },

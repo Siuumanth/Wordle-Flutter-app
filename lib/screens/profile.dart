@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/screens/login/Login.dart';
@@ -37,8 +36,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void goToLogin() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const Login()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 }
 

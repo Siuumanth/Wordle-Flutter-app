@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
+import 'package:wordle/screens/home.dart';
 import 'package:wordle/screens/login/SignUp.dart';
 //import 'package:wordle/screens/login/SignUp.dart';
 import 'package:wordle/screens/login/auth_service.dart';
-import 'package:wordle/screens/profile.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<Login> createState() => _SignUpState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignUpState extends State<Login> {
+class _LoginScreenState extends State<LoginScreen> {
   final _auth = AuthService();
 
   // late TextEditingController nameController = TextEditingController();
@@ -108,21 +108,37 @@ class _SignUpState extends State<Login> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: darktheme,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.only(left: 45, right: 45)),
+                      padding: const EdgeInsets.only(left: 20, right: 20)),
                   onPressed: () {
                     loginuser();
                   },
-                  child: Center(
+                  child: const Center(
                     child: Text(
-                      verify,
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.w500),
+                      "Confirm",
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
               ),
               const SizedBox(
                 height: 50,
+              ),
+              GestureDetector(
+                onTap: () {
+                  goToHome(context);
+                },
+                child: const Text(
+                  "Continue as guest",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: darktheme,
+                      decoration: TextDecoration.underline,
+                      decorationColor: darktheme),
+                ),
               )
             ],
           ),
@@ -136,12 +152,21 @@ class _SignUpState extends State<Login> {
       mailController.text,
       passController.text,
     );
+
     if (user != null) {
-      print("User logged in suuccessfully");
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const ProfilePage()));
+      print("User logged in successfully");
+      // Navigate to the home screen
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        (Route<dynamic> route) => false, // Removes all previous routes
+      );
     }
   }
+}
+
+void goToHome(context) {
+  Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const HomeScreen()));
 }
 
 AppBar loginAppBar(BuildContext context) {
