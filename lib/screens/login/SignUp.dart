@@ -5,6 +5,8 @@ import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:wordle/screens/profile.dart';
 
+import 'package:wordle/wrapper.dart';
+
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
 
@@ -158,7 +160,11 @@ class _SignUpState extends State<SignUp> {
 
     if (user != null) {
       print("User created Successfully");
-      goToProfile();
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const Wrapper()),
+        (Route<dynamic> route) => false, // Removes all previous routes
+      );
+      ;
     }
     return null;
   }

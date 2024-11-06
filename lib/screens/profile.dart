@@ -36,8 +36,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void goToLogin() {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+      (Route<dynamic> route) => false, // Removes all previous routes
+    );
   }
 }
 

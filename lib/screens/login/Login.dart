@@ -165,8 +165,10 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 void goToHome(context) {
-  Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const HomeScreen()));
+  Navigator.of(context).pushAndRemoveUntil(
+    MaterialPageRoute(builder: (context) => const HomeScreen()),
+    (Route<dynamic> route) => false, // Removes all previous routes
+  );
 }
 
 AppBar loginAppBar(BuildContext context) {

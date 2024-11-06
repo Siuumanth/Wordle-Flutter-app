@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wordle/screens/home.dart';
 import 'package:wordle/screens/login/login.dart';
+import 'package:wordle/screens/login/Verify.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});
@@ -26,9 +27,15 @@ class _WrapperState extends State<Wrapper> {
           } else {
             if (snapshot.data == null) {
               //not logged in
+              //check if the email is verified first
+
               return const LoginScreen();
             } else {
-              return const HomeScreen();
+              if (snapshot.data?.emailVerified == true) {
+                return const HomeScreen();
+              } else {
+                return const VerificationScreen();
+              }
             }
           }
         },
