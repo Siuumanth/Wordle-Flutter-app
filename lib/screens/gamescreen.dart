@@ -116,12 +116,11 @@ class _gameScreenState extends State<gameScreen> {
             .currentState!
             .changeButtonColorGrey();
       }
-      await Future.delayed(const Duration(seconds: 0, milliseconds: 500));
+      await Future.delayed(const Duration(seconds: 0, milliseconds: 300));
     }
-    if (currentIndex == 30) {
+    if (currentIndex == 30 && widget.word != word) {
       showSnackBar("You lost");
-    }
-    if (word == widget.word) {
+    } else if (word == widget.word) {
       showSnackBar("Congrats you won");
     } else {
       continueGame();
@@ -161,7 +160,7 @@ class _gameScreenState extends State<gameScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    //  double screenHeight = MediaQuery.of(context).size.height;
+
     double boxWidth = screenWidth / 7;
     double pad = screenWidth / 35;
 

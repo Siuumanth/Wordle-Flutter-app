@@ -7,6 +7,7 @@ import 'package:wordle/screens/login/Login.dart';
 //import 'package:wordle/screens/keytest.dart';
 import 'package:wordle/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wordle/screens/leaderboard.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -60,13 +61,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: buildAppBar(context),
       body: Stack(
-        children: [buildFAB(), buildStartButton(context)],
+        children: [buildFAB(context), buildStartButton(context)],
       ),
     );
   }
 }
 
-Widget buildFAB() {
+Widget buildFAB(context) {
   return Padding(
     padding: const EdgeInsets.only(left: 8.0, top: 20),
     child: SizedBox(
@@ -75,7 +76,12 @@ Widget buildFAB() {
       child: FloatingActionButton(
         backgroundColor: darktheme,
         shape: const CircleBorder(),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const LeaderboardScreen()));
+        },
         child: Container(
           margin: const EdgeInsets.all(15),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
