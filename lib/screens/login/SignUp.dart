@@ -136,6 +136,20 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(
                   height: 50,
                 ),
+                GestureDetector(
+                  onTap: () {
+                    goToHome(context);
+                  },
+                  child: const Text(
+                    "Continue as guest",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: darktheme,
+                        decoration: TextDecoration.underline,
+                        decorationColor: darktheme),
+                  ),
+                )
               ],
             ),
           ),
@@ -155,16 +169,16 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<User?> _signup() async {
+    print("start");
     final user = await _auth.createUserWithEmailPassword(
         emailController.text, passController.text);
-
+    print("stop");
     if (user != null) {
       print("User created Successfully");
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const Wrapper()),
         (Route<dynamic> route) => false, // Removes all previous routes
       );
-      ;
     }
     return null;
   }
@@ -198,7 +212,7 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
     child: TextField(
       cursorHeight: 30,
       style: const TextStyle(
-          fontSize: 20, fontWeight: FontWeight.w400, color: grey),
+          fontSize: 18, fontWeight: FontWeight.w400, color: grey),
       controller: contr,
       decoration: InputDecoration(
         contentPadding:

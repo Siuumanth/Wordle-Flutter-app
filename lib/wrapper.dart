@@ -12,6 +12,17 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
+  // This ensures the user's status is refreshed each time the app opens
+  Future<void> _reloadUser() async {
+    await FirebaseAuth.instance.currentUser?.reload();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _reloadUser(); // Reload user data on app open
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,13 +36,13 @@ class _WrapperState extends State<Wrapper> {
           } else if (snapshot.hasError) {
             return const Center(child: Text("Error"));
           } else {
-            if (snapshot.data == null) {
-              //not logged in
-              //check if the email is verified first
+            final user = FirebaseAuth.instance.currentUser;
 
+            if (user == null) {
+              // Not logged in
               return const LoginScreen();
             } else {
-              if (snapshot.data?.emailVerified == true) {
+              if (user.emailVerified == true) {
                 return const HomeScreen();
               } else {
                 return const VerificationScreen();
