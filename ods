@@ -1,0 +1,119 @@
+[33mcommit 2356e9811a80f807ed1aef1eefde0aaacbd5ab5f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Thu Nov 7 01:02:44 2024 +0530
+
+    Started working on leaderboard, forgot password left
+
+[33mcommit f800113772935f39ec5426c0c0bea78aea056598[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Wed Nov 6 22:15:28 2024 +0530
+
+    Fixed the enter and snackbar bug
+
+[33mcommit 7d2c4eecbc783010a1f3c21d5024c05192231b3d[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Wed Nov 6 22:11:48 2024 +0530
+
+    login, signup and email verification done
+
+[33mcommit a87a9b4fdcdbffbb50acba68b738005106dc0fc7[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Wed Nov 6 20:57:30 2024 +0530
+
+    doing login navigation logic
+
+[33mcommit 9e6a6eb85d6a8254feeb53475762006c1efef180[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Wed Nov 6 00:36:13 2024 +0530
+
+    added wrapper
+
+[33mcommit 707c99d17462116ae2596429f34e54f3a2a5d1dc[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Wed Nov 6 00:23:00 2024 +0530
+
+    Some more testing with login and sign up
+
+[33mcommit 1ac8968a48c52829cfee96fe38524e3a5b10a9e0[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Tue Nov 5 16:38:32 2024 +0530
+
+    added gitignore
+
+[33mcommit ad98d00b1d2bf7daf03937d29b659dc3c10815ee[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Tue Nov 5 15:55:46 2024 +0530
+
+    AUTH SETUP 1
+
+[33mcommit 8110cfa09ba2caae2c3892c1583aa07adb27ff22[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Tue Nov 5 13:36:40 2024 +0530
+
+    finished wordle logic, started working on authentication
+
+[33mcommit ec3a08a777541bacbaeb36c70ab6cffb1f38abb3[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Tue Nov 5 02:04:17 2024 +0530
+
+    Completed evaluation dataset and wordle dataset
+
+[33mcommit 795034a084ab50ff7c4325d1e12400105d04cf3b[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Mon Nov 4 22:32:50 2024 +0530
+
+    chumma commit
+
+[33mcommit 7cf59f6f8801365db9cd41b7445fdf1a0b9ed5d0[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Sun Nov 3 23:48:51 2024 +0530
+
+    Keyboard logic done 2
+
+[33mcommit 1041f6b1e98f5826f1b0bb89a6988341b02a4bd3[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Sun Nov 3 23:23:05 2024 +0530
+
+    Keyboard logic done
+
+[33mcommit 4f8eee3bb19d6c733013ed1fb2a4f568e9ab390f[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Sun Nov 3 12:09:12 2024 +0530
+
+    Game box logic done
+
+[33mcommit 40ac07b49a33e3e33762a9ba2fddb088c0a64b61[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Sat Nov 2 21:12:52 2024 +0530
+
+    messsing around with media queries
+
+[33mcommit ea1ed90de8d87debf9e0ffd5230168f0053267a6[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Sat Nov 2 01:09:30 2024 +0530
+
+    added key testing
+
+[33mcommit 760e826cd6439c9cc722d5f3e7761fba360c8ea8[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Fri Nov 1 18:50:36 2024 +0530
+
+    started game page
+
+[33mcommit 6733e2021c8aad5fc28a71ed078d95ecf3ec72d8[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Thu Oct 31 20:36:43 2024 +0530
+
+    Completed home page
+
+[33mcommit 1a849024a5b520a563209545709979416b8fe59d[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Thu Oct 31 17:57:44 2024 +0530
+
+    cleaned some files, added constants and home page
+
+[33mcommit c4d9aa7bb9ae09ac7d410f94a5edb158fa751cc3[m
+Author: Siuumanth <gsumanth3005@gmail.com>
+Date:   Thu Oct 31 17:48:37 2024 +0530
+
+    created flutter project
