@@ -62,7 +62,7 @@ class _RankCardState extends State<RankCard> {
           Text(
             ' ${widget.score}',
             style: const TextStyle(
-                color: const Color.fromARGB(255, 77, 77, 77), fontSize: 20),
+                color: Color.fromARGB(255, 77, 77, 77), fontSize: 20),
           ),
         ],
       ),

@@ -44,6 +44,7 @@ class AuthService {
   Future<void> signOut() async {
     try {
       await _auth.signOut();
+      await FirebaseAuth.instance.setPersistence(Persistence.NONE);
     } catch (e) {
       print("Something went wrong");
     }

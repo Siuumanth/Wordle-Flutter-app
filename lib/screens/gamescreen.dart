@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
+import 'package:wordle/widgets/dialog1.dart';
 import 'package:wordle/widgets/keyboard.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -152,6 +153,7 @@ class _gameScreenState extends State<gameScreen> {
         ),
         backgroundColor: white,
         dismissDirection: DismissDirection.horizontal,
+        showCloseIcon: true,
         elevation: 2,
       ),
     );
@@ -308,23 +310,7 @@ AppBar gameAppBar(BuildContext context) {
                 barrierDismissible: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return Dialog(
-                    insetPadding: const EdgeInsets.all(10),
-                    backgroundColor: Colors.transparent,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          'assets/images/mepic.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  );
+                  return WinnerBox();
                 },
               );
             },

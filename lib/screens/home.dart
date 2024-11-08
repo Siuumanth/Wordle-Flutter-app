@@ -96,7 +96,13 @@ AppBar buildAppBar(context) {
   return AppBar(
     backgroundColor: theme,
     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      const Icon(Icons.menu, color: grey, size: 30),
+      GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const ProfilePage()),
+            );
+          },
+          child: const Icon(Icons.menu, color: grey, size: 30)),
       const Text(
         'WORDLE',
         style:

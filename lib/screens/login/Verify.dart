@@ -5,7 +5,6 @@ import 'package:wordle/screens/login/auth_service.dart';
 import 'dart:async';
 import 'package:wordle/wrapper.dart';
 import 'package:wordle/constants.dart';
-import 'Login.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({super.key});
@@ -56,8 +55,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   Future<void> deleteUserAndNavigate() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      await user
-          .delete(); // Delete the user if they press continue as guest or back to sign up
+      await user.delete();
     }
   }
 
