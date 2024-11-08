@@ -6,7 +6,12 @@ import 'package:wordle/screens/login/Login.dart';
 class WinnerBox extends StatelessWidget {
   final String word;
   final restart;
-  const WinnerBox({required this.restart, required this.word, super.key});
+  final popmethod;
+  const WinnerBox(
+      {required this.popmethod,
+      required this.restart,
+      required this.word,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +79,13 @@ Widget dialogButton(
         backgroundColor: const Color.fromARGB(255, 255, 221, 25),
         foregroundColor: dialog1),
     onPressed: () async {
+      if (text == "Play Another") {
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        print("Popped the screen");
+      }
+
       await action(context);
     },
     child: Text(

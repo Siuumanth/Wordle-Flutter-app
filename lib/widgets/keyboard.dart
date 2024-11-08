@@ -4,8 +4,7 @@ import 'package:wordle/screens/gamescreen.dart';
 
 //import 'package:wordle/screens/gamescreen.dart';
 
-final List<GlobalKey<_ButtonBoxState>> buttonBoxKeys =
-    List.generate(28, (index) => GlobalKey<_ButtonBoxState>());
+late List<GlobalKey<_ButtonBoxState>> buttonBoxKeys;
 
 List<String> kbCharacters = [
   'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', // Row 1
@@ -28,6 +27,17 @@ class CustomKeyboard extends StatefulWidget {
 }
 
 class _CustomKeyboardState extends State<CustomKeyboard> {
+  @override
+  void initState() {
+    super.initState();
+    buttonBoxKeys = List.generate(28, (index) => GlobalKey<_ButtonBoxState>());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

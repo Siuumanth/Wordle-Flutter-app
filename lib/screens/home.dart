@@ -26,7 +26,14 @@ Future<void> startMadu(context) async {
       fwords[random.nextInt(fwords.length)].substring(0, 5).toUpperCase();
   print(finalWord);
   await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => gameScreen(word: finalWord, restart: startMadu)));
+      builder: (context) => gameScreen(
+          word: finalWord,
+          restart: startMadu,
+          popmethod: () => popMadu(context))));
+}
+
+void popMadu(context) {
+  // Navigator.pop(context);
 }
 
 Widget buildStartButton(BuildContext context) {

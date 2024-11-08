@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
-import 'package:wordle/widgets/dialog1.dart';
+import 'package:wordle/widgets/Dialog1.dart';
 import 'package:wordle/widgets/keyboard.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -13,7 +13,12 @@ late List<String> allWords;
 class gameScreen extends StatefulWidget {
   final String word;
   final restart;
-  const gameScreen({required this.restart, required this.word, super.key});
+  final popmethod;
+  const gameScreen(
+      {required this.popmethod,
+      required this.restart,
+      required this.word,
+      super.key});
 
   @override
   State<gameScreen> createState() => _gameScreenState();
@@ -32,6 +37,11 @@ class _gameScreenState extends State<gameScreen> {
     istart = 0;
     istop = 5;
     read_files();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   // ignore: non_constant_identifier_names
@@ -135,7 +145,10 @@ class _gameScreenState extends State<gameScreen> {
       barrierDismissible: true,
       context: context,
       builder: (BuildContext context) {
-        return WinnerBox(restart: widget.restart, word: widget.word);
+        return WinnerBox(
+            restart: widget.restart,
+            word: widget.word,
+            popmethod: widget.popmethod);
       },
     );
   }
@@ -179,7 +192,8 @@ class _gameScreenState extends State<gameScreen> {
     double pad = screenWidth / 35;
 
     return Scaffold(
-      appBar: gameAppBar(context, widget.word, widget.restart),
+      appBar:
+          gameAppBar(context, widget.word, widget.restart, widget.popmethod),
       body: Container(
         padding: const EdgeInsets.only(top: 20),
         color: white,
@@ -294,7 +308,7 @@ class GameBoxState extends State<GameBox> {
   }
 }
 
-AppBar gameAppBar(BuildContext context, String word, restart) {
+AppBar gameAppBar(BuildContext context, String word, restart, popmethod) {
   return AppBar(
     backgroundColor: white,
     title: Row(
@@ -325,6 +339,7 @@ AppBar gameAppBar(BuildContext context, String word, restart) {
                   return WinnerBox(
                     word: word,
                     restart: restart,
+                    popmethod: popmethod,
                   );
                 },
               );
