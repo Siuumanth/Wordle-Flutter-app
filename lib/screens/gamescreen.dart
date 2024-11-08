@@ -12,7 +12,8 @@ late List<String> allWords;
 
 class gameScreen extends StatefulWidget {
   final String word;
-  const gameScreen({required this.word, super.key});
+  final restart;
+  const gameScreen({required this.restart, required this.word, super.key});
 
   @override
   State<gameScreen> createState() => _gameScreenState();
@@ -72,8 +73,9 @@ class _gameScreenState extends State<gameScreen> {
   void backSpace() {
     if (currentIndex == istart) {
       return;
+    } else if (currentIndex == 30) {
+      return;
     }
-
     setState(() {
       if (currentIndex > 0) {
         currentIndex--;
@@ -122,10 +124,20 @@ class _gameScreenState extends State<gameScreen> {
     if (currentIndex == 30 && widget.word != word) {
       showSnackBar("You lost");
     } else if (word == widget.word) {
-      showSnackBar("Congrats you won");
+      gameWon();
     } else {
       continueGame();
     }
+  }
+
+  Future<void> gameWon() async {
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return WinnerBox(restart: widget.restart, word: widget.word);
+      },
+    );
   }
 
   void continueGame() {
@@ -167,7 +179,7 @@ class _gameScreenState extends State<gameScreen> {
     double pad = screenWidth / 35;
 
     return Scaffold(
-      appBar: gameAppBar(context),
+      appBar: gameAppBar(context, widget.word, widget.restart),
       body: Container(
         padding: const EdgeInsets.only(top: 20),
         color: white,
@@ -282,7 +294,7 @@ class GameBoxState extends State<GameBox> {
   }
 }
 
-AppBar gameAppBar(BuildContext context) {
+AppBar gameAppBar(BuildContext context, String word, restart) {
   return AppBar(
     backgroundColor: white,
     title: Row(
@@ -310,7 +322,10 @@ AppBar gameAppBar(BuildContext context) {
                 barrierDismissible: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return WinnerBox();
+                  return WinnerBox(
+                    word: word,
+                    restart: restart,
+                  );
                 },
               );
             },

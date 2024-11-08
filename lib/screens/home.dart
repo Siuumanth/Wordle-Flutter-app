@@ -25,8 +25,8 @@ Future<void> startMadu(context) async {
   String finalWord =
       fwords[random.nextInt(fwords.length)].substring(0, 5).toUpperCase();
   print(finalWord);
-  Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => gameScreen(word: finalWord)));
+  await Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => gameScreen(word: finalWord, restart: startMadu)));
 }
 
 Widget buildStartButton(BuildContext context) {
@@ -118,12 +118,10 @@ AppBar buildAppBar(context) {
             ),
             onTap: () async {
               if (user == null) {
-                // User is not logged in, navigate to Login page
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const LoginScreen()),
                 );
               } else {
-                // User is logged in, navigate to Profile page
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const ProfilePage()),
                 );
