@@ -31,6 +31,7 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
   @override
   void initState() {
     super.initState();
+    print("List initialized");
     print("${value}Value");
     buttonBoxKeys = List.generate(28, (index) => GlobalKey<_ButtonBoxState>());
     value++;
@@ -38,7 +39,6 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
 
   @override
   void dispose() {
-    buttonBoxKeys.clear();
     super.dispose();
   }
 
