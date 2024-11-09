@@ -360,11 +360,7 @@ AppBar gameAppBar(BuildContext context, String word, restart, popmethod) {
                 barrierDismissible: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return LoserBox(
-                    word: word,
-                    restart: restart,
-                    popmethod: popmethod,
-                  );
+                  return const RuleBox();
                 },
               );
             },
