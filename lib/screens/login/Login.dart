@@ -36,112 +36,114 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         color: white,
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Login",
-                style: TextStyle(
-                    fontSize: 35, fontWeight: FontWeight.w600, color: grey),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              textField(
-                  mailController,
-                  const Icon(
-                    Icons.mail,
-                    color: grey,
-                    size: 30,
-                  ),
-                  "Enter your email",
-                  0,
-                  TextInputType.emailAddress),
-              const SizedBox(
-                height: 30,
-              ),
-              textField(
-                  passController,
-                  const Icon(
-                    Icons.lock,
-                    color: grey,
-                    size: 30,
-                  ),
-                  "Password",
-                  0,
-                  TextInputType.visiblePassword),
-              const SizedBox(
-                height: 20,
-              ),
-              Center(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Dont have an account?',
-                      style: TextStyle(fontSize: 17),
-                    ),
-                    const SizedBox(width: 5),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SignUp()));
-                      },
-                      child: const Text(
-                        'Sign up',
-                        style: TextStyle(
-                            color: darktheme,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              SizedBox(
-                width: 150,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: darktheme,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.only(left: 20, right: 20)),
-                  onPressed: () {
-                    loginuser();
-                  },
-                  child: const Center(
-                    child: Text(
-                      "Confirm",
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              GestureDetector(
-                onTap: () {
-                  goToHome(context);
-                },
-                child: const Text(
-                  "Continue as guest",
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Login",
                   style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: darktheme,
-                      decoration: TextDecoration.underline,
-                      decorationColor: darktheme),
+                      fontSize: 35, fontWeight: FontWeight.w600, color: grey),
                 ),
-              )
-            ],
+                const SizedBox(
+                  height: 30,
+                ),
+                textField(
+                    mailController,
+                    const Icon(
+                      Icons.mail,
+                      color: grey,
+                      size: 30,
+                    ),
+                    "Enter your email",
+                    0,
+                    TextInputType.emailAddress),
+                const SizedBox(
+                  height: 30,
+                ),
+                textField(
+                    passController,
+                    const Icon(
+                      Icons.lock,
+                      color: grey,
+                      size: 30,
+                    ),
+                    "Password",
+                    0,
+                    TextInputType.visiblePassword),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'Dont have an account?',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      const SizedBox(width: 5),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const SignUp()));
+                        },
+                        child: const Text(
+                          'Sign up',
+                          style: TextStyle(
+                              color: darktheme,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                SizedBox(
+                  width: 150,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: darktheme,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.only(left: 20, right: 20)),
+                    onPressed: () {
+                      loginuser();
+                    },
+                    child: const Center(
+                      child: Text(
+                        "Confirm",
+                        style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    goToHome(context);
+                  },
+                  child: const Text(
+                    "Continue as guest",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: darktheme,
+                        decoration: TextDecoration.underline,
+                        decorationColor: darktheme),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

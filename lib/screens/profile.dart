@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   await _auth.signOut();
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => MyApp(),
+                      builder: (context) => const MyApp(),
                     ),
                     (Route<dynamic> route) => false,
                   );

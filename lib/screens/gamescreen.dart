@@ -1,14 +1,17 @@
 // ignore_for_file: camel_case_types
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
-import 'package:wordle/widgets/Dialog1.dart';
+import 'package:wordle/widgets/DialogWin.dart';
 import 'package:wordle/widgets/keyboard.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:wordle/widgets/RuleBox.dart';
+import 'package:wordle/widgets/DialogLoss.dart';
 
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;
 int istart = 0, istop = 5;
 late List<String> allWords;
+bool? over;
 
 class gameScreen extends StatefulWidget {
   final String word;
@@ -37,6 +40,7 @@ class _gameScreenState extends State<gameScreen> {
     istart = 0;
     istop = 5;
     read_files();
+    over = false;
   }
 
   @override
@@ -83,7 +87,7 @@ class _gameScreenState extends State<gameScreen> {
   void backSpace() {
     if (currentIndex == istart) {
       return;
-    } else if (currentIndex == 30) {
+    } else if (over == true) {
       return;
     }
     setState(() {
@@ -132,7 +136,7 @@ class _gameScreenState extends State<gameScreen> {
       await Future.delayed(const Duration(seconds: 0, milliseconds: 300));
     }
     if (currentIndex == 30 && widget.word != word) {
-      showSnackBar("You lost");
+      gameLost();
     } else if (word == widget.word) {
       gameWon();
     } else {
@@ -141,6 +145,9 @@ class _gameScreenState extends State<gameScreen> {
   }
 
   Future<void> gameWon() async {
+    setState(() {
+      over = true;
+    });
     showDialog(
       barrierDismissible: true,
       context: context,
@@ -149,6 +156,23 @@ class _gameScreenState extends State<gameScreen> {
             restart: widget.restart,
             word: widget.word,
             popmethod: widget.popmethod);
+      },
+    );
+  }
+
+  Future<void> gameLost() async {
+    setState(() {
+      over = true;
+    });
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return LoserBox(
+          word: widget.word,
+          restart: widget.restart,
+          popmethod: widget.popmethod,
+        );
       },
     );
   }
@@ -336,7 +360,7 @@ AppBar gameAppBar(BuildContext context, String word, restart, popmethod) {
                 barrierDismissible: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return WinnerBox(
+                  return LoserBox(
                     word: word,
                     restart: restart,
                     popmethod: popmethod,

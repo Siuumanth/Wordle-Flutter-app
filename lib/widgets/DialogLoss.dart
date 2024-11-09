@@ -3,11 +3,11 @@ import 'package:wordle/constants.dart';
 
 import 'package:wordle/screens/login/Login.dart';
 
-class WinnerBox extends StatelessWidget {
+class LoserBox extends StatelessWidget {
   final String word;
   final restart;
   final popmethod;
-  const WinnerBox(
+  const LoserBox(
       {required this.popmethod,
       required this.restart,
       required this.word,
@@ -32,37 +32,33 @@ class WinnerBox extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
             Text(
-              "YOU WON!",
+              "YOU LOST!",
               style: TextStyle(
-                  color: gold,
+                  color: lossColor,
                   fontSize: screenHeight / 30,
                   fontWeight: FontWeight.w900),
             ),
-            Image.asset(
-              'assets/images/winner.png',
-              height: screenHeight * 0.3,
-              fit: BoxFit.contain,
-            ),
+            const SizedBox(height: 30),
             Text(
-              "The word was ${word}",
+              "The word was $word",
               style: TextStyle(
                 color: white,
                 fontSize: screenHeight / 40,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 20),
-            Container(
+            const SizedBox(height: 50),
+            SizedBox(
               height: 50,
               width: screenWidth / 2.3,
-              child: dialogButton(
+              child: dialogButtonloss(
                   "Play Another", screenHeight, screenWidth, restart, context),
             ),
             const SizedBox(height: 20),
-            Container(
+            SizedBox(
               height: 50,
               width: screenWidth / 2.3,
-              child: dialogButton(
+              child: dialogButtonloss(
                   "Back to Home", screenHeight, screenWidth, goToHome, context),
             )
           ],
@@ -72,12 +68,12 @@ class WinnerBox extends StatelessWidget {
   }
 }
 
-Widget dialogButton(
+Widget dialogButtonloss(
     String text, double ht, double width, action, BuildContext context) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 255, 221, 25),
-        foregroundColor: dialog1),
+        backgroundColor: lossColor,
+        foregroundColor: const Color.fromARGB(239, 1, 107, 98)),
     onPressed: () async {
       if (text == "Play Another") {
         Navigator.pop(context);
@@ -90,7 +86,7 @@ Widget dialogButton(
     },
     child: Text(
       text,
-      style: TextStyle(fontSize: ht / 47, fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: ht / 47, fontWeight: FontWeight.w700),
     ),
   );
 }

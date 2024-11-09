@@ -5,6 +5,7 @@ import 'package:wordle/screens/gamescreen.dart';
 //import 'package:wordle/screens/gamescreen.dart';
 
 late List<GlobalKey<_ButtonBoxState>> buttonBoxKeys;
+int value = 1;
 
 List<String> kbCharacters = [
   'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', // Row 1
@@ -30,11 +31,14 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
   @override
   void initState() {
     super.initState();
+    print("${value}Value");
     buttonBoxKeys = List.generate(28, (index) => GlobalKey<_ButtonBoxState>());
+    value++;
   }
 
   @override
   void dispose() {
+    buttonBoxKeys.clear();
     super.dispose();
   }
 
