@@ -4,7 +4,7 @@ import 'package:wordle/constants.dart';
 import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:wordle/screens/profile.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/wrapper.dart';
 
 class SignUp extends StatefulWidget {
@@ -27,6 +27,12 @@ class _SignUpState extends State<SignUp> {
     emailController.dispose();
     passController.dispose();
     nameController.dispose();
+  }
+
+  Future<void> saveName() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', nameController.text);
+    print("Name has been saved");
   }
 
   @override
@@ -177,9 +183,10 @@ class _SignUpState extends State<SignUp> {
       print("User created Successfully");
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const Wrapper()),
-        (Route<dynamic> route) => false, // Removes all previous routes
+        (Route<dynamic> route) => false,
       );
     }
+    saveName();
     return null;
   }
 }

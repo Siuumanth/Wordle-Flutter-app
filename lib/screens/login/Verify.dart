@@ -96,7 +96,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
             ),
             GestureDetector(
               onTap: () async {
-                // Delete user before navigating as a guest
                 await deleteUserAndNavigate();
                 Navigator.pushReplacement(
                   context,
