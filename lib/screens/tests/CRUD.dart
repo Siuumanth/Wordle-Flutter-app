@@ -35,6 +35,8 @@ class _UserFormPageState extends State<UserFormPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
+  final dbService = DatabaseService();
+
   @override
   void dispose() {
     // Dispose of the controllers when no longer needed
@@ -50,20 +52,23 @@ class _UserFormPageState extends State<UserFormPage> {
         name: _nameController.text,
         email: _emailController.text,
         phone: _phoneController.text);
-
+    dbService.rlcreate(user);
     print(
-        "Create: Name - ${_nameController.text}, Email - ${_emailController.text}, Phone - ${_phoneController.text}");
+        "\n\n\n\n Create: Name - ${_nameController.text}, Email - ${_emailController.text}, Phone - ${_phoneController.text}");
   }
 
   void _readUser() {
+    dbService.rlRead();
     print("Read: Display user data");
   }
 
   void _updateUser() {
+    dbService.rlUpdate();
     print("Update: Update user data");
   }
 
   void _deleteUser() {
+    dbService.rlDelete();
     print("Delete: User deleted");
   }
 

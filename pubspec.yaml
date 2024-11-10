@@ -70,6 +70,7 @@ flutter:
     - assets/filtered-words.txt
     - assets/images/winner.png
     - assets/images/
+    - assets/profiles
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
