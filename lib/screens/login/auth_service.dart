@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final _auth = FirebaseAuth.instance;
@@ -43,6 +45,8 @@ class AuthService {
 
   Future<void> signOut() async {
     try {
+      await SharedPreferences.getInstance().then((prefs) => prefs.clear());
+      print("all stuff delted");
       await _auth.signOut();
       await FirebaseAuth.instance.setPersistence(Persistence.NONE);
     } catch (e) {

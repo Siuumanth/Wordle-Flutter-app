@@ -43,8 +43,8 @@ class _ProfilePickerState extends State<ProfilePicker> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     Future<void> saveDetailsInFire(int pfp) async {
-      print("Email address is " + (user?.email ?? 'No email available'));
-      print("Username is ${userName}");
+      //   print("Email address is " + (user?.email ?? 'No email available'));
+      //   print("Username is ${userName}");
       try {
         final userToSave = rlUser(
           name: userName!,

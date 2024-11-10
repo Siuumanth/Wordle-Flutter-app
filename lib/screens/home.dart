@@ -10,6 +10,7 @@ import 'package:wordle/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/screens/leaderboard.dart';
 import 'package:wordle/screens/tests/CRUD.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 final user = FirebaseAuth.instance.currentUser;
+int imagePickedHome = 0;
 
 Future<void> startMadu(context) async {
   String contentsF = await rootBundle.loadString("assets/filtered-words.txt");
@@ -35,7 +37,7 @@ Future<void> startMadu(context) async {
 }
 
 void popMadu(context) {
-  // Navigator.pop(context);
+  return;
 }
 
 Widget buildStartButton(BuildContext context) {
@@ -65,10 +67,28 @@ Widget buildStartButton(BuildContext context) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Future<void> getPFP() async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      imagePickedHome = prefs.getInt('imagePicked') ?? 0;
+      setState(() {
+        print("Image picked is $imagePickedHome");
+      });
+    } catch (e) {
+      print("Error retrieving profile image: $e");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPFP();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: buildAppBar(context, imagePickedHome),
       body: Stack(
         children: [buildFAB(context), buildStartButton(context)],
       ),
@@ -101,7 +121,7 @@ Widget buildFAB(context) {
   );
 }
 
-AppBar buildAppBar(context) {
+AppBar buildAppBar(context, imagePicked) {
   return AppBar(
     backgroundColor: theme,
     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -123,7 +143,7 @@ AppBar buildAppBar(context) {
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
           child: GestureDetector(
             child: ClipOval(
-              child: Image.asset('assets/images/mepic.jpg'),
+              child: Image.asset('assets/profiles/$imagePicked.png'),
             ),
             onTap: () async {
               if (user == null) {
