@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:wordle/screens/home.dart';
 import 'package:wordle/screens/login/login.dart';
 import 'package:wordle/screens/login/Verify.dart';
+import 'package:wordle/screens/login/profilepick.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});
@@ -12,15 +14,24 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-  // This ensures the user's status is refreshed each time the app opens
+  int imagePickedIndex = 0;
+
   Future<void> _reloadUser() async {
     await FirebaseAuth.instance.currentUser?.reload();
+  }
+
+  Future<void> _checkProfileImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      imagePickedIndex = prefs.getInt('imagePicked') ?? 0;
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    _reloadUser(); // Reload user data on app open
+    _reloadUser();
+    _checkProfileImage();
   }
 
   @override
@@ -39,11 +50,14 @@ class _WrapperState extends State<Wrapper> {
             final user = FirebaseAuth.instance.currentUser;
 
             if (user == null) {
-              // Not logged in
               return const LoginScreen();
             } else {
               if (user.emailVerified == true) {
-                return const HomeScreen();
+                if (imagePickedIndex != 0) {
+                  return const HomeScreen();
+                } else {
+                  return ProfilePicker();
+                }
               } else {
                 return const VerificationScreen();
               }

@@ -39,6 +39,7 @@ dependencies:
   firebase_auth: ^5.3.1
   firebase_database: ^11.1.5
   cloud_firestore: ^5.4.5
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -70,7 +71,7 @@ flutter:
     - assets/filtered-words.txt
     - assets/images/winner.png
     - assets/images/
-    - assets/profiles
+    - assets/profiles/
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

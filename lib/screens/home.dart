@@ -65,10 +65,6 @@ Widget buildStartButton(BuildContext context) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final DatabaseReference _testRef =
-      FirebaseDatabase.instance.ref().child('count');
-//listen to firebase realtime database value
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
