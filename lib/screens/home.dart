@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';
@@ -8,6 +9,7 @@ import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/screens/leaderboard.dart';
+import 'package:wordle/screens/tests/CRUD.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -63,6 +65,10 @@ Widget buildStartButton(BuildContext context) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final DatabaseReference _testRef =
+      FirebaseDatabase.instance.ref().child('count');
+//listen to firebase realtime database value
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +112,7 @@ AppBar buildAppBar(context) {
       GestureDetector(
           onTap: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const ProfilePage()),
+              MaterialPageRoute(builder: (context) => UserFormPage()),
             );
           },
           child: const Icon(Icons.menu, color: grey, size: 30)),

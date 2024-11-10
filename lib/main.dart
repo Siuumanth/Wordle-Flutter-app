@@ -10,8 +10,16 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String realTimeValue = '0';
+  String getOnceValue = '0';
 
   @override
   Widget build(BuildContext context) {
