@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
@@ -40,32 +42,6 @@ void popMadu(context) {
   return;
 }
 
-Widget buildStartButton(BuildContext context) {
-  return Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 160,
-          width: 160,
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: theme, foregroundColor: grey),
-              onPressed: () {
-                startMadu(context);
-              },
-              child: const Center(
-                child: Text(
-                  "START",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
-                ),
-              )),
-        )
-      ],
-    ),
-  );
-}
-
 class _HomeScreenState extends State<HomeScreen> {
   Future<void> getPFP() async {
     final prefs = await SharedPreferences.getInstance();
@@ -85,12 +61,73 @@ class _HomeScreenState extends State<HomeScreen> {
     getPFP();
   }
 
+  void changeDailyColor() {}
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: buildAppBar(context, imagePickedHome),
       body: Stack(
-        children: [buildFAB(context), buildStartButton(context)],
+        children: [
+          buildFAB(context),
+          Align(
+            alignment: Alignment.center,
+            child: Container(child: buildStartButton(context)),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: dailyGreen,
+                    foregroundColor: white,
+                    fixedSize: Size(screenWidth / 1.60, screenHeight / 18),
+                    textStyle: TextStyle(
+                        fontSize: screenHeight / 47,
+                        fontWeight: FontWeight.w500)),
+                child: const Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "Daily Challenges 0/2",
+                      ),
+                    ),
+                    Icon(Icons.flag)
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildStartButton(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 160,
+            width: 160,
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: theme, foregroundColor: grey),
+                onPressed: () {
+                  startMadu(context);
+                },
+                child: const Center(
+                  child: Text(
+                    "START",
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
+                  ),
+                )),
+          )
+        ],
       ),
     );
   }

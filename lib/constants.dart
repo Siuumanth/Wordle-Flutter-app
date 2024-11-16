@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const Color theme = Color.fromARGB(183, 98, 247, 185);
 const Color grey = Color.fromARGB(212, 7, 7, 7);
 const Color greyLessO = Color.fromARGB(195, 74, 74, 74);
-const darktheme = Color.fromARGB(255, 16, 118, 131);
+const Color darktheme = Color.fromARGB(255, 16, 118, 131);
 const Color darkertheme = Color(0xff2a697d);
 const Color darkerertheme = Color(0xff2F4858);
 const Color white = Color.fromARGB(255, 255, 255, 255);
@@ -21,3 +21,6 @@ const Color gold = Color.fromARGB(255, 255, 217, 0);
 const Color dialog1 = Color.fromARGB(240, 0, 143, 131);
 const Color lossColor = Color.fromARGB(255, 210, 245, 71);
 const Color greyText = Color.fromARGB(233, 59, 59, 59);
+
+const Color dailyGreen = Color.fromARGB(255, 78, 187, 94);
+const Color dailyTheme = Color.fromARGB(183, 98, 247, 185);
