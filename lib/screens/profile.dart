@@ -19,7 +19,9 @@ class _ProfilePageState extends State<ProfilePage> {
   final _userRef = DatabaseRef();
   final _auth = AuthService();
   final user = FirebaseAuth.instance.currentUser;
-  late profileUser userDetails;
+  late profileUser? userDetails;
+  bool loaded = false;
+
   @override
   void initState() {
     super.initState();
@@ -27,72 +29,74 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> getProfileDetails() async {
+    print("starting getting");
     userDetails = await _userRef.getUserDetails(user!);
+
+    setState(() {
+      loaded = true;
+    });
+    print("finished getting");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.grey.shade300,
-                child: const Icon(Icons.person, size: 50, color: Colors.grey),
-              ),
-              const SizedBox(height: 20),
-
-              const Text(
-                "Name",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-
-              // Rank
-              const Text(
-                "Rank: #1",
-                style: TextStyle(fontSize: 18, color: Colors.grey),
-              ),
-              const SizedBox(height: 5),
-
-              // Score
-              const Text(
-                "Score: 1200",
-                style: TextStyle(fontSize: 18, color: Colors.grey),
-              ),
-              const Spacer(),
-
-              // Sign Out Button
-              ElevatedButton(
-                onPressed: () async {
-                  await _auth.signOut();
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => const MyApp(),
+      body: loaded == false
+          ? const Center(child: CircularProgressIndicator())
+          : Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.grey.shade300,
+                      child: const Icon(Icons.person,
+                          size: 50, color: Colors.grey),
                     ),
-                    (Route<dynamic> route) => false,
-                  );
-                },
-                child: const Text("Sign Out"),
-              ),
-              const SizedBox(height: 10),
-
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                    const SizedBox(height: 20),
+                    Text(
+                      userDetails!.username,
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Rank: ${userDetails!.rank == "0" ? "Not Played" : userDetails!.rank}",
+                      style: const TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      "Score: ${userDetails!.score}",
+                      style: const TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                    const Spacer(),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await _auth.signOut();
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const MyApp(),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                      child: const Text("Sign Out"),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Text("Delete Account"),
+                    ),
+                  ],
                 ),
-                child: const Text("Delete Account"),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
