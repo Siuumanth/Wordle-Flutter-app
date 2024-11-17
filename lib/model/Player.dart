@@ -15,14 +15,47 @@ class rlUser {
   String email;
   String score;
   String pfp;
+  String rank;
 
   rlUser(
       {required this.name,
       required this.email,
       required this.score,
-      required this.pfp});
+      required this.pfp,
+      required this.rank});
 
   Map<String, dynamic> toMap() {
-    return {'name': name, 'email': email, 'score': score, 'pfp': pfp};
+    return {
+      'name': name,
+      'email': email,
+      'score': score,
+      'pfp': pfp,
+      'rank': rank
+    };
+  }
+}
+
+class profileUser {
+  String username;
+  String email;
+  String score;
+  String pfp;
+  String rank;
+
+  profileUser(
+      {required this.username,
+      required this.email,
+      required this.score,
+      required this.pfp,
+      required this.rank});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': username,
+      'email': email,
+      'score': score,
+      'pfp': pfp,
+      'rank': rank
+    };
   }
 }

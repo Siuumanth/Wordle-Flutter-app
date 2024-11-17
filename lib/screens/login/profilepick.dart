@@ -47,11 +47,11 @@ class _ProfilePickerState extends State<ProfilePicker> {
       //   print("Username is ${userName}");
       try {
         final userToSave = rlUser(
-          name: userName!,
-          email: user!.email!,
-          score: '0',
-          pfp: pfp.toString(),
-        );
+            name: userName!,
+            email: user!.email!,
+            score: '0',
+            pfp: pfp.toString(),
+            rank: "0");
 
         await dbService.rlcreate(userToSave);
       } catch (e) {

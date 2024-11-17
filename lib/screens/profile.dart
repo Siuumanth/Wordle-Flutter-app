@@ -1,9 +1,12 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/main.dart';
+import 'package:wordle/model/dbRef.dart';
+import 'package:wordle/model/Player.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -13,8 +16,19 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final _userRef = DatabaseRef();
   final _auth = AuthService();
   final user = FirebaseAuth.instance.currentUser;
+  late profileUser userDetails;
+  @override
+  void initState() {
+    super.initState();
+    getProfileDetails();
+  }
+
+  Future<void> getProfileDetails() async {
+    userDetails = await _userRef.getUserDetails(user!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 20),
 
-              // Name
               const Text(
                 "Name",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
