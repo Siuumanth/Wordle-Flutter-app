@@ -26,4 +26,6 @@ class DatabaseRef {
       return null;
     }
   }
+
+  Future<void> updateScore(User user, int score) async {}
 }

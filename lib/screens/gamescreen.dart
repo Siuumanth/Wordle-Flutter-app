@@ -17,10 +17,12 @@ class gameScreen extends StatefulWidget {
   final String word;
   final restart;
   final popmethod;
+  final bool isChallenge;
   const gameScreen(
       {required this.popmethod,
       required this.restart,
       required this.word,
+      required this.isChallenge,
       super.key});
 
   @override
@@ -31,6 +33,7 @@ class _gameScreenState extends State<gameScreen> {
   int counter = 0;
   final List<GlobalKey<GameBoxState>> _gameBoxKeys =
       List.generate(30, (index) => GlobalKey<GameBoxState>());
+  int score = 0;
 
   @override
   void initState() {
@@ -48,7 +51,6 @@ class _gameScreenState extends State<gameScreen> {
     super.dispose();
   }
 
-  // ignore: non_constant_identifier_names
   Future<void> read_files() async {
     String contentsA = await rootBundle.loadString("assets/twelveK.txt");
     allWords = contentsA.split('\n');
@@ -216,8 +218,8 @@ class _gameScreenState extends State<gameScreen> {
     double pad = screenWidth / 35;
 
     return Scaffold(
-      appBar:
-          gameAppBar(context, widget.word, widget.restart, widget.popmethod),
+      appBar: gameAppBar(context, widget.word, widget.restart, widget.popmethod,
+          widget.isChallenge),
       body: Container(
         padding: const EdgeInsets.only(top: 20),
         color: white,
@@ -332,16 +334,17 @@ class GameBoxState extends State<GameBox> {
   }
 }
 
-AppBar gameAppBar(BuildContext context, String word, restart, popmethod) {
+AppBar gameAppBar(
+    BuildContext context, String word, restart, popmethod, bool isChallenge) {
   return AppBar(
     backgroundColor: white,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Text(""),
-        const Text(
-          'WORDLE  ',
-          style: TextStyle(
+        Text(
+          isChallenge ? 'Daily Challenge' : 'Wordle ',
+          style: const TextStyle(
               fontWeight: FontWeight.w600, color: black, fontSize: 24),
         ),
         Container(

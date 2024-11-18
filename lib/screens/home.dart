@@ -24,17 +24,20 @@ class HomeScreen extends StatefulWidget {
 final user = FirebaseAuth.instance.currentUser;
 int imagePickedHome = 0;
 
-Future<void> startMadu(context) async {
+Future<void> startMadu(context, {bool isChallenge = false}) async {
   String contentsF = await rootBundle.loadString("assets/filtered-words.txt");
   List<String> fwords = contentsF.split('\n');
   var random = Random();
   String finalWord =
       fwords[random.nextInt(fwords.length)].substring(0, 5).toUpperCase();
   print(finalWord);
+  print("Is it a daily challenge ${isChallenge.toString()}");
+
   await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => gameScreen(
           word: finalWord,
-          restart: startMadu,
+          isChallenge: isChallenge,
+          restart: () => startMadu(context, isChallenge: isChallenge),
           popmethod: () => popMadu(context))));
 }
 
@@ -62,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void changeDailyColor() {}
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -80,7 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               margin: const EdgeInsets.only(bottom: 20),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  startMadu(context, isChallenge: true);
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: dailyGreen,
                     foregroundColor: white,
@@ -118,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: theme, foregroundColor: grey),
                 onPressed: () {
-                  startMadu(context);
+                  startMadu(context, isChallenge: false);
                 },
                 child: const Center(
                   child: Text(

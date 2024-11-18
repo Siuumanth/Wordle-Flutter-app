@@ -50,11 +50,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.grey.shade300,
-                      child: const Icon(Icons.person,
-                          size: 50, color: Colors.grey),
+                    ClipOval(
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey.shade300,
+                        child: Image.asset(
+                            'assets/profiles/${userDetails!.pfp}.png'),
+                      ),
                     ),
                     const SizedBox(height: 20),
                     Text(
