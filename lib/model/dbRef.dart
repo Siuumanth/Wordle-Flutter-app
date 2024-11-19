@@ -27,5 +27,20 @@ class DatabaseRef {
     }
   }
 
-  Future<void> updateScore(User user, int score) async {}
+  Future<void> updateScore(User user, int score) async {
+    final query = userRef.orderByChild("email").equalTo(user.email);
+    final snapshot = await query.get();
+
+    if (snapshot.exists) {
+      Map<String, dynamic> data =
+          Map<String, dynamic>.from(snapshot.value as Map);
+      String currentScore = data.values.first['score'];
+
+      int finalScore = int.parse(currentScore) + score;
+      final key = data.keys.first;
+      await userRef.child(key).update({"score": finalScore.toString()});
+    } else {
+      print("User not found");
+    }
+  }
 }

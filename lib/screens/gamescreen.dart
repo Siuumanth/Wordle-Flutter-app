@@ -6,6 +6,8 @@ import 'package:wordle/widgets/keyboard.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:wordle/widgets/RuleBox.dart';
 import 'package:wordle/widgets/DialogLoss.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wordle/model/dbRef.dart';
 
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;
@@ -34,7 +36,8 @@ class _gameScreenState extends State<gameScreen> {
   final List<GlobalKey<GameBoxState>> _gameBoxKeys =
       List.generate(30, (index) => GlobalKey<GameBoxState>());
   int score = 0;
-
+  final user = FirebaseAuth.instance.currentUser;
+  final ref = DatabaseRef();
   @override
   void initState() {
     super.initState();
@@ -137,13 +140,23 @@ class _gameScreenState extends State<gameScreen> {
       }
       await Future.delayed(const Duration(seconds: 0, milliseconds: 300));
     }
+
     if (currentIndex == 30 && widget.word != word) {
       gameLost();
     } else if (word == widget.word) {
-      gameWon();
+      widget.isChallenge ? dailyGameWon() : gameWon();
     } else {
       continueGame();
     }
+  }
+
+  Future<void> dailyGameWon() async {
+    int score = 100 - (currentIndex ~/ 5) * 10;
+    ref.updateScore(user!, score);
+    setState(() {
+      over = true;
+    });
+    Navigator.pop(context);
   }
 
   Future<void> gameWon() async {
