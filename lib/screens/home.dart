@@ -171,7 +171,7 @@ AppBar buildAppBar(context, imagePicked) {
       GestureDetector(
           onTap: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => UserFormPage()),
+              MaterialPageRoute(builder: (context) => const UserFormPage()),
             );
           },
           child: const Icon(Icons.menu, color: grey, size: 30)),

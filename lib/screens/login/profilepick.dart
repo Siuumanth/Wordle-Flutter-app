@@ -9,6 +9,8 @@ import 'package:wordle/wrapper.dart';
 //error handling neeeded
 
 class ProfilePicker extends StatefulWidget {
+  const ProfilePicker({super.key});
+
   @override
   _ProfilePickerState createState() => _ProfilePickerState();
 }
@@ -34,7 +36,7 @@ class _ProfilePickerState extends State<ProfilePicker> {
   Future<void> getName() async {
     final prefs = await SharedPreferences.getInstance();
     userName = prefs.getString('username');
-    print("The value of the username is ${userName}");
+    print("The value of the username is $userName");
   }
 
   @override
