@@ -24,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 
 final user = FirebaseAuth.instance.currentUser;
 int imagePickedHome = 0;
-
+Color dailyColor = dailyGreen;
 Future<void> startMadu(context, {bool isChallenge = false}) async {
   String contentsF = await rootBundle.loadString("assets/filtered-words.txt");
   List<String> fwords = contentsF.split('\n');
@@ -70,7 +70,11 @@ class _HomeScreenState extends State<HomeScreen> {
     getPFP();
   }
 
-  void changeDailyColor() {}
+  void changeDailyColor() {
+    setState(() {
+      dailyColor = dailyTheme;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
