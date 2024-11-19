@@ -27,6 +27,20 @@ class DatabaseRef {
     }
   }
 
+  Future<void> getLeaderBoard() async {
+    var snapshot = await userRef.orderByChild("score").get();
+    if (snapshot.exists) {
+      Map fullMap = snapshot.value as Map;
+      List<Map> leaderBoardList = [];
+      fullMap.forEach((key, value) {
+        leaderBoardList.add(value);
+      });
+      print(leaderBoardList);
+    }
+
+    // sort leaderboard bruh
+  }
+
   Future<int> getFirePfp(User user) async {
     var snapshot =
         await userRef.orderByChild("email").equalTo(user.email).get();

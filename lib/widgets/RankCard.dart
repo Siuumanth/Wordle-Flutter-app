@@ -2,18 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
+import 'package:wordle/model/Player.dart';
 
 class RankCard extends StatefulWidget {
-  final int rank;
-  final String username;
-  final int score;
+  final leaderBoardDetails details;
 
-  const RankCard({
-    super.key,
-    required this.rank,
-    required this.username,
-    required this.score,
-  });
+  const RankCard({super.key, required this.details});
 
   @override
   State<RankCard> createState() => _RankCardState();
@@ -22,6 +16,7 @@ class RankCard extends StatefulWidget {
 class _RankCardState extends State<RankCard> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -43,26 +38,28 @@ class _RankCardState extends State<RankCard> {
           Row(
             children: [
               Text(
-                '#${widget.rank}',
+                '#${widget.details.rank}',
                 style:
                     const TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 40),
               CircleAvatar(
-                radius: 20,
+                radius: screenWidth / 17,
                 backgroundColor: Colors.grey[300],
-                child: const Icon(Icons.person, color: Colors.white),
+                child: ClipOval(
+                    child: Image.asset(
+                        "assets/profiles/${widget.details.pfp}.png")),
               ),
               const SizedBox(width: 10),
               Text(
-                widget.username,
+                widget.details.username,
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ],
           ),
           Text(
-            ' ${widget.score}',
+            ' ${widget.details.score}',
             style: const TextStyle(
                 color: Color.fromARGB(255, 77, 77, 77), fontSize: 20),
           ),

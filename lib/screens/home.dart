@@ -25,6 +25,8 @@ class HomeScreen extends StatefulWidget {
 final user = FirebaseAuth.instance.currentUser;
 int imagePickedHome = 0;
 Color dailyColor = dailyGreen;
+final _userRef = DatabaseRef();
+
 Future<void> startMadu(context, {bool isChallenge = false}) async {
   String contentsF = await rootBundle.loadString("assets/filtered-words.txt");
   List<String> fwords = contentsF.split('\n');
@@ -47,8 +49,6 @@ void popMadu(context) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _userRef = DatabaseRef();
-
   Future<void> getPFP() async {
     final prefs = await SharedPreferences.getInstance();
     try {
@@ -180,9 +180,7 @@ AppBar buildAppBar(context, imagePicked) {
     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       GestureDetector(
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const UserFormPage()),
-            );
+            _userRef.getLeaderBoard();
           },
           child: const Icon(Icons.menu, color: grey, size: 30)),
       const Text(

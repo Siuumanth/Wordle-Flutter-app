@@ -59,3 +59,19 @@ class profileUser {
     };
   }
 }
+
+//
+
+class leaderBoardDetails {
+  final int rank;
+  final String username;
+  final int score;
+  final int pfp;
+
+  const leaderBoardDetails({
+    required this.rank,
+    required this.pfp,
+    required this.username,
+    required this.score,
+  });
+}

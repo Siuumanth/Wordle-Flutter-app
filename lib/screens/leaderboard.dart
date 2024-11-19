@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/widgets/RankCard.dart';
 import 'package:wordle/model/Player.dart';
+import 'package:wordle/model/dbRef.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({super.key});
@@ -10,10 +11,10 @@ class LeaderboardScreen extends StatefulWidget {
   State<LeaderboardScreen> createState() => _LeaderboardScreenState();
 }
 
-List<Player> leaderboard = [
-  Player(rank: 4, username: 'Alice', score: 1200),
-  Player(rank: 5, username: 'Bob', score: 1100),
-  Player(rank: 6, username: 'Charlie', score: 1050),
+List<leaderBoardDetails> leaderboard = [
+  leaderBoardDetails(rank: 4, username: 'Alice', score: 1200, pfp: 5),
+  leaderBoardDetails(rank: 5, username: 'Bob', score: 1100, pfp: 2),
+  leaderBoardDetails(rank: 6, username: 'Charlie', score: 1050, pfp: 6),
 ];
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
@@ -26,7 +27,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         child: Center(
           child: Column(
             children: [
-              Expanded(
+              const Expanded(
                 flex: 6,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,24 +35,24 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     Expanded(
                       flex: 2,
                       child: PlaceholderContainer(
-                        rank: 2,
-                        player: leaderboard.isNotEmpty ? leaderboard[1] : null,
+                        details: leaderBoardDetails(
+                            rank: 4, username: 'Alice', score: 1200, pfp: 5),
                         heightFactor: 2.5,
                       ),
                     ),
                     Expanded(
                       flex: 3,
                       child: PlaceholderContainer(
-                        rank: 1,
-                        player: leaderboard.isNotEmpty ? leaderboard[0] : null,
+                        details: leaderBoardDetails(
+                            rank: 4, username: 'Alice', score: 1200, pfp: 5),
                         heightFactor: 3.5,
                       ),
                     ),
                     Expanded(
                       flex: 2,
                       child: PlaceholderContainer(
-                        rank: 3,
-                        player: leaderboard.isNotEmpty ? leaderboard[2] : null,
+                        details: leaderBoardDetails(
+                            rank: 4, username: 'Alice', score: 1200, pfp: 5),
                         heightFactor: 2,
                       ),
                     ),
@@ -84,11 +85,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                         child: ListView.builder(
                           itemCount: leaderboard.length,
                           itemBuilder: (context, index) {
-                            final player = leaderboard[index];
+                            final details = leaderboard[index];
                             return RankCard(
-                              rank: player.rank,
-                              username: player.username,
-                              score: player.score,
+                              details: details,
                             );
                           },
                         ),
@@ -107,14 +106,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
 // Placeholder Container for each stage (left, middle, right)
 class PlaceholderContainer extends StatelessWidget {
-  final int rank;
-  final Player? player;
+  final leaderBoardDetails details;
   final double heightFactor;
 
   const PlaceholderContainer({
     super.key,
-    required this.rank,
-    this.player,
+    required this.details,
     required this.heightFactor,
   });
 
@@ -134,25 +131,22 @@ class PlaceholderContainer extends StatelessWidget {
           CircleAvatar(
             radius: 30,
             backgroundColor: theme,
-            child: player != null
+            child: details.pfp != null
                 ? ClipOval(
-                    child: Image.network(
-                      "https://www.example.com/user_profile_image.png", // Replace with actual user image URL
-                      fit: BoxFit.cover,
-                    ),
+                    child: Image.asset('assets/profiles/${details.pfp}.png'),
                   )
                 : const Icon(Icons.person, size: 40, color: white),
           ),
           const SizedBox(height: 8),
           // Username
           Text(
-            player?.username ?? "Player $rank",
+            details.username ?? "Player ${details.rank}",
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
           // Score
           Text(
-            "${player?.score ?? 0} Points",
+            "${details.score ?? 0} Points",
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
           ),
         ],
