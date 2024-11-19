@@ -78,7 +78,7 @@ class _WrapperState extends State<Wrapper> {
                   print("Directing to home");
                   return const HomeScreen();
                 } else {
-                  return ProfilePicker();
+                  return const ProfilePicker();
                 }
               } else {
                 return const VerificationScreen();

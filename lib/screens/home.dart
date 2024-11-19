@@ -13,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/screens/leaderboard.dart';
 import 'package:wordle/screens/tests/CRUD.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wordle/model/dbRef.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -46,10 +47,15 @@ void popMadu(context) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _userRef = DatabaseRef();
+
   Future<void> getPFP() async {
     final prefs = await SharedPreferences.getInstance();
     try {
       imagePickedHome = prefs.getInt('imagePicked') ?? 0;
+      if (imagePickedHome == 0) {
+        imagePickedHome = await _userRef.getFirePfp(user!);
+      }
       setState(() {
         print("Image picked is $imagePickedHome");
       });

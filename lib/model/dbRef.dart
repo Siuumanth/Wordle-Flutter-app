@@ -27,6 +27,22 @@ class DatabaseRef {
     }
   }
 
+  Future<int> getFirePfp(User user) async {
+    var snapshot =
+        await userRef.orderByChild("email").equalTo(user.email).get();
+
+    if (snapshot.exists) {
+      Map fullMap = snapshot.value as Map;
+      Map<String, dynamic> userData =
+          Map<String, dynamic>.from(fullMap.values.first);
+      print(userData);
+
+      return int.parse(userData['pfp']);
+    } else {
+      return 0;
+    }
+  }
+
   Future<bool> userDbExists(User user) async {
     var snapshot =
         await userRef.orderByChild("email").equalTo(user.email).get();
