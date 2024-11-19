@@ -142,6 +142,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
                   ),
                 )),
+          ),
+          const SizedBox(
+            height: 20,
           )
         ],
       ),
