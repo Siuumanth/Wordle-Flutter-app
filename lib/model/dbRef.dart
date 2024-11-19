@@ -27,6 +27,16 @@ class DatabaseRef {
     }
   }
 
+  Future<bool> userDbExists(User user) async {
+    var snapshot =
+        await userRef.orderByChild("email").equalTo(user.email).get();
+    if (snapshot.exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<void> updateScore(User user, int score) async {
     final query = userRef.orderByChild("email").equalTo(user.email);
     final snapshot = await query.get();

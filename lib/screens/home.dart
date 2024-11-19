@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:firebase_database/firebase_database.dart';
+//import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';

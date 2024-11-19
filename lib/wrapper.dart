@@ -5,6 +5,7 @@ import 'package:wordle/screens/login/login.dart';
 import 'package:wordle/screens/login/Verify.dart';
 import 'package:wordle/screens/login/profilepick.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wordle/model/dbRef.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});
@@ -15,6 +16,7 @@ class Wrapper extends StatefulWidget {
 
 class _WrapperState extends State<Wrapper> {
   int imagePickedIndex = 0;
+  bool profileExists = false;
 
   Future<void> _reloadUser() async {
     await FirebaseAuth.instance.currentUser?.reload();
@@ -27,11 +29,30 @@ class _WrapperState extends State<Wrapper> {
     });
   }
 
+  Future<bool> _checkProfileExistsFire() async {
+    final _userRef = DatabaseRef();
+    User? user = FirebaseAuth.instance.currentUser;
+    if (await _userRef.userDbExists(user!) == true) {
+      print("User does exist");
+
+      return true;
+    } else {
+      print("User does not exist");
+      return false;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _reloadUser();
     _checkProfileImage();
+
+    _checkProfileExistsFire().then((exists) {
+      setState(() {
+        profileExists = exists;
+      });
+    });
   }
 
   @override
@@ -53,7 +74,8 @@ class _WrapperState extends State<Wrapper> {
               return const LoginScreen();
             } else {
               if (user.emailVerified == true) {
-                if (imagePickedIndex != 0) {
+                if (profileExists == true) {
+                  print("Directing to home");
                   return const HomeScreen();
                 } else {
                   return ProfilePicker();
