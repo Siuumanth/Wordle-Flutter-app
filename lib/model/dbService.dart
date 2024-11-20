@@ -4,7 +4,7 @@ import 'Player.dart';
 class DatabaseService {
   final _real = FirebaseDatabase.instance;
 
-  rlcreate(rlUser user) {
+  rlcreate(profileUser user) {
     try {
       _real.ref("users").push().set(user.toMap());
     } catch (e) {

@@ -48,12 +48,13 @@ class _ProfilePickerState extends State<ProfilePicker> {
       //   print("Email address is " + (user?.email ?? 'No email available'));
       //   print("Username is ${userName}");
       try {
-        final userToSave = rlUser(
-            name: userName!,
+        final userToSave = profileUser(
+            username: userName!,
             email: user!.email!,
             score: 0,
             pfp: pfp.toString(),
-            rank: "0");
+            rank: "0",
+            dailyCompleted: 0);
 
         await dbService.rlcreate(userToSave);
       } catch (e) {

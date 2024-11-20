@@ -10,6 +10,7 @@ class Player {
   });
 }
 
+/*
 class rlUser {
   String name;
   String email;
@@ -34,20 +35,22 @@ class rlUser {
     };
   }
 }
-
+*/
 class profileUser {
   String username;
   String email;
   int score;
   String pfp;
   String rank;
+  int dailyCompleted;
 
   profileUser(
       {required this.username,
       required this.email,
       required this.score,
       required this.pfp,
-      required this.rank});
+      required this.rank,
+      required this.dailyCompleted});
 
   Map<String, dynamic> toMap() {
     return {
@@ -55,7 +58,8 @@ class profileUser {
       'email': email,
       'score': score,
       'pfp': pfp,
-      'rank': rank
+      'rank': rank,
+      'dailyCompleted': dailyCompleted
     };
   }
 }

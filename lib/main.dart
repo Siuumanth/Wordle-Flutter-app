@@ -15,7 +15,7 @@ void callbackDispatcher() {
     switch (taskName) {
       case 'firsttask':
         sendData();
-        print("First task has been executed");
+        print("First task has been executed at ${DateTime.now().toString()}");
         break;
     }
     return Future.value(true);
@@ -33,9 +33,9 @@ Future<void> main() async {
 //registering task, whenever our app opens
   var uniqueId = DateTime.now().second.toString();
   await Workmanager().registerPeriodicTask(uniqueId, task,
-      initialDelay: const Duration(seconds: 10),
+      initialDelay: const Duration(minutes: 1),
       constraints: Constraints(networkType: NetworkType.connected),
-      frequency: Duration(minutes: 15, seconds: 10));
+      frequency: const Duration(minutes: 15));
   print("The task has been initialized");
   runApp(const MyApp());
 }
