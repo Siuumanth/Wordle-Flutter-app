@@ -22,6 +22,7 @@ void callbackDispatcher() {
   });
 }
 
+void resetDailyTask() {}
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -30,10 +31,11 @@ Future<void> main() async {
   //if true, then it shows norification when activated
 
 //registering task, whenever our app opens
-  var uniqueId = "daily";
+  var uniqueId = DateTime.now().second.toString();
   await Workmanager().registerPeriodicTask(uniqueId, task,
       initialDelay: const Duration(seconds: 10),
-      constraints: Constraints(networkType: NetworkType.connected));
+      constraints: Constraints(networkType: NetworkType.connected),
+      frequency: Duration(minutes: 15, seconds: 10));
   print("The task has been initialized");
   runApp(const MyApp());
 }
