@@ -51,7 +51,7 @@ class _ProfilePickerState extends State<ProfilePicker> {
         final userToSave = rlUser(
             name: userName!,
             email: user!.email!,
-            score: '0',
+            score: 0,
             pfp: pfp.toString(),
             rank: "0");
 

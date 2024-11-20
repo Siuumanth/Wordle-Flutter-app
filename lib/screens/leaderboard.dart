@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/widgets/RankCard.dart';
@@ -12,9 +14,9 @@ class LeaderboardScreen extends StatefulWidget {
 }
 
 List<leaderBoardDetails> leaderboard = [
-  leaderBoardDetails(rank: 4, username: 'Alice', score: 1200, pfp: 5),
-  leaderBoardDetails(rank: 5, username: 'Bob', score: 1100, pfp: 2),
-  leaderBoardDetails(rank: 6, username: 'Charlie', score: 1050, pfp: 6),
+  leaderBoardDetails(rank: "4", username: 'Alice', score: 1200, pfp: "5"),
+  leaderBoardDetails(rank: "5", username: 'Bob', score: 1100, pfp: "2"),
+  leaderBoardDetails(rank: "6", username: 'Charlie', score: 1050, pfp: "6"),
 ];
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
@@ -36,7 +38,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       flex: 2,
                       child: PlaceholderContainer(
                         details: leaderBoardDetails(
-                            rank: 4, username: 'Alice', score: 1200, pfp: 5),
+                            rank: "4",
+                            username: 'Alice',
+                            score: 1200,
+                            pfp: "5"),
                         heightFactor: 2.5,
                       ),
                     ),
@@ -44,7 +49,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       flex: 3,
                       child: PlaceholderContainer(
                         details: leaderBoardDetails(
-                            rank: 4, username: 'Alice', score: 1200, pfp: 5),
+                            rank: "4",
+                            username: 'Alice',
+                            score: 1200,
+                            pfp: "5"),
                         heightFactor: 3.5,
                       ),
                     ),
@@ -52,7 +60,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       flex: 2,
                       child: PlaceholderContainer(
                         details: leaderBoardDetails(
-                            rank: 4, username: 'Alice', score: 1200, pfp: 5),
+                            rank: "4",
+                            username: 'Alice',
+                            score: 1200,
+                            pfp: "5"),
                         heightFactor: 2,
                       ),
                     ),

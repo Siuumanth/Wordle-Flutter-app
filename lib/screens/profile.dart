@@ -14,12 +14,13 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
+bool loaded = false;
+
 class _ProfilePageState extends State<ProfilePage> {
   final _userRef = DatabaseRef();
   final _auth = AuthService();
   final user = FirebaseAuth.instance.currentUser;
   late profileUser? userDetails;
-  bool loaded = false;
 
   @override
   void initState() {
@@ -66,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Rank: ${userDetails!.rank == "0" ? "Not Played" : userDetails!.rank}",
+                      "Rank: ${userDetails!.rank == 0 ? "Not Played" : userDetails!.rank}",
                       style: const TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                     const SizedBox(height: 5),

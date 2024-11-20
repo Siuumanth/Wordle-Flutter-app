@@ -14,7 +14,7 @@ class DatabaseRef {
       Map<String, dynamic> userData =
           Map<String, dynamic>.from(fullMap.values.first);
       print(userData);
-
+      print(userData['score'].runtimeType);
       return profileUser(
           username: userData['name'],
           email: userData['email'],
@@ -74,11 +74,11 @@ class DatabaseRef {
     if (snapshot.exists) {
       Map<String, dynamic> data =
           Map<String, dynamic>.from(snapshot.value as Map);
-      String currentScore = data.values.first['score'];
+      int currentScore = data.values.first['score'];
 
-      int finalScore = int.parse(currentScore) + score;
+      int finalScore = currentScore + score;
       final key = data.keys.first;
-      await userRef.child(key).update({"score": finalScore.toString()});
+      await userRef.child(key).update({"score": finalScore});
     } else {
       print("User not found");
     }

@@ -13,7 +13,7 @@ class Player {
 class rlUser {
   String name;
   String email;
-  String score;
+  int score;
   String pfp;
   String rank;
 
@@ -38,7 +38,7 @@ class rlUser {
 class profileUser {
   String username;
   String email;
-  String score;
+  int score;
   String pfp;
   String rank;
 
@@ -63,10 +63,10 @@ class profileUser {
 //
 
 class leaderBoardDetails {
-  final int rank;
+  final String rank;
   final String username;
   final int score;
-  final int pfp;
+  final String pfp;
 
   const leaderBoardDetails({
     required this.rank,

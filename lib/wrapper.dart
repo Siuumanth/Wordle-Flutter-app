@@ -30,14 +30,18 @@ class _WrapperState extends State<Wrapper> {
   }
 
   Future<bool> _checkProfileExistsFire() async {
-    final _userRef = DatabaseRef();
     User? user = FirebaseAuth.instance.currentUser;
-    if (await _userRef.userDbExists(user!) == true) {
+    if (user == null) {
+      print("User does not exist");
+      return false;
+    }
+    final _userRef = DatabaseRef();
+
+    if (await _userRef.userDbExists(user) == true) {
       print("User does exist");
 
       return true;
     } else {
-      print("User does not exist");
       return false;
     }
   }
