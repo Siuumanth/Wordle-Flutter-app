@@ -19,7 +19,9 @@ class _WrapperState extends State<Wrapper> {
   bool profileExists = false;
 
   Future<void> _reloadUser() async {
+    print("Reloading");
     await FirebaseAuth.instance.currentUser?.reload();
+    print("Reloading done");
   }
 
   Future<void> _checkProfileImage() async {
@@ -42,6 +44,7 @@ class _WrapperState extends State<Wrapper> {
 
       return true;
     } else {
+      print("smth happen");
       return false;
     }
   }

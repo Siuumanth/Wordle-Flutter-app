@@ -8,8 +8,9 @@ sendData() {
   print("HIIIIIIIIIIIII");
 }
 
-const taskname = 'firsttask';
+const task = 'firsttask';
 void callbackDispatcher() {
+  //function to be repeated
   Workmanager().executeTask((taskName, inputData) {
     switch (taskName) {
       case 'firsttask':
@@ -24,7 +25,16 @@ void callbackDispatcher() {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Workmanager().initialize(callbackDispatcher,
+      isInDebugMode: true); //accepts the function to be repeated
+  //if true, then it shows norification when activated
 
+//registering task, whenever our app opens
+  var uniqueId = "daily";
+  await Workmanager().registerPeriodicTask(uniqueId, task,
+      initialDelay: const Duration(seconds: 10),
+      constraints: Constraints(networkType: NetworkType.connected));
+  print("The task has been initialized");
   runApp(const MyApp());
 }
 
