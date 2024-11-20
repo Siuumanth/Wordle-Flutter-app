@@ -2,6 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:wordle/wrapper.dart';
 import 'package:wordle/screens/home.dart';
+import 'package:workmanager/workmanager.dart';
+
+sendData() {
+  print("HIIIIIIIIIIIII");
+}
+
+const taskname = 'firsttask';
+void callbackDispatcher() {
+  Workmanager().executeTask((taskName, inputData) {
+    switch (taskName) {
+      case 'firsttask':
+        sendData();
+        print("First task has been executed");
+        break;
+    }
+    return Future.value(true);
+  });
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
