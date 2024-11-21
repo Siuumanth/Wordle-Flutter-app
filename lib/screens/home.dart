@@ -37,6 +37,7 @@ Future<void> startMadu(context, {bool isChallenge = false}) async {
 
   await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => gameScreen(
+          gameNo: completed + 1,
           word: finalWord,
           isChallenge: isChallenge,
           restart: () => startMadu(context, isChallenge: isChallenge),
@@ -65,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> getDailyChallenges() async {
     try {
-      final trackerRef = await DailyTracker();
+      final trackerRef = DailyTracker();
       int temp = await trackerRef.getGamesCompleted(user!);
 
       setState(() {
@@ -88,6 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
       dailyColor = dailyTheme;
     });
   }
+
+  Future<void> updateTrackerEveryday() async {}
 
   Future<void> onRefreshed() async {
     getDailyChallenges();

@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
+import 'package:wordle/model/dbTracker.dart';
 import 'package:wordle/widgets/DialogWin.dart';
 import 'package:wordle/widgets/keyboard.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -20,11 +21,13 @@ class gameScreen extends StatefulWidget {
   final restart;
   final popmethod;
   final bool isChallenge;
+  final int gameNo;
   const gameScreen(
       {required this.popmethod,
       required this.restart,
       required this.word,
       required this.isChallenge,
+      required this.gameNo,
       super.key});
 
   @override
@@ -38,6 +41,8 @@ class _gameScreenState extends State<gameScreen> {
   int score = 0;
   final user = FirebaseAuth.instance.currentUser;
   final ref = DatabaseRef();
+  final trackerRef = DailyTracker();
+
   @override
   void initState() {
     super.initState();
@@ -47,11 +52,19 @@ class _gameScreenState extends State<gameScreen> {
     istop = 5;
     read_files();
     over = false;
+    if (widget.isChallenge == true) {
+      postDailyOnce();
+    }
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future<void> postDailyOnce() async {
+    await trackerRef.updateTracker(user!, widget.gameNo);
+    print("Stuff ahas been updated");
   }
 
   Future<void> read_files() async {
