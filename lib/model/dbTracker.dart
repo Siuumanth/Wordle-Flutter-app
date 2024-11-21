@@ -55,7 +55,7 @@ class DailyTracker {
     } else {
       return;
     }
-    currentDateTime = "2024-11-22 00:00";
+
     Map<String, dynamic> dateTimeToCompare = await dateParser(_temp);
     Map<String, dynamic> current = await dateParser(currentDateTime);
     await updateOrNot(current, dateTimeToCompare);

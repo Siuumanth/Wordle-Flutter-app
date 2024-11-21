@@ -49,12 +49,12 @@ class _ProfilePickerState extends State<ProfilePicker> {
       //   print("Username is ${userName}");
       try {
         final userToSave = profileUser(
-            username: userName!,
-            email: user!.email!,
-            score: 0,
-            pfp: pfp.toString(),
-            rank: "0",
-            dailyCompleted: 0);
+          username: userName!,
+          email: user!.email!,
+          score: 0,
+          pfp: pfp.toString(),
+          rank: "0",
+        );
 
         await dbService.rlcreate(userToSave);
 

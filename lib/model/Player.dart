@@ -42,15 +42,14 @@ class profileUser {
   int score;
   String pfp;
   String rank;
-  int dailyCompleted;
 
-  profileUser(
-      {required this.username,
-      required this.email,
-      required this.score,
-      required this.pfp,
-      required this.rank,
-      required this.dailyCompleted});
+  profileUser({
+    required this.username,
+    required this.email,
+    required this.score,
+    required this.pfp,
+    required this.rank,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -59,7 +58,6 @@ class profileUser {
       'score': score,
       'pfp': pfp,
       'rank': rank,
-      'dailyCompleted': dailyCompleted
     };
   }
 }

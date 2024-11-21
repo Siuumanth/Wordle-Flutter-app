@@ -16,30 +16,16 @@ class DatabaseRef {
       print(userData);
       print(userData['score'].runtimeType);
       return profileUser(
-          username: userData['name'],
-          email: userData['email'],
-          score: userData['score'],
-          pfp: userData['pfp'],
-          rank: userData['rank'],
-          dailyCompleted: userData['dailyCompleted']);
+        username: userData['name'],
+        email: userData['email'],
+        score: userData['score'],
+        pfp: userData['pfp'],
+        rank: userData['rank'],
+      );
     } else {
       print("No user found with this email.");
       return null;
     }
-  }
-
-  Future<void> getLeaderBoard() async {
-    var snapshot = await userRef.orderByChild("score").get();
-    if (snapshot.exists) {
-      Map fullMap = snapshot.value as Map;
-      List<Map> leaderBoardList = [];
-      fullMap.forEach((key, value) {
-        leaderBoardList.add(value);
-      });
-      print(leaderBoardList);
-    }
-
-    // sort leaderboard bruh
   }
 
   Future<int> getFirePfp(User user) async {
@@ -83,5 +69,21 @@ class DatabaseRef {
     } else {
       print("User not found");
     }
+  }
+
+// leaderboard stuff
+
+  Future<void> getLeaderBoard() async {
+    var snapshot = await userRef.orderByChild("score").get();
+    if (snapshot.exists) {
+      Map fullMap = snapshot.value as Map;
+      List<Map> leaderBoardList = [];
+      fullMap.forEach((key, value) {
+        leaderBoardList.add(value);
+      });
+      print(leaderBoardList);
+    }
+
+    // sort leaderboard bruh
   }
 }

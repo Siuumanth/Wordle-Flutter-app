@@ -195,10 +195,9 @@ Widget buildRankBar() {
 
 AppBar buildAppBar(BuildContext context) {
   return AppBar(
-    backgroundColor: theme,
     title: const Text(
-      "Leaderboard",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+      "           Leaderboard",
+      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
     ),
   );
 }

@@ -33,7 +33,6 @@ Future<void> startMadu(context, {bool isChallenge = false}) async {
   String finalWord =
       fwords[random.nextInt(fwords.length)].substring(0, 5).toUpperCase();
   print(finalWord);
-  print("Is it a daily challenge ${isChallenge.toString()}");
 
   await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => gameScreen(
@@ -129,10 +128,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     margin: const EdgeInsets.only(bottom: 20),
                     child: ElevatedButton(
                       onPressed: () {
-                        startMadu(context, isChallenge: true);
+                        if (completed < 3) {
+                          startMadu(context, isChallenge: true);
+                        } else {
+                          print("max games played");
+                        }
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: dailyGreen,
+                          backgroundColor:
+                              completed >= 3 ? dailyGreen : dailyTheme,
                           foregroundColor: white,
                           fixedSize:
                               Size(screenWidth / 1.60, screenHeight / 18),
