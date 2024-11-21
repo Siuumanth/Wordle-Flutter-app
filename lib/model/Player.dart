@@ -82,11 +82,20 @@ class leaderBoardDetails {
 
 class userDailyTracker {
   final String email;
-  final String lastDatePlayed;
-  final String lastTimePlayed;
+  final int gamesPlayed;
+  final String lastDatePlayedTime;
 
-  const userDailyTracker(
-      {required this.email,
-      required this.lastDatePlayed,
-      required this.lastTimePlayed});
+  const userDailyTracker({
+    required this.email,
+    required this.gamesPlayed,
+    required this.lastDatePlayedTime,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'email': email,
+      'games': gamesPlayed,
+      'lastDateTime': lastDatePlayedTime,
+    };
+  }
 }

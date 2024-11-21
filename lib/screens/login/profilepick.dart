@@ -57,6 +57,11 @@ class _ProfilePickerState extends State<ProfilePicker> {
             dailyCompleted: 0);
 
         await dbService.rlcreate(userToSave);
+
+        final userTrackerSave = userDailyTracker(
+            email: user!.email!, lastDatePlayedTime: "", gamesPlayed: 0);
+
+        await dbService.postInitialTracker(userTrackerSave);
       } catch (e) {
         print('Error hogaya');
         print(e.toString());

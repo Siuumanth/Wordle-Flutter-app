@@ -12,6 +12,16 @@ class DatabaseService {
     }
   }
 
+  Future<void> postInitialTracker(userDailyTracker user) async {
+    try {
+      _real.ref("dailyTracker").push().set(user.toMap());
+      print("tracker is initialised");
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+/*
   rlRead() async {
     try {
       final data = await _real.ref("users").once();
@@ -35,5 +45,5 @@ class DatabaseService {
     try {
       await _real.ref("users").child("user2").remove();
     } catch (e) {}
-  }
+  }*/
 }

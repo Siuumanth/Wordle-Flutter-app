@@ -73,48 +73,64 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<void> onRefreshed() async {
+    print("Refreshed");
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    double appBarHeight = AppBar().preferredSize.height;
+    double statusBarHeight = MediaQuery.of(context).padding.top;
     return Scaffold(
       appBar: buildAppBar(context, imagePickedHome),
-      body: Stack(
-        children: [
-          buildFAB(context),
-          Align(
-            alignment: Alignment.center,
-            child: Container(child: buildStartButton(context)),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              child: ElevatedButton(
-                onPressed: () {
-                  startMadu(context, isChallenge: true);
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: dailyGreen,
-                    foregroundColor: white,
-                    fixedSize: Size(screenWidth / 1.60, screenHeight / 18),
-                    textStyle: TextStyle(
-                        fontSize: screenHeight / 47,
-                        fontWeight: FontWeight.w500)),
-                child: const Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        "Daily Challenges 0/2",
+      body: RefreshIndicator(
+        onRefresh: onRefreshed,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            height: screenHeight - appBarHeight - statusBarHeight,
+            child: Stack(
+              children: [
+                buildFAB(context),
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(child: buildStartButton(context)),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        startMadu(context, isChallenge: true);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: dailyGreen,
+                          foregroundColor: white,
+                          fixedSize:
+                              Size(screenWidth / 1.60, screenHeight / 18),
+                          textStyle: TextStyle(
+                              fontSize: screenHeight / 47,
+                              fontWeight: FontWeight.w500)),
+                      child: const Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Daily Challenges 0/3",
+                            ),
+                          ),
+                          Icon(Icons.flag)
+                        ],
                       ),
                     ),
-                    Icon(Icons.flag)
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
