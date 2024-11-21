@@ -37,4 +37,21 @@ class DailyTracker {
       return "0";
     }
   }
+
+  Future<int> getGamesCompleted(User user) async {
+    var snapshot =
+        await tracker.orderByChild("email").equalTo(user.email).get();
+
+    if (snapshot.exists) {
+      Map fullMap = snapshot.value as Map;
+      Map<String, dynamic> userData =
+          Map<String, dynamic>.from(fullMap.values.first);
+      print(userData);
+      print("Games played : ${userData['gamesPlayed']}");
+      return userData['gamesPlayed'];
+    } else {
+      print("User not found");
+      return 0;
+    }
+  }
 }

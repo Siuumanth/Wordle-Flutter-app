@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/screens/leaderboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/model/dbRef.dart';
+import 'package:wordle/model/dbTracker.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,6 +24,7 @@ final user = FirebaseAuth.instance.currentUser;
 int imagePickedHome = 0;
 Color dailyColor = dailyGreen;
 final _userRef = DatabaseRef();
+int completed = 0;
 
 Future<void> startMadu(context, {bool isChallenge = false}) async {
   String contentsF = await rootBundle.loadString("assets/filtered-words.txt");
@@ -61,10 +63,24 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> getDailyChallenges() async {
+    try {
+      final trackerRef = await DailyTracker();
+      int temp = await trackerRef.getGamesCompleted(user!);
+
+      setState(() {
+        completed = temp;
+      });
+    } catch (e) {
+      print("Error retrieving profile image: $e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     getPFP();
+    getDailyChallenges();
   }
 
   void changeDailyColor() {
@@ -74,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> onRefreshed() async {
+    getDailyChallenges();
     print("Refreshed");
   }
 
@@ -89,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onRefresh: onRefreshed,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
+          child: SizedBox(
             height: screenHeight - appBarHeight - statusBarHeight,
             child: Stack(
               children: [
@@ -114,14 +131,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           textStyle: TextStyle(
                               fontSize: screenHeight / 47,
                               fontWeight: FontWeight.w500)),
-                      child: const Row(
+                      child: Row(
                         children: [
                           Expanded(
                             child: Text(
-                              "Daily Challenges 0/3",
+                              "Daily Challenges $completed/3",
                             ),
                           ),
-                          Icon(Icons.flag)
+                          const Icon(Icons.flag)
                         ],
                       ),
                     ),

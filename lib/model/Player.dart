@@ -94,7 +94,7 @@ class userDailyTracker {
   Map<String, dynamic> toMap() {
     return {
       'email': email,
-      'games': gamesPlayed,
+      'gamesPlayed': gamesPlayed,
       'lastDateTime': lastDatePlayedTime,
     };
   }
