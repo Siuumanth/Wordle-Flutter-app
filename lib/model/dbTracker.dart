@@ -1,5 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -42,9 +40,9 @@ class DailyTracker {
     }
   }
 
-  Future<void> updateEveryday(User user) async {
+  Future<void> updateEveryday() async {
     var snapshot =
-        await tracker.orderByChild("email").equalTo(user.email).get();
+        await tracker.orderByChild("email").equalTo(user!.email).get();
     String currentDateTime = DateTime.now().toUtc().toString().substring(0, 16);
     late String _temp;
     if (snapshot.exists) {
@@ -57,10 +55,11 @@ class DailyTracker {
     } else {
       return;
     }
-
+    currentDateTime = "2024-11-22 00:00";
     Map<String, dynamic> dateTimeToCompare = await dateParser(_temp);
     Map<String, dynamic> current = await dateParser(currentDateTime);
     await updateOrNot(current, dateTimeToCompare);
+    return;
   }
 
   Future<Map<String, dynamic>> dateParser(String _temp) async {

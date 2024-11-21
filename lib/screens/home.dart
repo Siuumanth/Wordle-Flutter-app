@@ -49,6 +49,8 @@ void popMadu(context) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final trackerRef = DailyTracker();
+
   Future<void> getPFP() async {
     final prefs = await SharedPreferences.getInstance();
     try {
@@ -82,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     getPFP();
     getDailyChallenges();
+    refreshDaily();
   }
 
   void changeDailyColor() {
@@ -90,7 +93,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> updateTrackerEveryday() async {}
+  Future<void> refreshDaily() async {
+    trackerRef.updateEveryday();
+  }
 
   Future<void> onRefreshed() async {
     getDailyChallenges();
