@@ -37,9 +37,9 @@ class _WrapperState extends State<Wrapper> {
       print("User does not exist");
       return false;
     }
-    final _userRef = DatabaseRef();
+    final userRef = DatabaseRef();
 
-    if (await _userRef.userDbExists(user) == true) {
+    if (await userRef.userDbExists(user) == true) {
       print("User does exist");
 
       return true;

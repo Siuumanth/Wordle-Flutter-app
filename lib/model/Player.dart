@@ -79,3 +79,14 @@ class leaderBoardDetails {
     required this.score,
   });
 }
+
+class userDailyTracker {
+  final String email;
+  final String lastDatePlayed;
+  final String lastTimePlayed;
+
+  const userDailyTracker(
+      {required this.email,
+      required this.lastDatePlayed,
+      required this.lastTimePlayed});
+}

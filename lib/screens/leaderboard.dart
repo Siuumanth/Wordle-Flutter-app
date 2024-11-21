@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/widgets/RankCard.dart';
 import 'package:wordle/model/Player.dart';
-import 'package:wordle/model/dbRef.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({super.key});

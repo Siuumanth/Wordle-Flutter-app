@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 //import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
@@ -11,7 +9,6 @@ import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/screens/leaderboard.dart';
-import 'package:wordle/screens/tests/CRUD.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/model/dbRef.dart';
 

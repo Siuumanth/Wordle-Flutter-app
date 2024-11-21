@@ -36,7 +36,7 @@ Future<void> main() async {
       initialDelay: const Duration(minutes: 1),
       constraints: Constraints(networkType: NetworkType.connected),
       frequency: const Duration(minutes: 15));
-  print("The task has been initialized");
+  print("The task has been initialized at  ${DateTime.now().toString()}");
   runApp(const MyApp());
 }
 
