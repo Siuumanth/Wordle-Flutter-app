@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/widgets/RankCard.dart';
 import 'package:wordle/model/Player.dart';
+import 'package:wordle/model/dbRef.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({super.key});
@@ -13,15 +14,16 @@ class LeaderboardScreen extends StatefulWidget {
 }
 
 List<leaderBoardDetails> leaderboard = [
-  leaderBoardDetails(rank: 1, username: 'Alice', score: 800, pfp: "5"),
-  leaderBoardDetails(rank: 2, username: 'Bob', score: 1500, pfp: "2"),
-  leaderBoardDetails(rank: 3, username: 'Charlie', score: 900, pfp: "6"),
-  leaderBoardDetails(rank: 4, username: 'bruh', score: 70, pfp: "6")
+  leaderBoardDetails(username: 'Alice', score: 800, pfp: "5"),
+  leaderBoardDetails(username: 'Bob', score: 1500, pfp: "2"),
+  leaderBoardDetails(username: 'Charlie', score: 900, pfp: "6"),
+  leaderBoardDetails(username: 'bruh', score: 70, pfp: "6")
 ];
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
   List scoreToIndex = [];
-
+  final _userRef = DatabaseRef();
+  List<leaderBoardDetails> leaderboard = [];
 //leaderboard = list of Leaderboard objects
   void insertionSort() {
     List<int> scoreList = leaderboard.map((item) => item.score).toList();
@@ -33,7 +35,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
       // Move elements of scoreList[0..i-1] that are greater than key
       // to one position ahead of their current position
-      while (j >= 0 && scoreList[j] > key) {
+      while (j >= 0 && scoreList[j] < key) {
         scoreList[j + 1] = scoreList[j];
         j--;
       }
@@ -48,12 +50,26 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
       }
     }
     print(scoreToIndex);
+
+    print("Insertion sort over");
+  }
+
+  Future<void> getLeaderboardLocal() async {
+    leaderboard = await _userRef.getLeaderBoard();
+    print("leaderboard got");
+  }
+
+  Future<void> fetchAndSortLeaderboard() async {
+    await getLeaderboardLocal();
+    insertionSort();
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
-    insertionSort();
+    print("Starting processes");
+    fetchAndSortLeaderboard();
   }
 
   @override
@@ -94,6 +110,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                             final details = leaderboard[scoreToIndex[index]];
                             return RankCard(
                               details: details,
+                              rank: index + 1,
                             );
                           },
                         ),

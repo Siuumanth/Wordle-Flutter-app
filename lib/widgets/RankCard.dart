@@ -6,8 +6,9 @@ import 'package:wordle/model/Player.dart';
 
 class RankCard extends StatefulWidget {
   final leaderBoardDetails details;
+  final int rank;
 
-  const RankCard({super.key, required this.details});
+  const RankCard({super.key, required this.details, required this.rank});
 
   @override
   State<RankCard> createState() => _RankCardState();
@@ -38,8 +39,7 @@ class _RankCardState extends State<RankCard> {
           Row(
             children: [
               Text(
-                //  "${widget.details.rank}",
-                "0",
+                "${widget.rank}",
                 style:
                     const TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
               ),

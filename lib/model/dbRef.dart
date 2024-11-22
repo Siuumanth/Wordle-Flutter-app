@@ -73,22 +73,19 @@ class DatabaseRef {
 
 // leaderboard stuff
 
-  Future<void> getLeaderBoard() async {
+  Future<List<leaderBoardDetails>> getLeaderBoard() async {
     var snapshot = await userRef.orderByChild("score").get();
+    List<leaderBoardDetails> leaderBoardList = [];
     if (snapshot.exists) {
       Map fullMap = snapshot.value as Map;
-      List<leaderBoardDetails> leaderBoardList = [];
+
       fullMap.forEach((key, value) {
         leaderBoardDetails temp = leaderBoardDetails(
-            rank: 0,
-            pfp: value['pfp'],
-            username: value['username'],
-            score: value['score']);
-        leaderBoardList.add(value);
+            pfp: value['pfp'], username: value['name'], score: value['score']);
+        leaderBoardList.add(temp);
       });
       print(leaderBoardList);
     }
-
-    // sort leaderboard bruh
+    return leaderBoardList;
   }
 }
