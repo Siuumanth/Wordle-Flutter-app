@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'CRUD.dart';
 
 class DatabaseService {
-  final _fire = FirebaseFirestore.instance;
   final _real = FirebaseDatabase.instance;
 
   rlcreate(User user) {
@@ -37,13 +35,5 @@ class DatabaseService {
     try {
       await _real.ref("users").child("user2").remove();
     } catch (e) {}
-  }
-
-  create(User user) {
-    try {
-      _fire.collection("users").add(user.toMap());
-    } catch (e) {
-      print(e.toString());
-    }
   }
 }

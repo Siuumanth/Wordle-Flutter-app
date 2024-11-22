@@ -77,8 +77,13 @@ class DatabaseRef {
     var snapshot = await userRef.orderByChild("score").get();
     if (snapshot.exists) {
       Map fullMap = snapshot.value as Map;
-      List<Map> leaderBoardList = [];
+      List<leaderBoardDetails> leaderBoardList = [];
       fullMap.forEach((key, value) {
+        leaderBoardDetails temp = leaderBoardDetails(
+            rank: 0,
+            pfp: value['pfp'],
+            username: value['username'],
+            score: value['score']);
         leaderBoardList.add(value);
       });
       print(leaderBoardList);

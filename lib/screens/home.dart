@@ -136,14 +136,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
-                              completed >= 3 ? dailyGreen : dailyTheme,
+                              completed >= 3 ? dailyGreen : darktheme,
                           foregroundColor: white,
                           fixedSize:
-                              Size(screenWidth / 1.60, screenHeight / 18),
+                              Size(screenWidth / 1.50, screenHeight / 18),
                           textStyle: TextStyle(
-                              fontSize: screenHeight / 47,
+                              fontSize: screenHeight / 45,
                               fontWeight: FontWeight.w500)),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
                             child: Text(

@@ -44,31 +44,31 @@ class DailyTracker {
     var snapshot =
         await tracker.orderByChild("email").equalTo(user!.email).get();
     String currentDateTime = DateTime.now().toUtc().toString().substring(0, 16);
-    late String _temp;
+    late String temp;
     if (snapshot.exists) {
       Map fullMap = snapshot.value as Map;
       Map<String, dynamic> userData =
           Map<String, dynamic>.from(fullMap.values.first);
       print(userData);
 
-      _temp = userData['lastDateTime'];
+      temp = userData['lastDateTime'];
     } else {
       return;
     }
 
-    Map<String, dynamic> dateTimeToCompare = await dateParser(_temp);
+    Map<String, dynamic> dateTimeToCompare = await dateParser(temp);
     Map<String, dynamic> current = await dateParser(currentDateTime);
     await updateOrNot(current, dateTimeToCompare);
     return;
   }
 
-  Future<Map<String, dynamic>> dateParser(String _temp) async {
+  Future<Map<String, dynamic>> dateParser(String temp) async {
     return {
-      'y': int.parse(_temp.substring(0, 4)),
-      'mo': int.parse(_temp.substring(5, 7)),
-      'd': int.parse(_temp.substring(8, 10)),
-      'h': int.parse(_temp.substring(11, 13)),
-      'mi': int.parse(_temp.substring(14, 16))
+      'y': int.parse(temp.substring(0, 4)),
+      'mo': int.parse(temp.substring(5, 7)),
+      'd': int.parse(temp.substring(8, 10)),
+      'h': int.parse(temp.substring(11, 13)),
+      'mi': int.parse(temp.substring(14, 16))
     };
   }
 

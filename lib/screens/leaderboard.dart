@@ -13,9 +13,9 @@ class LeaderboardScreen extends StatefulWidget {
 }
 
 List<leaderBoardDetails> leaderboard = [
-  leaderBoardDetails(rank: "4", username: 'Alice', score: 1200, pfp: "5"),
-  leaderBoardDetails(rank: "5", username: 'Bob', score: 1100, pfp: "2"),
-  leaderBoardDetails(rank: "6", username: 'Charlie', score: 1050, pfp: "6"),
+  leaderBoardDetails(rank: 4, username: 'Alice', score: 1200, pfp: "5"),
+  leaderBoardDetails(rank: 5, username: 'Bob', score: 1100, pfp: "2"),
+  leaderBoardDetails(rank: 6, username: 'Charlie', score: 1050, pfp: "6"),
 ];
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
@@ -29,7 +29,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
           child: Column(
             children: [
               const Expanded(
-                flex: 6,
+                flex: 3,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -37,33 +37,24 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       flex: 2,
                       child: PlaceholderContainer(
                         details: leaderBoardDetails(
-                            rank: "4",
-                            username: 'Alice',
-                            score: 1200,
-                            pfp: "5"),
-                        heightFactor: 2.5,
+                            rank: 4, username: 'bob', score: 1200, pfp: "5"),
+                        rank: 4,
                       ),
                     ),
                     Expanded(
                       flex: 3,
                       child: PlaceholderContainer(
                         details: leaderBoardDetails(
-                            rank: "4",
-                            username: 'Alice',
-                            score: 1200,
-                            pfp: "5"),
-                        heightFactor: 3.5,
+                            rank: 4, username: 'Alice', score: 1200, pfp: "5"),
+                        rank: 2,
                       ),
                     ),
                     Expanded(
                       flex: 2,
                       child: PlaceholderContainer(
                         details: leaderBoardDetails(
-                            rank: "4",
-                            username: 'Alice',
-                            score: 1200,
-                            pfp: "5"),
-                        heightFactor: 2,
+                            rank: 4, username: 'Alice', score: 1200, pfp: "6"),
+                        rank: 4,
                       ),
                     ),
                   ],
@@ -117,12 +108,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 // Placeholder Container for each stage (left, middle, right)
 class PlaceholderContainer extends StatelessWidget {
   final leaderBoardDetails details;
-  final double heightFactor;
+  final int rank;
 
   const PlaceholderContainer({
     super.key,
     required this.details,
-    required this.heightFactor,
+    required this.rank,
   });
 
   @override
@@ -131,33 +122,40 @@ class PlaceholderContainer extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
-        color: theme.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Rank Circle (Placeholders for profile pictures)
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: theme,
-            child: details.pfp != null
-                ? ClipOval(
-                    child: Image.asset('assets/profiles/${details.pfp}.png'),
-                  )
-                : const Icon(Icons.person, size: 40, color: white),
-          ),
-          const SizedBox(height: 8),
-          // Username
-          Text(
-            details.username ?? "Player ${details.rank}",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 4),
-          // Score
-          Text(
-            "${details.score ?? 0} Points",
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+          Expanded(flex: rank, child: SizedBox()),
+          Expanded(
+            flex: 9,
+            child: SizedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: theme,
+                    child: details.pfp != null
+                        ? ClipOval(
+                            child: Image.asset(
+                                'assets/profiles/${details.pfp}.png'),
+                          )
+                        : const Icon(Icons.person, size: 40, color: white),
+                  ),
+                  Text(
+                    details.username ?? "Player ${details.rank}",
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${details.score ?? 0} Points",
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

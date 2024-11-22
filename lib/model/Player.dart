@@ -65,7 +65,7 @@ class profileUser {
 //
 
 class leaderBoardDetails {
-  final String rank;
+  final int rank;
   final String username;
   final int score;
   final String pfp;
