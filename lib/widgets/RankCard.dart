@@ -37,9 +37,11 @@ class _RankCardState extends State<RankCard> {
         children: [
           Row(
             children: [
-              const Text(
-                '#${0}',
-                style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+              Text(
+                //  "${widget.details.rank}",
+                "0",
+                style:
+                    const TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 40),
               CircleAvatar(

@@ -13,12 +13,49 @@ class LeaderboardScreen extends StatefulWidget {
 }
 
 List<leaderBoardDetails> leaderboard = [
-  leaderBoardDetails(rank: 4, username: 'Alice', score: 1200, pfp: "5"),
-  leaderBoardDetails(rank: 5, username: 'Bob', score: 1100, pfp: "2"),
-  leaderBoardDetails(rank: 6, username: 'Charlie', score: 1050, pfp: "6"),
+  leaderBoardDetails(rank: 1, username: 'Alice', score: 800, pfp: "5"),
+  leaderBoardDetails(rank: 2, username: 'Bob', score: 1500, pfp: "2"),
+  leaderBoardDetails(rank: 3, username: 'Charlie', score: 900, pfp: "6"),
+  leaderBoardDetails(rank: 4, username: 'bruh', score: 70, pfp: "6")
 ];
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
+  List scoreToIndex = [];
+
+//leaderboard = list of Leaderboard objects
+  void insertionSort() {
+    List<int> scoreList = leaderboard.map((item) => item.score).toList();
+
+    // Perform insertion sort on the scoreList
+    for (int i = 1; i < scoreList.length; i++) {
+      int key = scoreList[i];
+      int j = i - 1;
+
+      // Move elements of scoreList[0..i-1] that are greater than key
+      // to one position ahead of their current position
+      while (j >= 0 && scoreList[j] > key) {
+        scoreList[j + 1] = scoreList[j];
+        j--;
+      }
+      scoreList[j + 1] = key;
+    }
+
+    for (int i = 0; i < leaderboard.length; i++) {
+      for (int j = 0; j < leaderboard.length; j++) {
+        if (leaderboard[j].score == scoreList[i]) {
+          scoreToIndex.add(j);
+        }
+      }
+    }
+    print(scoreToIndex);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    insertionSort();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,38 +65,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         child: Center(
           child: Column(
             children: [
-              const Expanded(
-                flex: 3,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: PlaceholderContainer(
-                        details: leaderBoardDetails(
-                            rank: 4, username: 'bob', score: 1200, pfp: "5"),
-                        rank: 4,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: PlaceholderContainer(
-                        details: leaderBoardDetails(
-                            rank: 4, username: 'Alice', score: 1200, pfp: "5"),
-                        rank: 2,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: PlaceholderContainer(
-                        details: leaderBoardDetails(
-                            rank: 4, username: 'Alice', score: 1200, pfp: "6"),
-                        rank: 4,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               const SizedBox(
                 height: 10,
               ),
@@ -82,11 +87,11 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                         child: buildRankBar(),
                       ),
                       Expanded(
-                        flex: 12,
+                        flex: 25,
                         child: ListView.builder(
                           itemCount: leaderboard.length,
                           itemBuilder: (context, index) {
-                            final details = leaderboard[index];
+                            final details = leaderboard[scoreToIndex[index]];
                             return RankCard(
                               details: details,
                             );
@@ -105,70 +110,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   }
 }
 
-// Placeholder Container for each stage (left, middle, right)
-class PlaceholderContainer extends StatelessWidget {
-  final leaderBoardDetails details;
-  final int rank;
-
-  const PlaceholderContainer({
-    super.key,
-    required this.details,
-    required this.rank,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.symmetric(horizontal: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          Expanded(flex: rank, child: SizedBox()),
-          Expanded(
-            flex: 9,
-            child: SizedBox(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: theme,
-                    child: details.pfp != null
-                        ? ClipOval(
-                            child: Image.asset(
-                                'assets/profiles/${details.pfp}.png'),
-                          )
-                        : const Icon(Icons.person, size: 40, color: white),
-                  ),
-                  Text(
-                    details.username ?? "Player ${details.rank}",
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "${details.score ?? 0} Points",
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.normal),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 Widget buildRankBar() {
   return Container(
     padding: const EdgeInsets.only(left: 15),
     decoration: BoxDecoration(
       color: darkerertheme,
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(11),
     ),
     child: const Row(
       children: [
