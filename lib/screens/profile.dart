@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 35,
                     ),
                     Container(
-                      padding: const EdgeInsets.all(3),
+                      padding: const EdgeInsets.all(5),
                       width: screenWidth / 3.5 * 2,
                       height: screenWidth / 3.5 * 2,
                       decoration: const BoxDecoration(
@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: const TextStyle(
                           fontSize: 35, fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 10),
+                    const Spacer(),
                     const Text(
                       "Your rank is",
                       style: TextStyle(
@@ -100,6 +100,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const Spacer(),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: theme,
+                          foregroundColor: darkertheme,
+                          textStyle: TextStyle(
+                              color: darkerertheme,
+                              fontSize: screenWidth / 20,
+                              fontWeight: FontWeight.w700)),
                       onPressed: () async {
                         await _auth.signOut();
                         Navigator.of(context).pushAndRemoveUntil(
@@ -109,16 +116,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           (Route<dynamic> route) => false,
                         );
                       },
-                      child: const Text("Sign Out"),
+                      child: Container(
+                          padding: const EdgeInsets.all(14),
+                          child: const Text("Sign Out")),
                     ),
                     const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                      ),
-                      child: const Text("Delete Account"),
-                    ),
                   ],
                 ),
               ),

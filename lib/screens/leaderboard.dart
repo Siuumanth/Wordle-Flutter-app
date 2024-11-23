@@ -73,10 +73,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double appBarWidth = AppBar().preferredSize.width;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: buildAppBar(context, screenWidth),
+      appBar: buildAppBar(context, screenWidth, appBarWidth),
       body: Container(
+        color: white,
         padding: const EdgeInsets.all(10),
         child: Center(
           child: Column(
@@ -171,29 +173,23 @@ Widget buildRankBar() {
   );
 }
 
-AppBar buildAppBar(BuildContext context, double screenWidth) {
+AppBar buildAppBar(
+    BuildContext context, double screenWidth, double appBarWidth) {
   return AppBar(
-    automaticallyImplyLeading: true,
-    backgroundColor: Colors.white,
+    automaticallyImplyLeading: true, // Back button will be automatically added
+    backgroundColor: white,
     elevation: 1,
-    title: Stack(
-      alignment: Alignment.center,
+    title: const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          margin: EdgeInsets.only(left: screenWidth / 7.5),
-          child: const Row(
-            children: [
-              Icon(Icons.leaderboard, color: Colors.amber, size: 24),
-              SizedBox(width: 8),
-              Text(
-                "Leaderboard",
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                  color: darkerertheme,
-                ),
-              ),
-            ],
+        Icon(Icons.leaderboard, color: Colors.amber, size: 23),
+        SizedBox(width: 8),
+        Text(
+          "Leaderboard",
+          style: TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
+            color: darkerertheme,
           ),
         ),
       ],

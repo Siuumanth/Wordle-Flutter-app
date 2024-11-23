@@ -255,7 +255,7 @@ class _gameScreenState extends State<gameScreen> {
               flex: 4, // Adjust the flex to occupy more space
               child: Container(
                 padding: EdgeInsets.symmetric(
-                    horizontal: pad * 1.3, vertical: pad * 1.3),
+                    horizontal: pad * 1.5, vertical: pad * 1.5),
                 child: GridView.count(
                   crossAxisCount: 5,
                   physics: const BouncingScrollPhysics(),

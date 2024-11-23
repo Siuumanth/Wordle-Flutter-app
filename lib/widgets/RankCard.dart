@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/model/Player.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RankCard extends StatefulWidget {
   final leaderBoardDetails details;
@@ -18,7 +19,7 @@ class _RankCardState extends State<RankCard> {
   Color goldRank = const Color.fromARGB(172, 252, 233, 26);
   Color silverRank = const Color.fromARGB(148, 202, 202, 202);
   Color bronzeRank = const Color.fromARGB(123, 255, 170, 155);
-
+  final user = FirebaseAuth.instance.currentUser;
   LinearGradient checkColor() {
     // If rank is greater than 3, use the default gradient
     if (widget.rank > 3) {
@@ -40,7 +41,7 @@ class _RankCardState extends State<RankCard> {
       case 2:
         return LinearGradient(
           colors: [
-            const Color.fromARGB(255, 152, 152, 152),
+            const Color.fromARGB(255, 183, 183, 183),
             Colors.grey.shade300
           ],
           begin: Alignment.topLeft,
@@ -49,7 +50,7 @@ class _RankCardState extends State<RankCard> {
       case 3:
         return const LinearGradient(
           colors: [
-            Color.fromARGB(208, 255, 166, 57),
+            Color.fromARGB(255, 255, 166, 57),
             Color.fromARGB(223, 255, 209, 140)
           ],
           begin: Alignment.topLeft,
@@ -66,7 +67,7 @@ class _RankCardState extends State<RankCard> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: BoxDecoration(
         gradient: checkColor(),
@@ -74,7 +75,7 @@ class _RankCardState extends State<RankCard> {
         boxShadow: [
           BoxShadow(
             color: lightgrey,
-            spreadRadius: 2,
+            spreadRadius: 1,
             blurRadius: 3,
             offset: const Offset(0, 3),
           ),

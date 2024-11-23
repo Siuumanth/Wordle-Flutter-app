@@ -136,13 +136,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
-                              completed >= 3 ? dailyGreen : darktheme,
+                              completed >= 3 ? darkertheme : dailyGreen,
                           foregroundColor: white,
                           fixedSize:
                               Size(screenWidth / 1.50, screenHeight / 18),
                           textStyle: TextStyle(
-                              fontSize: screenHeight / 45,
-                              fontWeight: FontWeight.w500)),
+                            fontSize: screenHeight / 45,
+                            fontWeight: FontWeight.w500,
+                          )),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -151,7 +152,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               "Daily Challenges $completed/3",
                             ),
                           ),
-                          const Icon(Icons.flag)
+                          completed >= 3
+                              ? const Icon(
+                                  Icons.check,
+                                )
+                              : const Icon(Icons.flag),
                         ],
                       ),
                     ),
@@ -171,8 +176,8 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: 160,
-            width: 160,
+            height: 170,
+            width: 170,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: theme, foregroundColor: grey),
@@ -182,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Center(
                   child: Text(
                     "START",
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
                   ),
                 )),
           ),
