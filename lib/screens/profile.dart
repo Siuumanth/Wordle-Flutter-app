@@ -72,9 +72,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 10),
-                    Text(
-                      "Rank: ${userDetails!.rank == 0 ? "Not Played" : userDetails!.rank}",
-                      style: const TextStyle(fontSize: 18, color: Colors.grey),
+                    const Text(
+                      "Rank:0",
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                     const SizedBox(height: 5),
                     Text(

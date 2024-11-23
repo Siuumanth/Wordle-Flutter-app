@@ -41,14 +41,12 @@ class profileUser {
   String email;
   int score;
   String pfp;
-  String rank;
 
   profileUser({
     required this.username,
     required this.email,
     required this.score,
     required this.pfp,
-    required this.rank,
   });
 
   Map<String, dynamic> toMap() {
@@ -57,7 +55,6 @@ class profileUser {
       'email': email,
       'score': score,
       'pfp': pfp,
-      'rank': rank,
     };
   }
 }

@@ -20,7 +20,6 @@ class DatabaseRef {
         email: userData['email'],
         score: userData['score'],
         pfp: userData['pfp'],
-        rank: userData['rank'],
       );
     } else {
       print("No user found with this email.");

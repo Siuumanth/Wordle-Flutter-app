@@ -53,7 +53,6 @@ class _ProfilePickerState extends State<ProfilePicker> {
           email: user!.email!,
           score: 0,
           pfp: pfp.toString(),
-          rank: "0",
         );
 
         await dbService.rlcreate(userToSave);
