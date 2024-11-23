@@ -106,7 +106,7 @@ class ButtonBox extends StatefulWidget {
 
 class _ButtonBoxState extends State<ButtonBox> {
   Color keyColor = kbgrey;
-  Color keyTextColor = black;
+  Color keyTextColor = const Color.fromARGB(255, 34, 34, 34);
 
   void changeButtonColorGreen() {
     setState(() {

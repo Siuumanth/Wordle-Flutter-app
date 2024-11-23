@@ -14,9 +14,8 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-bool loaded = false;
-
 class _ProfilePageState extends State<ProfilePage> {
+  bool loaded = false;
   final _userRef = DatabaseRef();
   final _auth = AuthService();
   final user = FirebaseAuth.instance.currentUser;
@@ -41,6 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: buildAppBar(context),
       body: loaded == false
@@ -52,34 +52,51 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      height: 20,
+                      height: 35,
                     ),
-                    ClipOval(
-                      child: Stack(
-                        children: [
-                          CircleAvatar(
-                            radius: 100,
-                            child: Image.asset(
-                                'assets/profiles/${userDetails!.pfp}.png'),
+                    Container(
+                      padding: const EdgeInsets.all(3),
+                      width: screenWidth / 3.5 * 2,
+                      height: screenWidth / 3.5 * 2,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: darkertheme,
+                      ),
+                      child: CircleAvatar(
+                        radius: screenWidth / 17 - 20,
+                        child: ClipOval(
+                          child: Image.asset(
+                            "assets/profiles/${userDetails!.pfp}.png",
                           ),
-                        ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
                     Text(
                       userDetails!.username,
                       style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold),
+                          fontSize: 35, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      "Rank:0",
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                      "Your rank is",
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromARGB(211, 31, 31, 31)),
+                    ),
+                    Container(
+                      child: Text(
+                        "1",
+                        style: TextStyle(fontSize: screenHeight / 8),
+                      ),
                     ),
                     const SizedBox(height: 5),
                     Text(
                       "Score: ${userDetails!.score}",
-                      style: const TextStyle(fontSize: 18, color: Colors.grey),
+                      style: TextStyle(
+                          fontSize: screenWidth / 18,
+                          color: Color.fromARGB(255, 107, 107, 107)),
                     ),
                     const Spacer(),
                     ElevatedButton(

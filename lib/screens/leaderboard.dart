@@ -17,24 +17,22 @@ List<leaderBoardDetails> leaderboard = [
   leaderBoardDetails(username: 'Alice', score: 800, pfp: "5"),
   leaderBoardDetails(username: 'Bob', score: 1500, pfp: "2"),
   leaderBoardDetails(username: 'Charlie', score: 900, pfp: "6"),
-  leaderBoardDetails(username: 'bruh', score: 70, pfp: "6")
+  leaderBoardDetails(username: 'bruh', score: 70, pfp: "6"),
 ];
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
-  List scoreToIndex = [];
+  List<int> scoreToIndex = [];
   final _userRef = DatabaseRef();
   List<leaderBoardDetails> leaderboard = [];
-//leaderboard = list of Leaderboard objects
-  void insertionSort() {
-    List<int> scoreList = leaderboard.map((item) => item.score).toList();
 
-    // Perform insertion sort on the scoreList
+  void insertionSort() {
+    List<int> scoreList =
+        leaderboard.map((item) => item.score).toList().cast<int>();
+
     for (int i = 1; i < scoreList.length; i++) {
       int key = scoreList[i];
       int j = i - 1;
 
-      // Move elements of scoreList[0..i-1] that are greater than key
-      // to one position ahead of their current position
       while (j >= 0 && scoreList[j] < key) {
         scoreList[j + 1] = scoreList[j];
         j--;
@@ -42,21 +40,22 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
       scoreList[j + 1] = key;
     }
 
+    scoreToIndex.clear();
     for (int i = 0; i < leaderboard.length; i++) {
       for (int j = 0; j < leaderboard.length; j++) {
-        if (leaderboard[j].score == scoreList[i]) {
+        if (leaderboard[j].score == scoreList[i] && !scoreToIndex.contains(j)) {
           scoreToIndex.add(j);
+          break;
         }
       }
     }
     print(scoreToIndex);
-
-    print("Insertion sort over");
+    print("Insertion sort complete.");
   }
 
   Future<void> getLeaderboardLocal() async {
     leaderboard = await _userRef.getLeaderBoard();
-    print("leaderboard got");
+    print("Leaderboard fetched.");
   }
 
   Future<void> fetchAndSortLeaderboard() async {
@@ -68,14 +67,15 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   @override
   void initState() {
     super.initState();
-    print("Starting processes");
+    print("Initializing Leaderboard Screen...");
     fetchAndSortLeaderboard();
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: buildAppBar(context, screenWidth),
       body: Container(
         padding: const EdgeInsets.all(10),
         child: Center(
@@ -104,16 +104,25 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       ),
                       Expanded(
                         flex: 25,
-                        child: ListView.builder(
-                          itemCount: leaderboard.length,
-                          itemBuilder: (context, index) {
-                            final details = leaderboard[scoreToIndex[index]];
-                            return RankCard(
-                              details: details,
-                              rank: index + 1,
-                            );
-                          },
-                        ),
+                        child: leaderboard.isEmpty
+                            ? Center(
+                                child: Text(
+                                  "Loading leaderboard...",
+                                  style: TextStyle(
+                                      color: darkerertheme, fontSize: 16),
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: leaderboard.length,
+                                itemBuilder: (context, index) {
+                                  final details =
+                                      leaderboard[scoreToIndex[index]];
+                                  return RankCard(
+                                    details: details,
+                                    rank: index + 1,
+                                  );
+                                },
+                              ),
                       ),
                     ],
                   ),
@@ -144,22 +153,50 @@ Widget buildRankBar() {
           ),
         ),
         Expanded(
-            flex: 8,
-            child:
-                Text("Username", style: TextStyle(color: white, fontSize: 16))),
+          flex: 8,
+          child: Text(
+            "Username",
+            style: TextStyle(color: white, fontSize: 16),
+          ),
+        ),
         Expanded(
-            flex: 3,
-            child: Text("Score", style: TextStyle(color: white, fontSize: 16)))
+          flex: 3,
+          child: Text(
+            "Score",
+            style: TextStyle(color: white, fontSize: 16),
+          ),
+        ),
       ],
     ),
   );
 }
 
-AppBar buildAppBar(BuildContext context) {
+AppBar buildAppBar(BuildContext context, double screenWidth) {
   return AppBar(
-    title: const Text(
-      "           Leaderboard",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+    automaticallyImplyLeading: true,
+    backgroundColor: Colors.white,
+    elevation: 1,
+    title: Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: screenWidth / 7.5),
+          child: const Row(
+            children: [
+              Icon(Icons.leaderboard, color: Colors.amber, size: 24),
+              SizedBox(width: 8),
+              Text(
+                "Leaderboard",
+                style: TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                  color: darkerertheme,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     ),
   );
 }

@@ -18,19 +18,47 @@ class _RankCardState extends State<RankCard> {
   Color goldRank = const Color.fromARGB(172, 252, 233, 26);
   Color silverRank = const Color.fromARGB(148, 202, 202, 202);
   Color bronzeRank = const Color.fromARGB(123, 255, 170, 155);
-  Color checkColor() {
+
+  LinearGradient checkColor() {
+    // If rank is greater than 3, use the default gradient
     if (widget.rank > 3) {
-      return const Color.fromARGB(255, 237, 237, 237);
+      return const LinearGradient(
+        colors: [Colors.white, Color.fromARGB(255, 237, 237, 237)],
+      );
     }
+
     switch (widget.rank) {
       case 1:
-        return goldRank;
+        return LinearGradient(
+          colors: [
+            const Color.fromARGB(220, 253, 216, 53),
+            Colors.yellow.shade100
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        );
       case 2:
-        return silverRank;
+        return LinearGradient(
+          colors: [
+            const Color.fromARGB(255, 152, 152, 152),
+            Colors.grey.shade300
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        );
       case 3:
-        return bronzeRank;
+        return const LinearGradient(
+          colors: [
+            Color.fromARGB(208, 255, 166, 57),
+            Color.fromARGB(223, 255, 209, 140)
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        );
       default:
-        return const Color.fromARGB(255, 237, 237, 237);
+        return LinearGradient(
+          colors: [lightgrey, lightgrey],
+        );
     }
   }
 
@@ -41,13 +69,13 @@ class _RankCardState extends State<RankCard> {
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: BoxDecoration(
-        color: checkColor(),
+        gradient: checkColor(),
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: lightgrey,
             spreadRadius: 2,
-            blurRadius: 5,
+            blurRadius: 3,
             offset: const Offset(0, 3),
           ),
         ],
@@ -59,14 +87,14 @@ class _RankCardState extends State<RankCard> {
             children: [
               Text(
                 "${widget.rank}",
-                style:
-                    const TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: screenWidth / 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 40),
               Container(
                 padding: const EdgeInsets.all(1),
-                width: screenWidth / 17 * 2,
-                height: screenWidth / 17 * 2,
+                width: screenWidth / 20 * 2,
+                height: screenWidth / 20 * 2,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Color.fromARGB(255, 58, 58, 58),
@@ -91,7 +119,7 @@ class _RankCardState extends State<RankCard> {
           Text(
             ' ${widget.details.score}',
             style: const TextStyle(
-                color: Color.fromARGB(255, 77, 77, 77),
+                color: Color.fromARGB(255, 24, 24, 24),
                 fontSize: 20,
                 fontWeight: FontWeight.bold),
           ),
