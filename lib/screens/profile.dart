@@ -96,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       "Score: ${userDetails!.score}",
                       style: TextStyle(
                           fontSize: screenWidth / 18,
-                          color: Color.fromARGB(255, 107, 107, 107)),
+                          color: const Color.fromARGB(255, 107, 107, 107)),
                     ),
                     const Spacer(),
                     ElevatedButton(

@@ -7,7 +7,9 @@ import 'package:wordle/model/Player.dart';
 import 'package:wordle/model/dbRef.dart';
 
 class LeaderboardScreen extends StatefulWidget {
-  const LeaderboardScreen({super.key});
+  const LeaderboardScreen({
+    super.key,
+  });
 
   @override
   State<LeaderboardScreen> createState() => _LeaderboardScreenState();

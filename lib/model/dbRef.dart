@@ -27,7 +27,7 @@ class DatabaseRef {
     }
   }
 
-  Future<int> getFirePfp(User user) async {
+  Future<dynamic> getFirePfp(User user, String choice) async {
     var snapshot =
         await userRef.orderByChild("email").equalTo(user.email).get();
 
@@ -37,7 +37,7 @@ class DatabaseRef {
           Map<String, dynamic>.from(fullMap.values.first);
       print(userData);
 
-      return int.parse(userData['pfp']);
+      return choice == 'pfp' ? int.parse(userData['pfp']) : userData['name'];
     } else {
       return 0;
     }

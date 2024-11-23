@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       imagePickedHome = prefs.getInt('imagePicked') ?? 0;
       if (imagePickedHome == 0) {
-        imagePickedHome = await _userRef.getFirePfp(user!);
+        imagePickedHome = await _userRef.getFirePfp(user!, "pfp");
       }
       setState(() {
         print("Image picked is $imagePickedHome");
@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: screenHeight - appBarHeight - statusBarHeight,
             child: Stack(
               children: [
-                buildFAB(context),
+                buildFAB(context, "chubs"),
                 Align(
                   alignment: Alignment.center,
                   child: Container(child: buildStartButton(context)),
@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget buildFAB(context) {
+Widget buildFAB(context, username) {
   return Padding(
     padding: const EdgeInsets.only(left: 8.0, top: 20),
     child: SizedBox(
