@@ -12,6 +12,7 @@ import 'package:wordle/screens/leaderboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/model/providers/dailyProvider.dart';
+import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       imagePickedHome = prefs.getInt('imagePicked') ?? 0;
       if (imagePickedHome == 0) {
-        imagePickedHome = await Instances.userRef.getFirePfp(user!, "pfp");
+        imagePickedHome = await Instances.userRef.getFirePfp("pfp");
       }
       setState(() {
         print("Image picked is $imagePickedHome");
@@ -92,73 +93,81 @@ class _HomeScreenState extends State<HomeScreen> {
     double appBarHeight = AppBar().preferredSize.height;
     double statusBarHeight = MediaQuery.of(context).padding.top;
     return Consumer<DailyProvider>(
-      builder: (context, dailyProvider, child) => Scaffold(
-        appBar: buildAppBar(context, imagePickedHome),
-        body: RefreshIndicator(
-          onRefresh: onRefreshed,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: SizedBox(
-              height: screenHeight - appBarHeight - statusBarHeight,
-              child: Stack(
-                children: [
-                  buildFAB(context, "chubs"),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(child: buildStartButton(context)),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 20),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (dailyProvider.completed < 3) {
-                            startMadu(context, isChallenge: true);
+        builder: (context, dailyProvider, child) =>
+            Consumer<UserDetailsProvider>(
+              builder: (context, userProvider, child) => Scaffold(
+                appBar: buildAppBar(
+                    context,
+                    userProvider.check == 1
+                        ? userProvider.userDetails!.pfp.toString()
+                        : "0"),
+                body: RefreshIndicator(
+                  onRefresh: onRefreshed,
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: SizedBox(
+                      height: screenHeight - appBarHeight - statusBarHeight,
+                      child: Stack(
+                        children: [
+                          buildFAB(context, "chubs"),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Container(child: buildStartButton(context)),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 20),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  if (dailyProvider.completed < 3) {
+                                    startMadu(context, isChallenge: true);
 
-                            await dailyProvider.incrementDaily();
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: dailyProvider.completed >= 3
-                                ? darkertheme
-                                : dailyGreen,
-                            foregroundColor: white,
-                            fixedSize:
-                                Size(screenWidth / 1.50, screenHeight / 18),
-                            textStyle: TextStyle(
-                              fontSize: screenHeight / 45,
-                              fontWeight: FontWeight.w500,
-                            )),
-                        child: dailyProvider.completed != 5
-                            ? Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      "Daily Challenges ${dailyProvider.completed}/3",
-                                    ),
-                                  ),
-                                  dailyProvider.completed >= 3
-                                      ? const Icon(
-                                          Icons.check,
-                                        )
-                                      : const Icon(Icons.flag),
-                                ],
-                              )
-                            : const CircularProgressIndicator(
-                                color: white,
+                                    await dailyProvider.incrementDaily();
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        dailyProvider.completed >= 3
+                                            ? darkertheme
+                                            : dailyGreen,
+                                    foregroundColor: white,
+                                    fixedSize: Size(
+                                        screenWidth / 1.50, screenHeight / 18),
+                                    textStyle: TextStyle(
+                                      fontSize: screenHeight / 45,
+                                      fontWeight: FontWeight.w500,
+                                    )),
+                                child: dailyProvider.completed != 5
+                                    ? Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              "Daily Challenges ${dailyProvider.completed}/3",
+                                            ),
+                                          ),
+                                          dailyProvider.completed >= 3
+                                              ? const Icon(
+                                                  Icons.check,
+                                                )
+                                              : const Icon(Icons.flag),
+                                        ],
+                                      )
+                                    : const CircularProgressIndicator(
+                                        color: white,
+                                      ),
                               ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
-      ),
-    );
+            ));
   }
 
   Widget buildStartButton(BuildContext context) {

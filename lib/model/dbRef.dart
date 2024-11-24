@@ -4,10 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class DatabaseRef {
   final userRef = FirebaseDatabase.instance.ref("users");
-
-  Future<profileUser?> getUserDetails(User user) async {
+  final user = FirebaseAuth.instance.currentUser;
+  Future<profileUser?> getUserDetails() async {
     var snapshot =
-        await userRef.orderByChild("email").equalTo(user.email).get();
+        await userRef.orderByChild("email").equalTo(user!.email).get();
 
     if (snapshot.exists) {
       Map fullMap = snapshot.value as Map;
@@ -27,9 +27,9 @@ class DatabaseRef {
     }
   }
 
-  Future<dynamic> getFirePfp(User user, String choice) async {
+  Future<dynamic> getFirePfp(String choice) async {
     var snapshot =
-        await userRef.orderByChild("email").equalTo(user.email).get();
+        await userRef.orderByChild("email").equalTo(user!.email).get();
 
     if (snapshot.exists) {
       Map fullMap = snapshot.value as Map;
@@ -43,9 +43,9 @@ class DatabaseRef {
     }
   }
 
-  Future<bool> userDbExists(User user) async {
+  Future<bool> userDbExists() async {
     var snapshot =
-        await userRef.orderByChild("email").equalTo(user.email).get();
+        await userRef.orderByChild("email").equalTo(user!.email).get();
     if (snapshot.exists) {
       return true;
     } else {
@@ -53,8 +53,8 @@ class DatabaseRef {
     }
   }
 
-  Future<void> updateScore(User user, int score) async {
-    final query = userRef.orderByChild("email").equalTo(user.email);
+  Future<void> updateScore(int score) async {
+    final query = userRef.orderByChild("email").equalTo(user!.email);
     final snapshot = await query.get();
 
     if (snapshot.exists) {

@@ -38,7 +38,7 @@ class _WrapperState extends State<Wrapper> {
       return false;
     }
 
-    if (await Instances.userRef.userDbExists(user) == true) {
+    if (await Instances.userRef.userDbExists() == true) {
       print("User does exist");
 
       return true;

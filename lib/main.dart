@@ -5,6 +5,7 @@ import 'package:wordle/screens/home.dart';
 import 'package:provider/provider.dart';
 import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/model/providers/dailyProvider.dart';
+import 'package:wordle/model/providers/userInfoProvider.dart';
 
 void resetDailyTask() {}
 Future<void> main() async {
@@ -30,7 +31,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (context) => Instances(),
         ),
-        ChangeNotifierProvider(create: (context) => DailyProvider())
+        ChangeNotifierProvider(create: (context) => DailyProvider()),
+        ChangeNotifierProvider(create: (context) => UserDetailsProvider())
       ],
       child: MaterialApp(
         initialRoute: '/',

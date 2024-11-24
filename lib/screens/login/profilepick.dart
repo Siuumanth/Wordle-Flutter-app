@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wordle/model/providers/userInfoProvider.dart';
 import '../../model/Player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/wrapper.dart';
 import 'package:wordle/model/providers/instances.dart';
 //error handling neeeded
+import 'package:provider/provider.dart';
 
 class ProfilePicker extends StatefulWidget {
   const ProfilePicker({super.key});
@@ -25,16 +27,9 @@ class _ProfilePickerState extends State<ProfilePicker> {
     });
   }
 
-  Future<void> savePfp(int index) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('imagePicked', index);
-    print("pfp is saved");
-  }
-
   Future<void> getName() async {
     final prefs = await SharedPreferences.getInstance();
     userName = prefs.getString('username');
-    print("The value of the username is $userName");
   }
 
   @override
@@ -43,8 +38,6 @@ class _ProfilePickerState extends State<ProfilePicker> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     Future<void> saveDetailsInFire(int pfp) async {
-      //   print("Email address is " + (user?.email ?? 'No email available'));
-      //   print("Username is ${userName}");
       try {
         final userToSave = profileUser(
           username: userName!,
@@ -52,15 +45,14 @@ class _ProfilePickerState extends State<ProfilePicker> {
           score: 0,
           pfp: pfp.toString(),
         );
-
         await Instances.dbService.rlcreate(userToSave);
-
         final userTrackerSave = userDailyTracker(
             email: user!.email!, lastDatePlayedTime: "", gamesPlayed: 0);
 
         await Instances.dbService.postInitialTracker(userTrackerSave);
+        Provider.of<UserDetailsProvider>(context, listen: false)
+            .saveMapToSharedPreferences(userToSave.toMap());
       } catch (e) {
-        print('Error hogaya');
         print(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -68,7 +60,6 @@ class _ProfilePickerState extends State<ProfilePicker> {
         );
         return;
       }
-      savePfp(pfp);
     }
 
     return Scaffold(

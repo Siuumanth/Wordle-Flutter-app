@@ -156,7 +156,7 @@ class _gameScreenState extends State<gameScreen> {
 
   Future<void> dailyGameWon() async {
     int score = 100 - (currentIndex ~/ 5) * 10;
-    ref.updateScore(user!, score);
+    ref.updateScore(score);
     setState(() {
       over = true;
     });
