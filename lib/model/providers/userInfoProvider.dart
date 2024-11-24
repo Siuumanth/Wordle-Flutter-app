@@ -17,16 +17,20 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
   Future<void> getUserDetails() async {
+    await initializePrefs();
     Map userData = await getDataFromCache();
-    if (userData != null) {
+
+    if (userData.isNotEmpty) {
       userDetails = profileUser(
           username: userData['name'],
           email: userData['email'],
           score: userData['score'],
           pfp: userData['pfp']);
       check = 1;
+      print("Got data from cache");
     } else {
       userDetails = await Instances.userRef.getUserDetails();
+      await saveMapToSharedPreferences(userDetails!.toMap());
       check = 1;
     }
 
@@ -38,14 +42,10 @@ class UserDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getAndCacheInfo() async {
-    if (prefs == null) await initializePrefs();
-    await getDataFromCache();
-    notifyListeners();
-  }
-
   Future<Map<String, dynamic>> getDataFromCache() async {
+    print("Started getting string");
     String? jsonString = prefs!.getString('userData');
+    print("finished getting string");
     if (jsonString == null) {
       return {};
     }
@@ -59,4 +59,17 @@ class UserDetailsProvider extends ChangeNotifier {
 
 //
 //
+
+  Future<void> updateTheScore(int score) async {
+    await Instances.userRef.updateScore(score);
+
+    profileUser? updatedUserDetails = await Instances.userRef.getUserDetails();
+
+    userDetails = updatedUserDetails;
+
+    Map<String, dynamic> updatedData = updatedUserDetails!.toMap();
+    await saveMapToSharedPreferences(updatedData);
+
+    notifyListeners();
+  }
 }

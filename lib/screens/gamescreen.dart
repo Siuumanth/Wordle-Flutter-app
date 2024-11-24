@@ -9,6 +9,7 @@ import 'package:wordle/widgets/RuleBox.dart';
 import 'package:wordle/widgets/DialogLoss.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/model/dbRef.dart';
+import 'package:wordle/model/providers/instances.dart';
 
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;
@@ -156,7 +157,7 @@ class _gameScreenState extends State<gameScreen> {
 
   Future<void> dailyGameWon() async {
     int score = 100 - (currentIndex ~/ 5) * 10;
-    ref.updateScore(score);
+    Instances.userRef.updateScore(score);
     setState(() {
       over = true;
     });
@@ -202,8 +203,6 @@ class _gameScreenState extends State<gameScreen> {
       istop += 5;
       currentIndex = istart;
     });
-    print(
-        "continueGame - istart: $istart, istop: $istop, currentIndex: $currentIndex");
   }
 
   Future<void> checkTheWord() async {

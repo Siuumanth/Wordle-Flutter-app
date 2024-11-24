@@ -48,10 +48,6 @@ class _ProfilePickerState extends State<ProfilePicker> {
         await Instances.dbService.rlcreate(userToSave);
         final userTrackerSave = userDailyTracker(
             email: user!.email!, lastDatePlayedTime: "", gamesPlayed: 0);
-
-        await Instances.dbService.postInitialTracker(userTrackerSave);
-        Provider.of<UserDetailsProvider>(context, listen: false)
-            .saveMapToSharedPreferences(userToSave.toMap());
       } catch (e) {
         print(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(

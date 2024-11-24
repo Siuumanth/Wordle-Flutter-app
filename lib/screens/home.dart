@@ -49,25 +49,10 @@ void popMadu(context) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Future<void> getPFP() async {
-    final prefs = await SharedPreferences.getInstance();
-    try {
-      imagePickedHome = prefs.getInt('imagePicked') ?? 0;
-      if (imagePickedHome == 0) {
-        imagePickedHome = await Instances.userRef.getFirePfp("pfp");
-      }
-      setState(() {
-        print("Image picked is $imagePickedHome");
-      });
-    } catch (e) {
-      print("Error retrieving profile image: $e");
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    getPFP();
+
     Provider.of<DailyProvider>(context, listen: false).getDailyChallenges();
     refreshDaily();
   }
@@ -230,8 +215,10 @@ AppBar buildAppBar(context, imagePicked) {
     backgroundColor: theme,
     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       GestureDetector(
-          onTap: () {
-            Instances.userRef.getLeaderBoard();
+          onTap: () async {
+            await SharedPreferences.getInstance()
+                .then((prefs) => prefs.clear());
+            print("shared pref cleared");
           },
           child: const Icon(Icons.menu, color: grey, size: 30)),
       const Text(
