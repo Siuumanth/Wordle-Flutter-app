@@ -14,13 +14,13 @@ class LeaderboardScreen extends StatefulWidget {
   @override
   State<LeaderboardScreen> createState() => _LeaderboardScreenState();
 }
-
+/*
 List<leaderBoardDetails> leaderboard = [
   leaderBoardDetails(username: 'Alice', score: 800, pfp: "5"),
   leaderBoardDetails(username: 'Bob', score: 1500, pfp: "2"),
   leaderBoardDetails(username: 'Charlie', score: 900, pfp: "6"),
   leaderBoardDetails(username: 'bruh', score: 70, pfp: "6"),
-];
+];*/
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
   List<int> scoreToIndex = [];
