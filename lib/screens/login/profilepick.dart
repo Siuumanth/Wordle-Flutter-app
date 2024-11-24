@@ -138,7 +138,7 @@ class _ProfilePickerState extends State<ProfilePicker> {
               child: const Text(
                 'Confirm',
                 style: TextStyle(
-                    color: white, fontSize: 20, fontWeight: FontWeight.w500),
+                    color: white, fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ),
           ),
