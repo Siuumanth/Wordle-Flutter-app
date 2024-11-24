@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types
 /*
 import 'package:flutter/material.dart';
-import 'package:wordle/constants.dart';
+import 'package:wordle/constants/constants.dart';
 
 class gameScreen extends StatefulWidget {
   final String word;

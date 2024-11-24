@@ -1,7 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
-import 'package:wordle/constants.dart';
+import 'package:wordle/constants/constants.dart';
 import 'package:wordle/model/Player.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

@@ -1,6 +1,6 @@
 //import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:wordle/constants.dart';
+import 'package:wordle/constants/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';
 import 'dart:math';
 import 'package:flutter/services.dart' show rootBundle;
@@ -11,6 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/screens/leaderboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/model/providers/instances.dart';
+import 'package:wordle/model/providers/dailyProvider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,7 +37,6 @@ Future<void> startMadu(context, {bool isChallenge = false}) async {
 
   await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => gameScreen(
-          gameNo: completed + 1,
           word: finalWord,
           isChallenge: isChallenge,
           restart: () => startMadu(context, isChallenge: isChallenge),
@@ -62,23 +63,11 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<void> getDailyChallenges() async {
-    try {
-      int temp = await Instances.userTracker.getGamesCompleted(user!);
-
-      setState(() {
-        completed = temp;
-      });
-    } catch (e) {
-      print("Error retrieving profile image: $e");
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     getPFP();
-    getDailyChallenges();
+    Provider.of<DailyProvider>(context, listen: false).getDailyChallenges();
     refreshDaily();
   }
 
@@ -93,8 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> onRefreshed() async {
-    getDailyChallenges();
-    print("Refreshed");
+    Provider.of<DailyProvider>(context, listen: false).getDailyChallenges();
   }
 
   @override
@@ -103,60 +91,69 @@ class _HomeScreenState extends State<HomeScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     double appBarHeight = AppBar().preferredSize.height;
     double statusBarHeight = MediaQuery.of(context).padding.top;
-    return Scaffold(
-      appBar: buildAppBar(context, imagePickedHome),
-      body: RefreshIndicator(
-        onRefresh: onRefreshed,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: SizedBox(
-            height: screenHeight - appBarHeight - statusBarHeight,
-            child: Stack(
-              children: [
-                buildFAB(context, "chubs"),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(child: buildStartButton(context)),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 20),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (completed < 3) {
-                          startMadu(context, isChallenge: true);
-                        } else {}
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              completed >= 3 ? darkertheme : dailyGreen,
-                          foregroundColor: white,
-                          fixedSize:
-                              Size(screenWidth / 1.50, screenHeight / 18),
-                          textStyle: TextStyle(
-                            fontSize: screenHeight / 45,
-                            fontWeight: FontWeight.w500,
-                          )),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Daily Challenges $completed/3",
-                            ),
-                          ),
-                          completed >= 3
-                              ? const Icon(
-                                  Icons.check,
-                                )
-                              : const Icon(Icons.flag),
-                        ],
+    return Consumer<DailyProvider>(
+      builder: (context, dailyProvider, child) => Scaffold(
+        appBar: buildAppBar(context, imagePickedHome),
+        body: RefreshIndicator(
+          onRefresh: onRefreshed,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SizedBox(
+              height: screenHeight - appBarHeight - statusBarHeight,
+              child: Stack(
+                children: [
+                  buildFAB(context, "chubs"),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(child: buildStartButton(context)),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 20),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (dailyProvider.completed < 3) {
+                            startMadu(context, isChallenge: true);
+
+                            await dailyProvider.incrementDaily();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: dailyProvider.completed >= 3
+                                ? darkertheme
+                                : dailyGreen,
+                            foregroundColor: white,
+                            fixedSize:
+                                Size(screenWidth / 1.50, screenHeight / 18),
+                            textStyle: TextStyle(
+                              fontSize: screenHeight / 45,
+                              fontWeight: FontWeight.w500,
+                            )),
+                        child: dailyProvider.completed != 5
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "Daily Challenges ${dailyProvider.completed}/3",
+                                    ),
+                                  ),
+                                  dailyProvider.completed >= 3
+                                      ? const Icon(
+                                          Icons.check,
+                                        )
+                                      : const Icon(Icons.flag),
+                                ],
+                              )
+                            : const CircularProgressIndicator(
+                                color: white,
+                              ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

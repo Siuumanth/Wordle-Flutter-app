@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wordle/constants.dart';
+import 'package:wordle/constants/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../model/Player.dart';
 import 'package:shared_preferences/shared_preferences.dart';

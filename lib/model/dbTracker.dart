@@ -5,8 +5,8 @@ class DailyTracker {
   final tracker = FirebaseDatabase.instance.ref("dailyTracker");
   final user = FirebaseAuth.instance.currentUser;
 
-  Future<void> updateTracker(User user, int gameNo) async {
-    final query = tracker.orderByChild("email").equalTo(user.email);
+  Future<void> updateTracker(int gameNo) async {
+    final query = tracker.orderByChild("email").equalTo(user!.email);
     final snapshot = await query.get();
 
     if (snapshot.exists) {
@@ -105,9 +105,9 @@ class DailyTracker {
     }
   }
 
-  Future<int> getGamesCompleted(User user) async {
+  Future<int> getGamesCompleted() async {
     var snapshot =
-        await tracker.orderByChild("email").equalTo(user.email).get();
+        await tracker.orderByChild("email").equalTo(user!.email).get();
 
     if (snapshot.exists) {
       Map fullMap = snapshot.value as Map;

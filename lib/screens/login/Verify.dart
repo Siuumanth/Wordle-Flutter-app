@@ -4,7 +4,7 @@ import 'package:wordle/screens/login/SignUp.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'dart:async';
 import 'package:wordle/wrapper.dart';
-import 'package:wordle/constants.dart';
+import 'package:wordle/constants/constants.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({super.key});

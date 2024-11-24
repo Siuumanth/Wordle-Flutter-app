@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:wordle/constants.dart';
+import 'package:wordle/constants/constants.dart';
 import 'package:wordle/widgets/RankCard.dart';
 import 'package:wordle/model/Player.dart';
 import 'package:wordle/model/providers/instances.dart';
