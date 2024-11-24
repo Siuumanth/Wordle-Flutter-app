@@ -52,9 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
-    Provider.of<DailyProvider>(context, listen: false).getDailyChallenges();
     refreshDaily();
+    Provider.of<DailyProvider>(context, listen: false).getDailyChallenges();
   }
 
   void changeDailyColor() {
@@ -64,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> refreshDaily() async {
+    print("Refreshing and updating");
     Instances.userTracker.updateEveryday();
   }
 

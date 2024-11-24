@@ -49,9 +49,10 @@ class DailyTracker {
       Map fullMap = snapshot.value as Map;
       Map<String, dynamic> userData =
           Map<String, dynamic>.from(fullMap.values.first);
-      print(userData);
-
       temp = userData['lastDateTime'];
+      if (temp == "") {
+        return;
+      }
     } else {
       return;
     }
@@ -113,6 +114,7 @@ class DailyTracker {
       Map fullMap = snapshot.value as Map;
       Map<String, dynamic> userData =
           Map<String, dynamic>.from(fullMap.values.first);
+      print("Getting daily challenges");
       print(userData);
       print("Games played : ${userData['gamesPlayed']}");
       return userData['gamesPlayed'];

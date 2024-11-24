@@ -1,7 +1,9 @@
 // ignore_for_file: camel_case_types
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
+
 import 'package:wordle/model/dbTracker.dart';
+import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:wordle/widgets/DialogWin.dart';
 import 'package:wordle/widgets/keyboard.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -9,7 +11,8 @@ import 'package:wordle/widgets/RuleBox.dart';
 import 'package:wordle/widgets/DialogLoss.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/model/dbRef.dart';
-import 'package:wordle/model/providers/instances.dart';
+//import 'package:wordle/model/providers/instances.dart';
+import 'package:provider/provider.dart';
 
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;
@@ -157,7 +160,9 @@ class _gameScreenState extends State<gameScreen> {
 
   Future<void> dailyGameWon() async {
     int score = 100 - (currentIndex ~/ 5) * 10;
-    Instances.userRef.updateScore(score);
+    Provider.of<UserDetailsProvider>(context, listen: false)
+        .updateTheScore(score);
+    print("Score is updated");
     setState(() {
       over = true;
     });

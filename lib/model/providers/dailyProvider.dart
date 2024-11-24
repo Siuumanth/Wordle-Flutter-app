@@ -6,6 +6,7 @@ class DailyProvider extends ChangeNotifier {
   int completed = 5;
 
   Future<void> getDailyChallenges() async {
+    print("Getting daily challenges");
     int temp = await Instances.userTracker.getGamesCompleted();
     completed = temp;
     notifyListeners();

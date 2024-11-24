@@ -87,7 +87,7 @@ class _SignUpState extends State<SignUp> {
                       color: grey,
                       size: 30,
                     ),
-                    "Password",
+                    "Set password",
                     0,
                     TextInputType.visiblePassword),
                 const SizedBox(

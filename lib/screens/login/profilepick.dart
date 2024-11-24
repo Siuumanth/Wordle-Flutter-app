@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:wordle/model/providers/userInfoProvider.dart';
+//import 'package:wordle/model/providers/userInfoProvider.dart';
 import '../../model/Player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/wrapper.dart';
 import 'package:wordle/model/providers/instances.dart';
 //error handling neeeded
-import 'package:provider/provider.dart';
 
 class ProfilePicker extends StatefulWidget {
   const ProfilePicker({super.key});
@@ -48,6 +47,10 @@ class _ProfilePickerState extends State<ProfilePicker> {
         await Instances.dbService.rlcreate(userToSave);
         final userTrackerSave = userDailyTracker(
             email: user!.email!, lastDatePlayedTime: "", gamesPlayed: 0);
+
+        await Instances.dbService.postInitialTracker(userTrackerSave);
+        /* Provider.of<UserDetailsProvider>(context, listen: false)
+            .saveMapToSharedPreferences(userToSave.toMap());*/
       } catch (e) {
         print(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(
