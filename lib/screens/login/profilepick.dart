@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../model/dbService.dart';
 import '../../model/Player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/wrapper.dart';
-
+import 'package:wordle/model/providers/instances.dart';
 //error handling neeeded
 
 class ProfilePicker extends StatefulWidget {
@@ -19,7 +18,6 @@ class _ProfilePickerState extends State<ProfilePicker> {
   final user = FirebaseAuth.instance.currentUser;
   String? userName;
   int _selectedProfileIndex = 1;
-  final dbService = DatabaseService();
 
   void _selectProfile(int index) {
     setState(() {
@@ -55,12 +53,12 @@ class _ProfilePickerState extends State<ProfilePicker> {
           pfp: pfp.toString(),
         );
 
-        await dbService.rlcreate(userToSave);
+        await Instances.dbService.rlcreate(userToSave);
 
         final userTrackerSave = userDailyTracker(
             email: user!.email!, lastDatePlayedTime: "", gamesPlayed: 0);
 
-        await dbService.postInitialTracker(userTrackerSave);
+        await Instances.dbService.postInitialTracker(userTrackerSave);
       } catch (e) {
         print('Error hogaya');
         print(e.toString());
@@ -129,11 +127,14 @@ class _ProfilePickerState extends State<ProfilePicker> {
               onPressed: () async {
                 await getName();
                 saveDetailsInFire(_selectedProfileIndex);
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Wrapper()),
-                  (Route<dynamic> route) => false,
-                );
+                if (mounted) {
+                  // Ensure widget is still mounted before using context
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Wrapper()),
+                    (Route<dynamic> route) => false,
+                  );
+                }
               },
               child: const Text(
                 'Confirm',

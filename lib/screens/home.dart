@@ -10,8 +10,7 @@ import 'package:wordle/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/screens/leaderboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wordle/model/dbRef.dart';
-import 'package:wordle/model/dbTracker.dart';
+import 'package:wordle/model/providers/instances.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 final user = FirebaseAuth.instance.currentUser;
 int imagePickedHome = 0;
 Color dailyColor = dailyGreen;
-final _userRef = DatabaseRef();
+
 int completed = 0;
 
 Future<void> startMadu(context, {bool isChallenge = false}) async {
@@ -48,14 +47,12 @@ void popMadu(context) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final trackerRef = DailyTracker();
-
   Future<void> getPFP() async {
     final prefs = await SharedPreferences.getInstance();
     try {
       imagePickedHome = prefs.getInt('imagePicked') ?? 0;
       if (imagePickedHome == 0) {
-        imagePickedHome = await _userRef.getFirePfp(user!, "pfp");
+        imagePickedHome = await Instances.userRef.getFirePfp(user!, "pfp");
       }
       setState(() {
         print("Image picked is $imagePickedHome");
@@ -67,8 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> getDailyChallenges() async {
     try {
-      final trackerRef = DailyTracker();
-      int temp = await trackerRef.getGamesCompleted(user!);
+      int temp = await Instances.userTracker.getGamesCompleted(user!);
 
       setState(() {
         completed = temp;
@@ -93,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> refreshDaily() async {
-    trackerRef.updateEveryday();
+    Instances.userTracker.updateEveryday();
   }
 
   Future<void> onRefreshed() async {
@@ -130,9 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         if (completed < 3) {
                           startMadu(context, isChallenge: true);
-                        } else {
-                          print("max games played");
-                        }
+                        } else {}
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
@@ -231,7 +225,7 @@ AppBar buildAppBar(context, imagePicked) {
     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       GestureDetector(
           onTap: () {
-            _userRef.getLeaderBoard();
+            Instances.userRef.getLeaderBoard();
           },
           child: const Icon(Icons.menu, color: grey, size: 30)),
       const Text(

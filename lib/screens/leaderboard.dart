@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wordle/constants.dart';
 import 'package:wordle/widgets/RankCard.dart';
 import 'package:wordle/model/Player.dart';
-import 'package:wordle/model/dbRef.dart';
+import 'package:wordle/model/providers/instances.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({
@@ -24,7 +24,7 @@ List<leaderBoardDetails> leaderboard = [
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
   List<int> scoreToIndex = [];
-  final _userRef = DatabaseRef();
+
   List<leaderBoardDetails> leaderboard = [];
 
   void insertionSort() {
@@ -56,7 +56,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   }
 
   Future<void> getLeaderboardLocal() async {
-    leaderboard = await _userRef.getLeaderBoard();
+    leaderboard = await Instances.userRef.getLeaderBoard();
     print("Leaderboard fetched.");
   }
 

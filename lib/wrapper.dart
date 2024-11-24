@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/screens/home.dart';
 import 'package:wordle/screens/login/login.dart';
 import 'package:wordle/screens/login/Verify.dart';
 import 'package:wordle/screens/login/profilepick.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wordle/model/dbRef.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});
@@ -37,9 +37,8 @@ class _WrapperState extends State<Wrapper> {
       print("User does not exist");
       return false;
     }
-    final userRef = DatabaseRef();
 
-    if (await userRef.userDbExists(user) == true) {
+    if (await Instances.userRef.userDbExists(user) == true) {
       print("User does exist");
 
       return true;

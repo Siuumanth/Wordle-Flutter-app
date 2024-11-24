@@ -4,8 +4,8 @@ import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/main.dart';
-import 'package:wordle/model/dbRef.dart';
 import 'package:wordle/model/Player.dart';
+import 'package:wordle/model/providers/instances.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -16,7 +16,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool loaded = false;
-  final _userRef = DatabaseRef();
+
   final _auth = AuthService();
   final user = FirebaseAuth.instance.currentUser;
   late profileUser? userDetails;
@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> getProfileDetails() async {
     print("starting getting");
-    userDetails = await _userRef.getUserDetails(user!);
+    userDetails = await Instances.userRef.getUserDetails(user!);
 
     setState(() {
       loaded = true;
