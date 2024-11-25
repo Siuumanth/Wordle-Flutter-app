@@ -9,11 +9,12 @@ import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/screens/leaderboard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/model/providers/dailyProvider.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:wordle/util/ShowNoti.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> refreshDaily() async {
     print("Refreshing and updating");
-    Instances.userTracker.updateEveryday();
+    await Instances.userTracker.updateEveryday();
   }
 
   Future<void> onRefreshed() async {
@@ -216,9 +217,7 @@ AppBar buildAppBar(context, imagePicked) {
     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       GestureDetector(
           onTap: () async {
-            await SharedPreferences.getInstance()
-                .then((prefs) => prefs.clear());
-            print("shared pref cleared");
+            showTopMessage(context, "You have pressed", Colors.blue, white);
           },
           child: const Icon(Icons.menu, color: grey, size: 30)),
       const Text(

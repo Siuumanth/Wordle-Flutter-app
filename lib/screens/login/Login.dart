@@ -5,6 +5,7 @@ import 'package:wordle/screens/login/SignUp.dart';
 //import 'package:wordle/screens/login/SignUp.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:wordle/wrapper.dart';
+import 'package:wordle/util/ShowNoti.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -158,7 +159,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (user != null) {
       print("User logged in successfully");
-      // Navigate to the Wrapper screen, which will handle further redirection
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const Wrapper()),
         (Route<dynamic> route) => false, // Removes all previous routes

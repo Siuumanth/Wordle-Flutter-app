@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wordle/main.dart';
+import 'package:wordle/util/ShowNoti.dart';
+import 'package:wordle/constants/constants.dart';
 
 class AuthService {
   final _auth = FirebaseAuth.instance;
@@ -57,17 +60,23 @@ class AuthService {
 //error handling
 // common auth exceptions for firebase
 exceptionhandler(String code) {
+  final context = navigatorKey.currentState!.context;
   switch (code) {
     case "invalid-credential":
-      print("invalid login credential");
-
+      print("staretd displaying invalid cred");
+      showTopMessage(
+          context, "Invalid login credentials, please try again", red, white);
+      break;
     case "weak-password":
       print("Your password must be atleast 8 characters");
+      break;
 
     case "email-already-in-use":
       print("User already exists");
+      break;
 
     default:
       print("Something went wrong");
+      break;
   }
 }

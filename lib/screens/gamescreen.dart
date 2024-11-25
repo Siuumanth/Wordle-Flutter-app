@@ -4,15 +4,16 @@ import 'package:wordle/constants/constants.dart';
 
 import 'package:wordle/model/dbTracker.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
-import 'package:wordle/widgets/DialogWin.dart';
-import 'package:wordle/widgets/keyboard.dart';
+import 'package:wordle/util/DialogWin.dart';
+import 'package:wordle/util/keyboard.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:wordle/widgets/RuleBox.dart';
-import 'package:wordle/widgets/DialogLoss.dart';
+import 'package:wordle/util/RuleBox.dart';
+import 'package:wordle/util/DialogLoss.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/model/dbRef.dart';
 //import 'package:wordle/model/providers/instances.dart';
 import 'package:provider/provider.dart';
+import 'package:wordle/util/ShowNoti.dart';
 
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;
@@ -126,7 +127,8 @@ class _gameScreenState extends State<gameScreen> {
     List<String> correctAlphaList = widget.word.split('');
     int checker = binarySearch(word);
     if (checker == -1) {
-      showSnackBar("Word doesn't exist, try again");
+      showTopMessage(
+          context, "Word doesn't exist, please try again", darkertheme, white);
       return;
     }
     for (int i = 0; i < 5; i++) {

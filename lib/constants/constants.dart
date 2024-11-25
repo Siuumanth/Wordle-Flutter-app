@@ -25,3 +25,5 @@ Color lightgrey = Colors.grey.withOpacity(0.5);
 
 const Color dailyGreen = Color.fromARGB(255, 78, 187, 94);
 const Color dailyTheme = Color.fromARGB(183, 98, 247, 185);
+
+const Color red = Colors.red;

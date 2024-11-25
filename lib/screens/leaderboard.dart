@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
-import 'package:wordle/widgets/RankCard.dart';
+import 'package:wordle/util/RankCard.dart';
 import 'package:wordle/model/Player.dart';
 import 'package:wordle/model/providers/instances.dart';
 
@@ -113,7 +113,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                 child: Text(
                                   "Loading leaderboard...",
                                   style: TextStyle(
-                                      color: darkerertheme, fontSize: 16),
+                                      color: darkerertheme, fontSize: 20),
                                 ),
                               )
                             : ListView.builder(
