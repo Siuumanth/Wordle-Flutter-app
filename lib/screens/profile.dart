@@ -82,15 +82,29 @@ class _ProfilePageState extends State<ProfilePage> {
                 const Text(
                   "Your rank is",
                   style: TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.w400, color: black),
+                      fontSize: 25,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black),
                 ),
                 Stack(
+                  alignment: Alignment.center,
                   children: [
-                    const Icon(Icons.tornado_outlined),
+                    Image.asset(
+                      'assets/profiles/1.png',
+                      width: 100,
+                      height: 100,
+                    ),
                     Text(
                       "1",
-                      style: TextStyle(fontSize: screenHeight / 8),
-                    ),
+                      style: TextStyle(
+                        fontSize: 55,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .color, // Match text color with the badge theme
+                      ),
+                    )
                   ],
                 ),
                 const SizedBox(height: 5),
@@ -145,6 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
 AppBar buildAppBar(context) {
   return AppBar(
+    iconTheme: const IconThemeData(color: darkModedark),
     backgroundColor: theme,
     title: const Text(
       "Profile",

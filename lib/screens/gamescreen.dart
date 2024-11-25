@@ -14,6 +14,7 @@ import 'package:wordle/model/dbRef.dart';
 //import 'package:wordle/model/providers/instances.dart';
 import 'package:provider/provider.dart';
 import 'package:wordle/util/ShowNoti.dart';
+import 'package:wordle/constants/theme.dart';
 
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;
@@ -218,21 +219,6 @@ class _gameScreenState extends State<gameScreen> {
     await checkLetters(wordList.join(''), wordList);
   }
 
-  void showSnackBar(String snackText) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          snackText,
-          style: const TextStyle(color: grey),
-        ),
-        backgroundColor: white,
-        dismissDirection: DismissDirection.horizontal,
-        showCloseIcon: true,
-        elevation: 2,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -246,6 +232,7 @@ class _gameScreenState extends State<gameScreen> {
       body: Container(
         padding: const EdgeInsets.only(top: 20),
         color: white,
+        //Theme.of(context).scaffoldBackgroundColor
         child: Column(
           children: [
             Expanded(
@@ -360,6 +347,8 @@ class GameBoxState extends State<GameBox> {
 AppBar gameAppBar(
     BuildContext context, String word, restart, popmethod, bool isChallenge) {
   return AppBar(
+    iconTheme:
+        IconThemeData(color: Theme.of(context).textTheme.bodyMedium!.color),
     backgroundColor: white,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -367,8 +356,10 @@ AppBar gameAppBar(
         const Text(""),
         Text(
           isChallenge ? 'Daily Challenge' : 'Wordle ',
-          style: const TextStyle(
-              fontWeight: FontWeight.w600, color: black, fontSize: 24),
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).textTheme.bodyMedium!.color,
+              fontSize: 24),
         ),
         Container(
           height: 50,

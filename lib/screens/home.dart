@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return false;
     }
 
-    return false; // No internet access
+    return false;
   }
 
   @override
@@ -227,13 +227,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   drawer: Drawer(
                     child: ListView(
                       children: [
-                        const DrawerHeader(
-                          decoration: BoxDecoration(color: theme),
+                        DrawerHeader(
+                          decoration: const BoxDecoration(color: theme),
                           child: Center(
                             child: Text(
                               "Settings",
                               style: TextStyle(
-                                fontSize: 24,
+                                fontSize: screenWidth / 13,
                                 color: darkModedark,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -241,16 +241,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         ListTile(
-                          leading: const Icon(
+                          leading: Icon(
                             Icons.dark_mode,
-                            color: darkModedark,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium!.color,
                           ),
                           title: const Text('Toggle Dark Mode'),
                           onTap: () {
-                            // Toggle the theme
                             Provider.of<ThemeProvider>(context, listen: false)
                                 .toggleTheme();
-                            // Close the drawer
+
                             Navigator.of(context).pop();
                           },
                         ),
@@ -267,11 +267,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final user = FirebaseAuth.instance.currentUser;
 
     return AppBar(
+      iconTheme: const IconThemeData(color: darkModebg),
       backgroundColor: theme,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Spacer(),
+          const Spacer(),
           Text(
             'WORDLE  ',
             style: TextStyle(
