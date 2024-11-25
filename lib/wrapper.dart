@@ -4,8 +4,6 @@ import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/screens/home.dart';
 import 'package:wordle/screens/login/login.dart';
 import 'package:wordle/screens/login/Verify.dart';
-import 'package:wordle/screens/login/profilepick.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});
@@ -20,9 +18,12 @@ class _WrapperState extends State<Wrapper> {
   bool profileExists = false;
 
   Future<void> _reloadUser() async {
-    print("Reloading");
-    await FirebaseAuth.instance.currentUser?.reload();
-    print("Reloading done");
+    print("reloading wrapper");
+    try {
+      await FirebaseAuth.instance.currentUser?.reload();
+    } catch (e) {
+      print("User is offline");
+    }
   }
 
   Future<bool> _checkProfileExistsFire() async {
