@@ -75,16 +75,24 @@ class DatabaseRef {
   Future<List<leaderBoardDetails>> getLeaderBoard() async {
     var snapshot = await userRef.orderByChild("score").get();
     List<leaderBoardDetails> leaderBoardList = [];
-    if (snapshot.exists) {
-      Map fullMap = snapshot.value as Map;
-
-      fullMap.forEach((key, value) {
-        leaderBoardDetails temp = leaderBoardDetails(
-            pfp: value['pfp'], username: value['name'], score: value['score']);
-        leaderBoardList.add(temp);
-      });
-      print(leaderBoardList);
+    try {
+      if (snapshot.exists) {
+        Map fullMap = snapshot.value as Map;
+        print(fullMap);
+        fullMap.forEach((key, value) {
+          leaderBoardDetails temp = leaderBoardDetails(
+              pfp: value['pfp'],
+              username: value['name'],
+              score: value['score']);
+          leaderBoardList.add(temp);
+        });
+        print(leaderBoardList);
+      }
+    } catch (e) {
+      print("leaderboard cannot be fetched");
+      print(e.toString());
     }
+
     return leaderBoardList;
   }
 }

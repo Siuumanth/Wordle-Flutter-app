@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/main.dart';
 
 void showTopMessage(
     BuildContext context, String message, Color boxColor, Color textColor) {
-  final overlay = Overlay.of(context);
+  final overlay = navigatorKey.currentState?.overlay;
   late OverlayEntry overlayEntry;
 
   overlayEntry = OverlayEntry(
@@ -42,11 +43,10 @@ void showTopMessage(
     ),
   );
 
-  // Insert the overlay entry
-  overlay.insert(overlayEntry);
+  overlay!.insert(overlayEntry);
 
-  // Auto-dismiss after 3 seconds
-  Future.delayed(Duration(seconds: 3), () {
+  // Auto-remove the overlay after 3 seconds
+  Future.delayed(const Duration(seconds: 3), () {
     overlayEntry.remove();
   });
 }

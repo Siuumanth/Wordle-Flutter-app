@@ -113,7 +113,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.only(left: 20, right: 20)),
                     onPressed: () {
-                      loginuser();
+                      try {
+                        loginuser();
+                      } catch (e) {
+                        showTopMessage(
+                            context, "Invalid email format", red, white);
+                      }
                     },
                     child: const Center(
                       child: Text(
@@ -163,6 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const Wrapper()),
         (Route<dynamic> route) => false, // Removes all previous routes
       );
+      showTopMessage(context, "Successfully logged in", darkertheme, white);
     }
   }
 }

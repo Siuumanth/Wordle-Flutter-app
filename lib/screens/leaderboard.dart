@@ -51,18 +51,21 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         }
       }
     }
-    print(scoreToIndex);
-    print("Insertion sort complete.");
+    // print(scoreToIndex);
   }
 
+////
   Future<void> getLeaderboardLocal() async {
     leaderboard = await Instances.userRef.getLeaderBoard();
     print("Leaderboard fetched.");
   }
 
   Future<void> fetchAndSortLeaderboard() async {
+    print("Getting leaderboard");
     await getLeaderboardLocal();
+    print("Leaderboard got");
     insertionSort();
+    print("Insertion sort done");
     setState(() {});
   }
 

@@ -10,7 +10,7 @@ const Color white = Color.fromARGB(255, 255, 255, 255);
 const Color black = Color.fromARGB(255, 0, 0, 0);
 
 const Color boxGreen = Color.fromARGB(255, 78, 187, 94);
-const Color boxYellow = Color.fromARGB(255, 206, 206, 36);
+const Color boxYellow = Color.fromARGB(255, 226, 226, 30);
 const Color boxGrey = Color(0xff444242);
 
 const Color kbgrey = Color.fromARGB(255, 224, 224, 224);

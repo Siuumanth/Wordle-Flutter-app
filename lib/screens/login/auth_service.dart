@@ -68,15 +68,18 @@ exceptionhandler(String code) {
           context, "Invalid login credentials, please try again", red, white);
       break;
     case "weak-password":
-      print("Your password must be atleast 8 characters");
+      showTopMessage(
+          context, "Password must be atleast 8 characters", red, white);
       break;
 
     case "email-already-in-use":
-      print("User already exists");
+      showTopMessage(context, "Email already exists, please login to continue",
+          red, white);
       break;
 
     default:
-      print("Something went wrong");
+      showTopMessage(
+          context, "Something went wrong, please try again", red, white);
       break;
   }
 }

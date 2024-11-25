@@ -129,7 +129,9 @@ class _SignUpState extends State<SignUp> {
                         backgroundColor: darktheme,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.only(left: 45, right: 45)),
-                    onPressed: _signup,
+                    onPressed: () {
+                      _signup();
+                    },
                     child: Center(
                       child: Text(
                         verify,
@@ -180,11 +182,12 @@ class _SignUpState extends State<SignUp> {
         emailController.text, passController.text);
     print("stop");
     if (user != null) {
-      print("User created Successfully");
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const Wrapper()),
         (Route<dynamic> route) => false,
       );
+    } else {
+      return null;
     }
     saveName();
     return null;
@@ -230,7 +233,7 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
         prefixIconConstraints:
             const BoxConstraints(maxHeight: 15, minWidth: 50),
       ),
-      maxLength: max > 0 ? max : null,
+      maxLength: hintext == "Username" ? 10 : null,
       keyboardType: inputType,
     ),
   );

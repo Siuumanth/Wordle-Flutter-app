@@ -86,9 +86,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontWeight: FontWeight.w400,
                       color: Color.fromARGB(211, 31, 31, 31)),
                 ),
-                Text(
-                  "1",
-                  style: TextStyle(fontSize: screenHeight / 8),
+                Stack(
+                  children: [
+                    const Icon(Icons.tornado_outlined),
+                    Text(
+                      "1",
+                      style: TextStyle(fontSize: screenHeight / 8),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 5),
                 Text(
