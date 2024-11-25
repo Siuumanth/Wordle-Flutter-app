@@ -27,3 +27,6 @@ const Color dailyGreen = Color.fromARGB(255, 78, 187, 94);
 const Color dailyTheme = Color.fromARGB(183, 98, 247, 185);
 
 const Color red = Colors.red;
+
+const Color darkModedark = Color.fromARGB(195, 25, 25, 25);
+const Color darkModebg = Color.fromARGB(195, 34, 34, 34);

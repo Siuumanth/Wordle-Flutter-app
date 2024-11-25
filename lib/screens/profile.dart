@@ -82,9 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const Text(
                   "Your rank is",
                   style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromARGB(211, 31, 31, 31)),
+                      fontSize: 25, fontWeight: FontWeight.w400, color: black),
                 ),
                 Stack(
                   children: [
@@ -98,9 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 5),
                 Text(
                   "Score: ${userData.userDetails!.score}",
-                  style: TextStyle(
-                      fontSize: screenWidth / 18,
-                      color: const Color.fromARGB(255, 107, 107, 107)),
+                  style: TextStyle(fontSize: screenWidth / 18, color: black),
                 ),
                 const Spacer(),
                 ElevatedButton(
@@ -152,7 +148,8 @@ AppBar buildAppBar(context) {
     backgroundColor: theme,
     title: const Text(
       "Profile",
-      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+      style: TextStyle(
+          fontWeight: FontWeight.w500, fontSize: 25, color: darkModedark),
     ),
   );
 }

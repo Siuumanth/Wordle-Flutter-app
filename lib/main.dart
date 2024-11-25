@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/model/providers/dailyProvider.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
+import 'constants/theme.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -33,21 +34,23 @@ class _MyAppState extends State<MyApp> {
           create: (context) => Instances(),
         ),
         ChangeNotifierProvider(create: (context) => DailyProvider()),
-        ChangeNotifierProvider(create: (context) => UserDetailsProvider())
+        ChangeNotifierProvider(create: (context) => UserDetailsProvider()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider())
       ],
-      child: MaterialApp(
-        navigatorKey: navigatorKey,
-        initialRoute: '/',
-        routes: {
-          '/home': (context) => const HomeScreen(),
-        },
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) => MaterialApp(
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          navigatorKey: navigatorKey,
+          themeMode: themeProvider.themeMode,
+          initialRoute: '/',
+          routes: {
+            '/home': (context) => const HomeScreen(),
+          },
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          home: const Wrapper(),
         ),
-        home: const Wrapper(),
       ),
     );
   }

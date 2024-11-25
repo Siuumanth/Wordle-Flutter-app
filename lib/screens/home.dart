@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:wordle/util/ShowNoti.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:wordle/constants/theme.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -56,7 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
   bool online = false;
   bool isLoading = true; // To track loading state
   Color buttonColor = greyLessO;
+
   // Checks internet connectivity and verifies if the internet is available.
+
   Future<bool> isInternetAvailable() async {
     try {
       print("started checking for connection");
@@ -71,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final result = await http.get(Uri.parse('https://www.google.com'));
       print("Ended pinging");
       if (result.statusCode == 200) {
+        print("Returned code 200");
         return true; // Internet is available
       }
     } catch (e) {
@@ -84,18 +88,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _initializeData();
+    refreshDaily();
   }
 
   // Initialize data and fetch daily challenges.
   Future<void> _initializeData() async {
-    if (isInternetAvailable() == true) {
+    if (await isInternetAvailable() == true) {
       try {
         print("Internet is available");
-        await refreshDaily();
+
         if (mounted) {
           await Provider.of<DailyProvider>(context, listen: false)
               .getDailyChallenges();
+          print("Data has been fetched");
           setState(() {
             online = true;
             isLoading = false;
@@ -117,21 +122,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Change the color of the daily button.
-  void changeDailyColor() {
-    setState(() {
-      dailyColor = dailyTheme;
-    });
-  }
-
-  // Refresh the daily challenges and user tracker.
   Future<void> refreshDaily() async {
     print("Refreshing and updating");
     await _initializeData();
     await Instances.userTracker.updateEveryday();
   }
 
-  // Function called when the user pulls to refresh.
   Future<void> onRefreshed() async {
     Provider.of<DailyProvider>(context, listen: false).getDailyChallenges();
   }
@@ -144,90 +140,172 @@ class _HomeScreenState extends State<HomeScreen> {
     double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Consumer<DailyProvider>(
-        builder: (context, dailyProvider, child) =>
-            Consumer<UserDetailsProvider>(
-              builder: (context, userProvider, child) => Scaffold(
-                appBar: buildAppBar(
-                    context,
-                    userProvider.check == 1
-                        ? userProvider.userDetails!.pfp.toString()
-                        : "0"),
-                body: RefreshIndicator(
-                  onRefresh: onRefreshed,
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: SizedBox(
-                      height: screenHeight - appBarHeight - statusBarHeight,
-                      child: Stack(
-                        children: [
-                          // Floating Action Button (FAB)
-                          buildFAB(context, "chubs"),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Container(child: buildStartButton(context)),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 20),
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  if (dailyProvider.completed < 3) {
-                                    await dailyProvider.incrementDaily();
-                                    startMadu(context, isChallenge: true);
-                                  } else if (online == false) {
-                                    print("button pressed0");
-                                    showTopMessage(context, "You're offline",
-                                        darkertheme, white);
-                                    return;
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        dailyProvider.completed >= 3
-                                            ? buttonColor
-                                            : dailyGreen,
-                                    foregroundColor: white,
-                                    fixedSize: Size(
-                                        screenWidth / 1.4, screenHeight / 18),
-                                    textStyle: TextStyle(
-                                      fontSize: screenHeight / 41,
-                                      fontWeight: FontWeight.w500,
-                                    )),
-                                child: dailyProvider.completed != 5
-                                    ? Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: Center(
-                                              child: Text(
-                                                "Daily Challenges ${dailyProvider.completed}/3",
+        builder: (context, dailyProvider, child) => Consumer<
+                UserDetailsProvider>(
+            builder: (context, userProvider, child) => Scaffold(
+                  appBar: buildAppBar(
+                      context,
+                      userProvider.check == 1
+                          ? userProvider.userDetails!.pfp.toString()
+                          : "0",
+                      screenWidth),
+                  body: RefreshIndicator(
+                    onRefresh: onRefreshed,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: SizedBox(
+                        height: screenHeight - appBarHeight - statusBarHeight,
+                        child: Stack(
+                          children: [
+                            // Floating Action Button (FAB)
+                            buildFAB(context, "chubs"),
+                            Align(
+                              alignment: Alignment.center,
+                              child:
+                                  Container(child: buildStartButton(context)),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 20),
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    if (dailyProvider.completed < 3) {
+                                      await dailyProvider.incrementDaily();
+                                      startMadu(context, isChallenge: true);
+                                    } else if (online == false) {
+                                      print("button pressed0");
+                                      showTopMessage(context, "You're offline",
+                                          darkertheme, white);
+                                      return;
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          dailyProvider.completed >= 3
+                                              ? buttonColor
+                                              : dailyGreen,
+                                      foregroundColor: white,
+                                      fixedSize: Size(
+                                          screenWidth / 1.4, screenHeight / 18),
+                                      textStyle: TextStyle(
+                                        fontSize: screenHeight / 41,
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                  child: dailyProvider.completed != 5
+                                      ? Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
+                                                  "Daily Challenges ${dailyProvider.completed}/3",
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          dailyProvider.completed >= 3
-                                              ? const Icon(
-                                                  Icons.check,
-                                                )
-                                              : const Icon(Icons.flag),
-                                        ],
-                                      )
-                                    : (isLoading == true
-                                        ? const CircularProgressIndicator(
-                                            color: white,
-                                          )
-                                        : const Text("Daily Challenges")),
+                                            dailyProvider.completed >= 3
+                                                ? const Icon(
+                                                    Icons.check,
+                                                  )
+                                                : const Icon(Icons.flag),
+                                          ],
+                                        )
+                                      : (isLoading == true
+                                          ? const CircularProgressIndicator(
+                                              color: white,
+                                            )
+                                          : const Text("Daily Challenges")),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  drawer: Drawer(
+                    child: ListView(
+                      children: [
+                        const DrawerHeader(
+                          decoration: BoxDecoration(color: theme),
+                          child: Center(
+                            child: Text(
+                              "Settings",
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: darkModedark,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          leading: const Icon(
+                            Icons.dark_mode,
+                            color: darkModedark,
+                          ),
+                          title: const Text('Toggle Dark Mode'),
+                          onTap: () {
+                            // Toggle the theme
+                            Provider.of<ThemeProvider>(context, listen: false)
+                                .toggleTheme();
+                            // Close the drawer
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                )));
+  }
+
+  //
+  //
+  //
+  AppBar buildAppBar(context, imagePicked, double screenWidth) {
+    final user = FirebaseAuth.instance.currentUser;
+
+    return AppBar(
+      backgroundColor: theme,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Spacer(),
+          Text(
+            'WORDLE  ',
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: darkModedark,
+                fontSize: screenWidth / 12.5),
+          ),
+          Spacer(),
+          Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+            child: GestureDetector(
+              child: ClipOval(
+                child: Image.asset('assets/profiles/$imagePicked.png'),
               ),
-            ));
+              onTap: () async {
+                if (user == null) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
+                  );
+                } else {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => const ProfilePage()),
+                  );
+                }
+              },
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 
