@@ -15,7 +15,8 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-  int imagePickedIndex = 0;
+  User? user = FirebaseAuth.instance.currentUser;
+
   bool profileExists = false;
 
   Future<void> _reloadUser() async {
@@ -24,15 +25,7 @@ class _WrapperState extends State<Wrapper> {
     print("Reloading done");
   }
 
-  Future<void> _checkProfileImage() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      imagePickedIndex = prefs.getInt('imagePicked') ?? 0;
-    });
-  }
-
   Future<bool> _checkProfileExistsFire() async {
-    User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       print("User does not exist");
       return false;
@@ -52,7 +45,6 @@ class _WrapperState extends State<Wrapper> {
   void initState() {
     super.initState();
     _reloadUser();
-    _checkProfileImage();
 
     _checkProfileExistsFire().then((exists) {
       setState(() {
@@ -74,20 +66,15 @@ class _WrapperState extends State<Wrapper> {
           } else if (snapshot.hasError) {
             return const Center(child: Text("Error"));
           } else {
-            final user = FirebaseAuth.instance.currentUser;
-
             if (user == null) {
               return const LoginScreen();
             } else {
-              if (user.emailVerified == true) {
-                if (profileExists == true) {
-                  print("Directing to home");
-                  return const HomeScreen();
-                } else {
-                  return const ProfilePicker();
-                }
-              } else {
+              if (user!.emailVerified == true) {
+                return const HomeScreen();
+              } else if (user!.emailVerified == false) {
                 return const VerificationScreen();
+              } else {
+                return const HomeScreen();
               }
             }
           }

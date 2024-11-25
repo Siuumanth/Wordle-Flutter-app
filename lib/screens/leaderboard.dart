@@ -61,7 +61,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   }
 
   Future<void> fetchAndSortLeaderboard() async {
-    print("Getting leaderboard");
     await getLeaderboardLocal();
     print("Leaderboard got");
     insertionSort();

@@ -1,5 +1,6 @@
 //import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:wordle/constants/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';
 import 'dart:math';
@@ -15,6 +16,7 @@ import 'package:wordle/model/providers/dailyProvider.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:wordle/util/ShowNoti.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,7 +25,6 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-final user = FirebaseAuth.instance.currentUser;
 int imagePickedHome = 0;
 Color dailyColor = dailyGreen;
 
@@ -50,11 +51,44 @@ void popMadu(context) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool online = false;
+  bool isLoading = true; // To track loading state
+
+  Future<bool> isInternetAvailable() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+
+    // Check if any network is available
+    if (connectivityResult != ConnectivityResult.none) {
+      return true; // Connected to some network
+    }
+    return false; // Not connected
+  }
+
   @override
   void initState() {
     super.initState();
-    refreshDaily();
-    Provider.of<DailyProvider>(context, listen: false).getDailyChallenges();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    if (await isInternetAvailable()) {
+      print("Internet is available");
+      await refreshDaily();
+      await Provider.of<DailyProvider>(context, listen: false)
+          .getDailyChallenges();
+      setState(() {
+        online = true;
+        isLoading = false;
+      });
+    } else {
+      setState(() async {
+        print("5 seconds starting");
+        await Future.delayed(const Duration(seconds: 5));
+        print("5 seconds ended");
+        online = false;
+        isLoading = true;
+      });
+    }
   }
 
   void changeDailyColor() {
@@ -119,9 +153,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             : dailyGreen,
                                     foregroundColor: white,
                                     fixedSize: Size(
-                                        screenWidth / 1.50, screenHeight / 18),
+                                        screenWidth / 1.4, screenHeight / 18),
                                     textStyle: TextStyle(
-                                      fontSize: screenHeight / 45,
+                                      fontSize: screenHeight / 41,
                                       fontWeight: FontWeight.w500,
                                     )),
                                 child: dailyProvider.completed != 5
@@ -130,8 +164,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              "Daily Challenges ${dailyProvider.completed}/3",
+                                            child: Center(
+                                              child: Text(
+                                                "Daily Challenges ${dailyProvider.completed}/3",
+                                              ),
                                             ),
                                           ),
                                           dailyProvider.completed >= 3
@@ -141,9 +177,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                               : const Icon(Icons.flag),
                                         ],
                                       )
-                                    : const CircularProgressIndicator(
-                                        color: white,
-                                      ),
+                                    : (isLoading == true
+                                        ? const CircularProgressIndicator(
+                                            color: white,
+                                          )
+                                        : const Text("Offline")),
                               ),
                             ),
                           ),
@@ -212,6 +250,7 @@ Widget buildFAB(context, username) {
 }
 
 AppBar buildAppBar(context, imagePicked) {
+  final user = FirebaseAuth.instance.currentUser;
   return AppBar(
     backgroundColor: theme,
     title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
