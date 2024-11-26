@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color theme = Color.fromARGB(233, 98, 247, 222);
+const Color theme = Color.fromARGB(233, 98, 247, 210);
 // Color.fromARGB(183, 98, 247, 185)
 const Color grey = Color.fromARGB(212, 7, 7, 7);
 const Color greyLessO = Color.fromARGB(195, 74, 74, 74);

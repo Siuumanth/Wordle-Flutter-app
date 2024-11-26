@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
 import 'package:wordle/model/Player.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class RankCard extends StatefulWidget {
   final leaderBoardDetails details;
@@ -129,7 +127,9 @@ class _RankCardState extends State<RankCard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           rankBadge(widget.rank, screenWidth),
-          const Expanded(flex: 2, child: SizedBox()),
+          SizedBox(
+            width: screenWidth / 10,
+          ),
           Row(
             children: [
               SizedBox(
@@ -152,7 +152,7 @@ class _RankCardState extends State<RankCard> {
               ),
             ],
           ),
-          const Expanded(flex: 4, child: SizedBox()),
+          const Expanded(flex: 1, child: SizedBox()),
           Text(
             "${widget.details.score}",
             style: TextStyle(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
+import 'package:wordle/model/providers/dailyProvider.dart';
 import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
     await fetchAndSortLeaderboard();
     await getUserRank();
     setState(() {
-      rankFetched = true; // Mark the rank as fetched after refreshing
+      rankFetched = true;
     });
   }
 
@@ -94,14 +95,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<int> getUserRank() async {
-    final prefs = await SharedPreferences.getInstance();
+    /* if(Provider.of<DailyProvider>(context,listen: true).updated==false){ final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('userRank')) {
       setState(() {
         userRank = prefs.getInt('userRank')!;
         rankFetched = true; // Mark as fetched
       });
       return userRank;
-    }
+    }};
+   */
 
     for (int index = 0; index < scoreToIndex.length; index++) {
       final leader = leaderboard[scoreToIndex[index]];
@@ -126,7 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    // double screenHeight = MediaQuery.of(context).size.height;
 
     return Consumer<UserDetailsProvider>(
       builder: (context, userData, child) => Scaffold(
@@ -141,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 30),
                     Container(
                       padding: const EdgeInsets.all(5),
                       width: screenWidth / 3.5 * 1.9,
@@ -165,7 +167,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: const TextStyle(
                           fontSize: 35, fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 40),
                     Text(
                       "Your rank is",
                       style: TextStyle(

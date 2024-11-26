@@ -175,7 +175,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       await dailyProvider.incrementDaily();
                                       startMadu(context, isChallenge: true);
                                     } else if (online == false) {
-                                      print("button pressed0");
                                       showTopMessage(context, "You're offline",
                                           darkertheme, white);
                                       return;
@@ -185,13 +184,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       backgroundColor:
                                           dailyProvider.completed >= 3
                                               ? buttonColor
-                                              : dailyGreen,
-                                      foregroundColor: white,
+                                              : theme,
+                                      foregroundColor: grey,
                                       fixedSize: Size(
                                           screenWidth / 1.4, screenHeight / 18),
                                       textStyle: TextStyle(
                                         fontSize: screenHeight / 41,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w700,
                                       )),
                                   child: dailyProvider.completed != 5
                                       ? Row(
@@ -268,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final user = FirebaseAuth.instance.currentUser;
 
     return AppBar(
-      iconTheme: const IconThemeData(color: darkModebg),
+      iconTheme: const IconThemeData(color: grey),
       backgroundColor: theme,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -278,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
             'WORDLE  ',
             style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: darkModedark,
+                color: grey,
                 fontSize: screenWidth / 14),
           ),
           const Spacer(),
