@@ -7,11 +7,13 @@ final ThemeData lightTheme = ThemeData(
   primaryColor: theme,
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: const AppBarTheme(color: theme),
+  cardColor: const Color.fromARGB(255, 246, 246, 246),
+  unselectedWidgetColor: cardBlue,
   textTheme: const TextTheme(
-    bodyMedium: TextStyle(color: darkModebg),
-    bodySmall: TextStyle(color: Color.fromARGB(195, 22, 22, 22)),
-    bodyLarge: TextStyle(color: darkModebg),
-  ),
+      bodyMedium: TextStyle(color: darkModebg),
+      bodySmall: TextStyle(color: Color.fromARGB(195, 22, 22, 22)),
+      bodyLarge: TextStyle(color: darkModebg),
+      titleSmall: TextStyle(color: cardBlue)),
 );
 
 final ThemeData darkTheme = ThemeData(
@@ -19,12 +21,14 @@ final ThemeData darkTheme = ThemeData(
   primaryColor: theme,
   scaffoldBackgroundColor: darkModebg,
   appBarTheme: const AppBarTheme(color: theme),
+  cardColor: darkModebg,
   textTheme: const TextTheme(
       bodyMedium: TextStyle(color: white),
       bodySmall: TextStyle(color: white),
       bodyLarge: TextStyle(color: white),
       titleLarge: TextStyle(color: white),
-      displaySmall: TextStyle(color: black)),
+      displaySmall: TextStyle(color: black),
+      titleSmall: TextStyle(color: cardBlue)),
 );
 
 //import 'package:flutter/material.dart';

@@ -5,6 +5,8 @@ import 'package:wordle/constants/constants.dart';
 import 'package:wordle/util/RankCard.dart';
 import 'package:wordle/model/Player.dart';
 import 'package:wordle/model/providers/instances.dart';
+import 'package:wordle/model/providers/userInfoProvider.dart';
+import 'package:provider/provider.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({
@@ -79,62 +81,70 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   Widget build(BuildContext context) {
     double appBarWidth = AppBar().preferredSize.width;
     double screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: buildAppBar(context, screenWidth, appBarWidth),
-      body: Container(
-        color: white,
-        padding: const EdgeInsets.all(10),
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                flex: 9,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: white,
-                    border: Border.all(
-                      color: darkerertheme,
-                      width: 3,
+    return Consumer<UserDetailsProvider>(
+      builder: (context, userProvider, child) => Scaffold(
+        appBar: buildAppBar(context, screenWidth, appBarWidth),
+        body: Container(
+          color: white,
+          padding: const EdgeInsets.all(10),
+          child: Center(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  flex: 9,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: white,
+                      border: Border.all(
+                        color: darkerertheme,
+                        width: 3,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: buildRankBar(),
-                      ),
-                      Expanded(
-                        flex: 25,
-                        child: leaderboard.isEmpty
-                            ? Center(
-                                child: Text(
-                                  "Loading leaderboard...",
-                                  style: TextStyle(
-                                      color: darkerertheme, fontSize: 20),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: buildRankBar(),
+                        ),
+                        Expanded(
+                          flex: 25,
+                          child: leaderboard.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    "Loading leaderboard...",
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .color,
+                                        fontSize: 20),
+                                  ),
+                                )
+                              : ListView.builder(
+                                  itemCount: leaderboard.length,
+                                  itemBuilder: (context, index) {
+                                    final details =
+                                        leaderboard[scoreToIndex[index]];
+
+                                    return RankCard(
+                                        details: details,
+                                        rank: index + 1,
+                                        isUser: details.username ==
+                                            userProvider.userDetails!.username);
+                                  },
                                 ),
-                              )
-                            : ListView.builder(
-                                itemCount: leaderboard.length,
-                                itemBuilder: (context, index) {
-                                  final details =
-                                      leaderboard[scoreToIndex[index]];
-                                  return RankCard(
-                                    details: details,
-                                    rank: index + 1,
-                                  );
-                                },
-                              ),
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -152,21 +162,21 @@ Widget buildRankBar() {
     child: const Row(
       children: [
         Expanded(
-          flex: 3,
+          flex: 6,
           child: Text(
             "Rank",
             style: TextStyle(color: white, fontSize: 16),
           ),
         ),
         Expanded(
-          flex: 8,
+          flex: 12,
           child: Text(
-            "Username",
+            "User",
             style: TextStyle(color: white, fontSize: 16),
           ),
         ),
         Expanded(
-          flex: 3,
+          flex: 5,
           child: Text(
             "Score",
             style: TextStyle(color: white, fontSize: 16),
@@ -182,7 +192,7 @@ AppBar buildAppBar(
   return AppBar(
     automaticallyImplyLeading: true, // Back button will be automatically added
     backgroundColor: white,
-    elevation: 1,
+
     title: const Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

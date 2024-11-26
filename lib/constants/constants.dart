@@ -30,3 +30,5 @@ const Color red = Colors.red;
 
 const Color darkModedark = Color.fromARGB(195, 25, 25, 25);
 const Color darkModebg = Color.fromARGB(195, 34, 34, 34);
+
+const Color cardBlue = Color.fromARGB(147, 98, 247, 222);
