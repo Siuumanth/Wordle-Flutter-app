@@ -22,9 +22,9 @@ class _RankCardState extends State<RankCard> {
   final user = FirebaseAuth.instance.currentUser;
   LinearGradient checkColor() {
     // If rank is greater than 3, use the default gradient
-    if (widget.rank > 3) {
+    if (widget.rank > 0) {
       return const LinearGradient(
-        colors: [Colors.white, Color.fromARGB(255, 237, 237, 237)],
+        colors: [white, white],
       );
     }
 
@@ -65,6 +65,7 @@ class _RankCardState extends State<RankCard> {
 
   @override
   Widget build(BuildContext context) {
+    Color? textColor = Theme.of(context).textTheme.bodySmall!.color;
     double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
@@ -89,16 +90,18 @@ class _RankCardState extends State<RankCard> {
               Text(
                 "${widget.rank}",
                 style: TextStyle(
-                    fontSize: screenWidth / 16, fontWeight: FontWeight.bold),
+                    color: textColor,
+                    fontSize: screenWidth / 16,
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 40),
               Container(
                 padding: const EdgeInsets.all(1),
                 width: screenWidth / 20 * 2,
                 height: screenWidth / 20 * 2,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color.fromARGB(255, 58, 58, 58),
+                  color: textColor,
                 ),
                 child: CircleAvatar(
                   radius: screenWidth / 17 - 20,
@@ -112,17 +115,17 @@ class _RankCardState extends State<RankCard> {
               const SizedBox(width: 10),
               Text(
                 widget.details.username,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: textColor),
               ),
             ],
           ),
           Text(
             ' ${widget.details.score}',
-            style: const TextStyle(
-                color: Color.fromARGB(255, 24, 24, 24),
-                fontSize: 20,
-                fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: textColor, fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ],
       ),

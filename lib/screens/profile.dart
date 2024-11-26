@@ -79,46 +79,46 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 35, fontWeight: FontWeight.w500),
                 ),
                 const Spacer(),
-                const Text(
+                Text(
                   "Your rank is",
                   style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w400,
-                      color: Colors.black),
+                      color: Theme.of(context).textTheme.bodyMedium!.color),
                 ),
+                const SizedBox(height: 10),
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    Image.asset(
-                      'assets/profiles/1.png',
-                      width: 100,
-                      height: 100,
+                    Icon(
+                      Icons.circle_outlined,
+                      size: screenWidth / 2.8,
+                      color: Theme.of(context).textTheme.bodyMedium!.color,
                     ),
                     Text(
-                      "1",
+                      "54",
                       style: TextStyle(
-                        fontSize: 55,
+                        fontSize: screenWidth / 7,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .color, // Match text color with the badge theme
+                        color: Theme.of(context).textTheme.bodyLarge!.color,
                       ),
-                    )
+                    ),
                   ],
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 10),
                 Text(
                   "Score: ${userData.userDetails!.score}",
-                  style: TextStyle(fontSize: screenWidth / 18, color: black),
+                  style: TextStyle(
+                      fontSize: screenWidth / 18,
+                      color: Theme.of(context).textTheme.bodyMedium!.color),
                 ),
                 const Spacer(),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: theme,
-                      foregroundColor: darkertheme,
+                      foregroundColor: darkModedark,
                       textStyle: TextStyle(
-                          color: darkerertheme,
+                          color: darkModedark,
                           fontSize: screenWidth / 20,
                           fontWeight: FontWeight.w700)),
                   onPressed: () async {

@@ -14,7 +14,6 @@ import 'package:wordle/model/dbRef.dart';
 //import 'package:wordle/model/providers/instances.dart';
 import 'package:provider/provider.dart';
 import 'package:wordle/util/ShowNoti.dart';
-import 'package:wordle/constants/theme.dart';
 
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;

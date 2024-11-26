@@ -280,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: darkModedark,
                 fontSize: screenWidth / 12.5),
           ),
-          Spacer(),
+          const Spacer(),
           Container(
             height: 40,
             width: 40,

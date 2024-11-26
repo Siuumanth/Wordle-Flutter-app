@@ -9,7 +9,7 @@ final ThemeData lightTheme = ThemeData(
   appBarTheme: const AppBarTheme(color: theme),
   textTheme: const TextTheme(
     bodyMedium: TextStyle(color: darkModebg),
-    bodySmall: TextStyle(color: darkModebg),
+    bodySmall: TextStyle(color: Color.fromARGB(195, 22, 22, 22)),
     bodyLarge: TextStyle(color: darkModebg),
   ),
 );
