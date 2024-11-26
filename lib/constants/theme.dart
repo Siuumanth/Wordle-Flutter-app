@@ -5,10 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: theme,
-  scaffoldBackgroundColor: Colors.white,
+  scaffoldBackgroundColor: white,
+  canvasColor: darkerertheme,
   appBarTheme: const AppBarTheme(color: theme),
+  iconTheme: const IconThemeData(color: darkModebg),
   cardColor: const Color.fromARGB(255, 246, 246, 246),
-  unselectedWidgetColor: cardBlue,
   textTheme: const TextTheme(
       bodyMedium: TextStyle(color: darkModebg),
       bodySmall: TextStyle(color: Color.fromARGB(195, 22, 22, 22)),
@@ -21,7 +22,9 @@ final ThemeData darkTheme = ThemeData(
   primaryColor: theme,
   scaffoldBackgroundColor: darkModebg,
   appBarTheme: const AppBarTheme(color: theme),
-  cardColor: darkModebg,
+  cardColor: const Color.fromARGB(195, 42, 42, 42),
+  iconTheme: const IconThemeData(color: white),
+  canvasColor: theme,
   textTheme: const TextTheme(
       bodyMedium: TextStyle(color: white),
       bodySmall: TextStyle(color: white),

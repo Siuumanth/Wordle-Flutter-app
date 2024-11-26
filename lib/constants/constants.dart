@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-const Color theme = Color.fromARGB(183, 98, 247, 185);
+const Color theme = Color.fromARGB(233, 98, 247, 222);
+// Color.fromARGB(183, 98, 247, 185)
 const Color grey = Color.fromARGB(212, 7, 7, 7);
 const Color greyLessO = Color.fromARGB(195, 74, 74, 74);
-const Color darktheme = Color.fromARGB(255, 16, 118, 131);
-const Color darkertheme = Color(0xff2a697d);
+const Color darktheme = Color(0xff34687b);
+const Color darkertheme = Color(0xff34687b);
 const Color darkerertheme = Color(0xff2F4858);
 const Color white = Color.fromARGB(255, 255, 255, 255);
 const Color black = Color.fromARGB(255, 0, 0, 0);
@@ -31,4 +32,4 @@ const Color red = Colors.red;
 const Color darkModedark = Color.fromARGB(195, 25, 25, 25);
 const Color darkModebg = Color.fromARGB(195, 34, 34, 34);
 
-const Color cardBlue = Color.fromARGB(147, 98, 247, 222);
+const Color cardBlue = Color.fromARGB(141, 98, 247, 222);

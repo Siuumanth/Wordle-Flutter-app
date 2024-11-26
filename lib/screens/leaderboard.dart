@@ -85,7 +85,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
       builder: (context, userProvider, child) => Scaffold(
         appBar: buildAppBar(context, screenWidth, appBarWidth),
         body: Container(
-          color: white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           padding: const EdgeInsets.all(10),
           child: Center(
             child: Column(
@@ -98,9 +98,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: white,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       border: Border.all(
-                        color: darkerertheme,
+                        color: Theme.of(context).canvasColor,
                         width: 3,
                       ),
                       borderRadius: BorderRadius.circular(10),
@@ -109,7 +109,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: buildRankBar(),
+                          child: buildRankBar(context),
                         ),
                         Expanded(
                           flex: 25,
@@ -152,34 +152,38 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   }
 }
 
-Widget buildRankBar() {
+Widget buildRankBar(BuildContext context) {
+  Color? textColor = Theme.of(context).brightness == Brightness.light
+      ? Theme.of(context).textTheme.bodyMedium!.color
+      : darkModebg;
+  FontWeight wt = FontWeight.w500;
   return Container(
     padding: const EdgeInsets.only(left: 15),
     decoration: BoxDecoration(
-      color: darkerertheme,
+      color: Theme.of(context).canvasColor,
       borderRadius: BorderRadius.circular(11),
     ),
-    child: const Row(
+    child: Row(
       children: [
         Expanded(
           flex: 6,
           child: Text(
             "Rank",
-            style: TextStyle(color: white, fontSize: 16),
+            style: TextStyle(color: textColor, fontSize: 16, fontWeight: wt),
           ),
         ),
         Expanded(
           flex: 12,
           child: Text(
             "User",
-            style: TextStyle(color: white, fontSize: 16),
+            style: TextStyle(color: textColor, fontSize: 16, fontWeight: wt),
           ),
         ),
         Expanded(
           flex: 5,
           child: Text(
             "Score",
-            style: TextStyle(color: white, fontSize: 16),
+            style: TextStyle(color: textColor, fontSize: 16, fontWeight: wt),
           ),
         ),
       ],
@@ -190,10 +194,10 @@ Widget buildRankBar() {
 AppBar buildAppBar(
     BuildContext context, double screenWidth, double appBarWidth) {
   return AppBar(
-    automaticallyImplyLeading: true, // Back button will be automatically added
-    backgroundColor: white,
-
-    title: const Row(
+    automaticallyImplyLeading: true,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    iconTheme: Theme.of(context).iconTheme,
+    title: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(Icons.leaderboard, color: Colors.amber, size: 23),
@@ -203,9 +207,12 @@ AppBar buildAppBar(
           style: TextStyle(
             fontSize: 23,
             fontWeight: FontWeight.bold,
-            color: darkerertheme,
+            color: Theme.of(context).canvasColor,
           ),
         ),
+        SizedBox(
+          width: screenWidth / 6,
+        )
       ],
     ),
   );

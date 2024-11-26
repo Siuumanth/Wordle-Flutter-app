@@ -48,14 +48,18 @@ class _RankCardState extends State<RankCard> {
         return Row(
           children: [
             Icon(Icons.workspace_premium,
-                color: const Color.fromARGB(255, 140, 140, 140),
+                color: Theme.of(context).brightness == Brightness.light
+                    ? const Color.fromARGB(255, 140, 140, 140)
+                    : const Color.fromARGB(255, 213, 213, 213),
                 size: iconSize),
             Text(
               "2",
               style: TextStyle(
                 fontSize: rankSize,
                 fontWeight: FontWeight.bold,
-                color: const Color.fromARGB(255, 140, 140, 140),
+                color: Theme.of(context).brightness == Brightness.light
+                    ? const Color.fromARGB(255, 140, 140, 140)
+                    : const Color.fromARGB(255, 213, 213, 213),
               ),
             ),
           ],
@@ -63,13 +67,19 @@ class _RankCardState extends State<RankCard> {
       case 3:
         return Row(
           children: [
-            Icon(Icons.workspace_premium, color: Colors.brown, size: iconSize),
+            Icon(Icons.workspace_premium,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? const Color.fromARGB(255, 139, 107, 96)
+                    : const Color.fromARGB(255, 188, 145, 130),
+                size: iconSize),
             Text(
               "3",
               style: TextStyle(
                 fontSize: rankSize,
                 fontWeight: FontWeight.bold,
-                color: Colors.brown,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? const Color.fromARGB(255, 139, 107, 96)
+                    : const Color.fromARGB(255, 188, 145, 130),
               ),
             ),
           ],
@@ -103,7 +113,9 @@ class _RankCardState extends State<RankCard> {
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       padding: const EdgeInsets.only(left: 10, right: 16, top: 12, bottom: 12),
       decoration: BoxDecoration(
-        color: !widget.isUser ? Theme.of(context).cardColor : cardBlue,
+        color: !widget.isUser
+            ? Theme.of(context).cardColor
+            : Theme.of(context).textTheme.titleSmall!.color,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(

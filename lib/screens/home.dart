@@ -278,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: darkModedark,
-                fontSize: screenWidth / 12.5),
+                fontSize: screenWidth / 14),
           ),
           const Spacer(),
           Container(

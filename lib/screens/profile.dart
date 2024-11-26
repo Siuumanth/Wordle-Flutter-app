@@ -86,26 +86,32 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontWeight: FontWeight.w400,
                       color: Theme.of(context).textTheme.bodyMedium!.color),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    Icon(
-                      Icons.circle_outlined,
-                      size: screenWidth / 2.8,
-                      color: Theme.of(context).textTheme.bodyMedium!.color,
+                    Container(
+                      width: screenWidth / 3, // Adjust size
+                      height: screenWidth / 3,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).textTheme.bodyMedium!.color!,
+                          width: 4,
+                        ),
+                      ),
                     ),
                     Text(
-                      "54",
+                      "1",
                       style: TextStyle(
-                        fontSize: screenWidth / 7,
+                        fontSize: screenWidth / 6,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).textTheme.bodyLarge!.color,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 Text(
                   "Score: ${userData.userDetails!.score}",
                   style: TextStyle(
