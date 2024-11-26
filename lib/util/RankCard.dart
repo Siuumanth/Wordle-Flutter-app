@@ -110,7 +110,7 @@ class _RankCardState extends State<RankCard> {
     Color? textColor = Theme.of(context).textTheme.bodyMedium!.color;
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
       padding: const EdgeInsets.only(left: 10, right: 16, top: 12, bottom: 12),
       decoration: BoxDecoration(
         color: !widget.isUser

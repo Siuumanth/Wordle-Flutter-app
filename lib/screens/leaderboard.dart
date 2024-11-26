@@ -7,6 +7,7 @@ import 'package:wordle/model/Player.dart';
 import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({
@@ -70,6 +71,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     setState(() {});
   }
 
+  Future<void> saveUserRank(int rank) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('userRank', rank);
+    print("User rank saved: $rank");
+  }
+
   @override
   void initState() {
     super.initState();
@@ -82,68 +89,79 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     double appBarWidth = AppBar().preferredSize.width;
     double screenWidth = MediaQuery.of(context).size.width;
     return Consumer<UserDetailsProvider>(
-      builder: (context, userProvider, child) => Scaffold(
-        appBar: buildAppBar(context, screenWidth, appBarWidth),
-        body: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          padding: const EdgeInsets.all(10),
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  flex: 9,
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      border: Border.all(
-                        color: Theme.of(context).canvasColor,
-                        width: 3,
+      builder: (context, userProvider, child) => RefreshIndicator(
+        onRefresh: () async {
+          await fetchAndSortLeaderboard();
+        },
+        child: Scaffold(
+          appBar: buildAppBar(context, screenWidth, appBarWidth),
+          body: Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            padding: const EdgeInsets.all(10),
+            child: Center(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                    flex: 9,
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        /*    border: Border.all(
+                          color: Theme.of(context).unselectedWidgetColor,
+                          width: 3,
+                        ),*/
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: buildRankBar(context),
-                        ),
-                        Expanded(
-                          flex: 25,
-                          child: leaderboard.isEmpty
-                              ? Center(
-                                  child: Text(
-                                    "Loading leaderboard...",
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .color,
-                                        fontSize: 20),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: buildRankBar(context),
+                          ),
+                          Expanded(
+                            flex: 25,
+                            child: leaderboard.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      "Loading leaderboard...",
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .color,
+                                          fontSize: 20),
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    itemCount: leaderboard.length,
+                                    itemBuilder: (context, index) {
+                                      final details =
+                                          leaderboard[scoreToIndex[index]];
+                                      if (details.username ==
+                                          userProvider.userDetails!.username) {
+                                        saveUserRank(index + 1);
+                                        print(
+                                            "User saved ${(index + 1).toString()}");
+                                      }
+                                      return RankCard(
+                                          details: details,
+                                          rank: index + 1,
+                                          isUser: details.username ==
+                                              userProvider
+                                                  .userDetails!.username);
+                                    },
                                   ),
-                                )
-                              : ListView.builder(
-                                  itemCount: leaderboard.length,
-                                  itemBuilder: (context, index) {
-                                    final details =
-                                        leaderboard[scoreToIndex[index]];
-
-                                    return RankCard(
-                                        details: details,
-                                        rank: index + 1,
-                                        isUser: details.username ==
-                                            userProvider.userDetails!.username);
-                                  },
-                                ),
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -153,15 +171,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 }
 
 Widget buildRankBar(BuildContext context) {
-  Color? textColor = Theme.of(context).brightness == Brightness.light
-      ? Theme.of(context).textTheme.bodyMedium!.color
-      : darkModebg;
+  Color? textColor =
+      Theme.of(context).brightness == Brightness.light ? white : darkModebg;
   FontWeight wt = FontWeight.w500;
   return Container(
     padding: const EdgeInsets.only(left: 15),
     decoration: BoxDecoration(
-      color: Theme.of(context).canvasColor,
-      borderRadius: BorderRadius.circular(11),
+      color: Theme.of(context).unselectedWidgetColor,
+      borderRadius: BorderRadius.circular(6),
     ),
     child: Row(
       children: [
@@ -207,7 +224,7 @@ AppBar buildAppBar(
           style: TextStyle(
             fontSize: 23,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).canvasColor,
+            color: Theme.of(context).unselectedWidgetColor,
           ),
         ),
         SizedBox(

@@ -167,6 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
+                                height: screenHeight / 15,
                                 margin: const EdgeInsets.only(bottom: 20),
                                 child: ElevatedButton(
                                   onPressed: () async {

@@ -6,7 +6,7 @@ final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: theme,
   scaffoldBackgroundColor: white,
-  canvasColor: darkerertheme,
+  unselectedWidgetColor: darkerertheme,
   appBarTheme: const AppBarTheme(color: theme),
   iconTheme: const IconThemeData(color: darkModebg),
   cardColor: const Color.fromARGB(255, 246, 246, 246),
@@ -24,7 +24,7 @@ final ThemeData darkTheme = ThemeData(
   appBarTheme: const AppBarTheme(color: theme),
   cardColor: const Color.fromARGB(195, 42, 42, 42),
   iconTheme: const IconThemeData(color: white),
-  canvasColor: theme,
+  unselectedWidgetColor: theme,
   textTheme: const TextTheme(
       bodyMedium: TextStyle(color: white),
       bodySmall: TextStyle(color: white),
