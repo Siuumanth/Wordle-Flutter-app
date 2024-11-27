@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
 import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/login/auth_service.dart';
+import 'package:wordle/screens/login/profilepick.dart';
 import 'package:wordle/screens/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/wrapper.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
-import 'package:wordle/model/providers/dailyProvider.dart';
 import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +9,7 @@ import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wordle/wrapper.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -235,7 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         await _auth.signOut();
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const MyApp(),
+                            builder: (context) => const Wrapper(),
                           ),
                           (Route<dynamic> route) => false,
                         );

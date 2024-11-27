@@ -171,10 +171,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 margin: const EdgeInsets.only(bottom: 20),
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    if (dailyProvider.completed < 3) {
+                                    print("daily challenge pressed ");
+                                    if (dailyProvider.completed < 3 &&
+                                        online == true) {
+                                      print("incrementing daily cahlelges");
                                       await dailyProvider.incrementDaily();
                                       startMadu(context, isChallenge: true);
                                     } else if (online == false) {
+                                      print("bros offline");
                                       showTopMessage(context, "You're offline",
                                           darkertheme, white);
                                       return;
@@ -183,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           dailyProvider.completed >= 3
-                                              ? buttonColor
+                                              ? theme
                                               : theme,
                                       foregroundColor: grey,
                                       fixedSize: Size(

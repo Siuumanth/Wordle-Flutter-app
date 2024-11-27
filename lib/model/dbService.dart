@@ -7,7 +7,9 @@ class DatabaseService {
   rlcreate(profileUser user) {
     try {
       _real.ref("users").push().set(user.toMap());
+      print('saved user in rlcreate');
     } catch (e) {
+      print('could not save user in rlcreate');
       print(e.toString());
     }
   }

@@ -4,6 +4,7 @@ import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/screens/home.dart';
 import 'package:wordle/screens/login/login.dart';
 import 'package:wordle/screens/login/Verify.dart';
+import 'package:wordle/screens/login/profilepick.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});
@@ -15,7 +16,8 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
   User? user = FirebaseAuth.instance.currentUser;
 
-  bool profileExists = false;
+  bool trackerExists = false;
+  bool trackerStatusGot = false;
 
   Future<void> _reloadUser() async {
     print("reloading wrapper");
@@ -31,13 +33,32 @@ class _WrapperState extends State<Wrapper> {
       print("User does not exist");
       return false;
     }
-
     if (await Instances.userRef.userDbExists() == true) {
       print("User does exist");
 
       return true;
     } else {
-      print("smth happen");
+      print("user DB does not exists");
+      return false;
+    }
+  }
+
+  Future<bool> _checkTrackerExists() async {
+    if (await Instances.userTracker.userTrackerExists() == true) {
+      setState(() {
+        trackerExists = true;
+        trackerStatusGot = true;
+      });
+
+      print("User and tracker does exist");
+
+      return true;
+    } else {
+      print("user tracker does not exists");
+      setState(() {
+        trackerExists = false;
+        trackerStatusGot = true;
+      });
       return false;
     }
   }
@@ -47,9 +68,9 @@ class _WrapperState extends State<Wrapper> {
     super.initState();
     _reloadUser();
 
-    _checkProfileExistsFire().then((exists) {
+    _checkTrackerExists().then((exists) {
       setState(() {
-        profileExists = exists;
+        trackerExists = exists;
       });
     });
   }
@@ -71,7 +92,14 @@ class _WrapperState extends State<Wrapper> {
               return const LoginScreen();
             } else {
               if (user!.emailVerified == true) {
-                return const HomeScreen();
+                if (trackerExists == true) {
+                  return const HomeScreen();
+                } else {
+                  if (trackerStatusGot == false) {
+                    return const CircularProgressIndicator();
+                  }
+                  return const ProfilePicker();
+                }
               } else if (user!.emailVerified == false) {
                 return const VerificationScreen();
               } else {

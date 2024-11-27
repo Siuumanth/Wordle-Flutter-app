@@ -8,7 +8,7 @@ class DailyTracker {
   Future<void> updateTracker(int gameNo) async {
     final query = tracker.orderByChild("email").equalTo(user!.email);
     final snapshot = await query.get();
-
+    print("Snapshot exists");
     if (snapshot.exists) {
       Map<String, dynamic> data =
           Map<String, dynamic>.from(snapshot.value as Map);
@@ -18,8 +18,9 @@ class DailyTracker {
         "lastDateTime": DateTime.now().toUtc().toString().substring(0, 16),
         'gamesPlayed': gameNo
       });
+      print("Tracker has been incremented by 1");
     } else {
-      print("User not found");
+      print("Could not update tracker");
     }
   }
 
@@ -37,6 +38,16 @@ class DailyTracker {
     } else {
       print("User not found");
       return "0";
+    }
+  }
+
+  Future<bool> userTrackerExists() async {
+    var snapshot =
+        await tracker.orderByChild("email").equalTo(user!.email).get();
+    if (snapshot.exists) {
+      return true;
+    } else {
+      return false;
     }
   }
 

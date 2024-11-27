@@ -22,7 +22,7 @@ class DatabaseRef {
         pfp: userData['pfp'],
       );
     } else {
-      print("No user found with this email.");
+      print("No user found with this email in DB reference");
       return null;
     }
   }

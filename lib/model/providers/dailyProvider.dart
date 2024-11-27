@@ -13,7 +13,8 @@ class DailyProvider extends ChangeNotifier {
   }
 
   Future<void> incrementDaily() async {
-    completed++;
+    print("incrementing daily cahlelges 2");
+    completed = completed + 1;
     Instances.userTracker.updateTracker(completed);
     notifyListeners();
   }

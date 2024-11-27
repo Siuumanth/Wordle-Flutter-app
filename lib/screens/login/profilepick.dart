@@ -38,12 +38,21 @@ class _ProfilePickerState extends State<ProfilePicker> {
 
     Future<void> saveDetailsInFire(int pfp) async {
       try {
+        print("Starting to save details in fire");
+        print(profileUser(
+          username: userName!,
+          email: user!.email!,
+          score: 0,
+          pfp: pfp.toString(),
+        ));
+        print("creating prpfile suer objecy");
         final userToSave = profileUser(
           username: userName!,
           email: user!.email!,
           score: 0,
           pfp: pfp.toString(),
         );
+        print("createdsum prpfile suer objecy");
         await Instances.dbService.rlcreate(userToSave);
         final userTrackerSave = userDailyTracker(
             email: user!.email!, lastDatePlayedTime: "", gamesPlayed: 0);
@@ -116,7 +125,7 @@ class _ProfilePickerState extends State<ProfilePicker> {
               style: ElevatedButton.styleFrom(backgroundColor: darkerertheme),
               onPressed: () async {
                 await getName();
-                saveDetailsInFire(_selectedProfileIndex);
+                await saveDetailsInFire(_selectedProfileIndex);
                 if (mounted) {
                   // Ensure widget is still mounted before using context
                   Navigator.pushAndRemoveUntil(
@@ -124,6 +133,8 @@ class _ProfilePickerState extends State<ProfilePicker> {
                     MaterialPageRoute(builder: (context) => const Wrapper()),
                     (Route<dynamic> route) => false,
                   );
+                } else {
+                  print("widget is not mounted in profile pic conofirm");
                 }
               },
               child: const Text(
