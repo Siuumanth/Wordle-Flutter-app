@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       showTopMessage(
                                           context,
                                           "You need to be Signed in to access daily challenges",
-                                          greyLessO,
+                                          darkertheme,
                                           white);
                                       return;
                                     }

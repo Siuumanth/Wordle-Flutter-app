@@ -8,6 +8,7 @@ import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({
@@ -29,7 +30,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   List<int> scoreToIndex = [];
 
   List<leaderBoardDetails> leaderboard = [];
-
+  final user = FirebaseAuth.instance.currentUser;
   void insertionSort() {
     List<int> scoreList =
         leaderboard.map((item) => item.score).toList().cast<int>();
@@ -141,18 +142,26 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     itemBuilder: (context, index) {
                                       final details =
                                           leaderboard[scoreToIndex[index]];
-                                      if (details.username ==
-                                          userProvider.userDetails!.username) {
-                                        saveUserRank(index + 1);
-                                        print(
-                                            "User saved ${(index + 1).toString()}");
+                                      if (user != null) {
+                                        if (details.username ==
+                                            userProvider
+                                                .userDetails!.username) {
+                                          saveUserRank(index + 1);
+                                          print(
+                                              "User saved ${(index + 1).toString()}");
+                                        }
+                                        return RankCard(
+                                            details: details,
+                                            rank: index + 1,
+                                            isUser: details.username ==
+                                                userProvider
+                                                    .userDetails!.username);
+                                      } else {
+                                        return RankCard(
+                                            details: details,
+                                            rank: index + 1,
+                                            isUser: false);
                                       }
-                                      return RankCard(
-                                          details: details,
-                                          rank: index + 1,
-                                          isUser: details.username ==
-                                              userProvider
-                                                  .userDetails!.username);
                                     },
                                   ),
                           ),
