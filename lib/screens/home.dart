@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool online = false;
   bool isLoading = true; // To track loading state
   Color buttonColor = greyLessO;
-
+  User? user = FirebaseAuth.instance.currentUser;
   // Checks internet connectivity and verifies if the internet is available.
 
   Future<bool> isInternetAvailable() async {
@@ -88,7 +88,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    refreshDaily();
+    if (user != null) {
+      print("startnig try block now");
+      if (user != null) {
+        refreshDaily();
+      }
+    } else {
+      print("User is null");
+      return;
+    }
   }
 
   // Initialize data and fetch daily challenges.
@@ -145,9 +153,11 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (context, userProvider, child) => Scaffold(
                   appBar: buildAppBar(
                       context,
-                      userProvider.check == 1
-                          ? userProvider.userDetails!.pfp.toString()
-                          : "0",
+                      user == null
+                          ? "0"
+                          : userProvider.check == 1
+                              ? userProvider.userDetails!.pfp.toString()
+                              : "0",
                       screenWidth),
                   body: RefreshIndicator(
                     onRefresh: onRefreshed,
@@ -157,7 +167,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: screenHeight - appBarHeight - statusBarHeight,
                         child: Stack(
                           children: [
-                            // Floating Action Button (FAB)
                             buildFAB(context, "chubs"),
                             Align(
                               alignment: Alignment.center,
@@ -171,7 +180,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 margin: const EdgeInsets.only(bottom: 20),
                                 child: ElevatedButton(
                                   onPressed: () async {
+                                    if (user == null) {
+                                      showTopMessage(
+                                          context,
+                                          "You need to be Signed in to access daily challenges",
+                                          greyLessO,
+                                          white);
+                                      return;
+                                    }
                                     print("daily challenge pressed ");
+                                    await _initializeData();
                                     if (dailyProvider.completed < 3 &&
                                         online == true) {
                                       print("incrementing daily cahlelges");
@@ -193,33 +211,43 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fixedSize: Size(
                                           screenWidth / 1.4, screenHeight / 18),
                                       textStyle: TextStyle(
-                                        fontSize: screenHeight / 41,
+                                        fontSize: user == null
+                                            ? screenHeight / 36
+                                            : screenHeight / 41,
                                         fontWeight: FontWeight.w700,
                                       )),
-                                  child: dailyProvider.completed != 5
-                                      ? Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Center(
-                                                child: Text(
-                                                  "Daily Challenges ${dailyProvider.completed}/3",
+                                  child: user != null
+                                      ? (dailyProvider.completed != 5
+                                          ? Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Center(
+                                                    child: Text(
+                                                      user == null
+                                                          ? "Daily Challenges"
+                                                          : "Daily Challenges ${dailyProvider.completed}/3",
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            dailyProvider.completed >= 3
-                                                ? const Icon(
-                                                    Icons.check,
-                                                  )
-                                                : const Icon(Icons.flag),
-                                          ],
-                                        )
-                                      : (isLoading == true
-                                          ? const CircularProgressIndicator(
-                                              color: white,
+                                                user == null
+                                                    ? const SizedBox()
+                                                    : dailyProvider.completed >=
+                                                            3
+                                                        ? const Icon(
+                                                            Icons.check,
+                                                          )
+                                                        : const Icon(
+                                                            Icons.flag),
+                                              ],
                                             )
-                                          : const Text("Daily Challenges")),
+                                          : (isLoading == true
+                                              ? const CircularProgressIndicator(
+                                                  color: grey,
+                                                )
+                                              : const Text("Daily Challenges")))
+                                      : const Text("Daily challenges"),
                                 ),
                               ),
                             ),

@@ -112,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
         await saveUserRank(rank);
         setState(() {
           userRank = rank;
-          rankFetched = true; // Mark as fetched
+          rankFetched = true;
         });
         return rank;
       }

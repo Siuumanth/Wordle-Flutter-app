@@ -12,14 +12,15 @@ class UserDetailsProvider extends ChangeNotifier {
   final user = FirebaseAuth.instance.currentUser;
 
   UserDetailsProvider() {
-    initializePrefs();
-    getUserDetails();
+    if (user != null) {
+      initializePrefs();
+      getUserDetails();
+    }
   }
 
   Future<void> getUserDetails() async {
     await initializePrefs();
     Map userData = await getDataFromCache();
-
     if (userData.isNotEmpty) {
       userDetails = profileUser(
           username: userData['name'],
@@ -27,13 +28,11 @@ class UserDetailsProvider extends ChangeNotifier {
           score: userData['score'],
           pfp: userData['pfp']);
       check = 1;
-      print("Got data from cache");
     } else {
       userDetails = await Instances.userRef.getUserDetails();
       await saveMapToSharedPreferences(userDetails!.toMap());
       check = 1;
     }
-
     notifyListeners(); // Notify listeners when `userDetails` changes
   }
 

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/screens/home.dart';
@@ -66,13 +67,15 @@ class _WrapperState extends State<Wrapper> {
   @override
   void initState() {
     super.initState();
-    _reloadUser();
+    if (user != null) {
+      _reloadUser();
 
-    _checkTrackerExists().then((exists) {
-      setState(() {
-        trackerExists = exists;
+      _checkTrackerExists().then((exists) {
+        setState(() {
+          trackerExists = exists;
+        });
       });
-    });
+    }
   }
 
   @override
@@ -89,6 +92,7 @@ class _WrapperState extends State<Wrapper> {
             return const Center(child: Text("Error"));
           } else {
             if (user == null) {
+              print("user is null");
               return const LoginScreen();
             } else {
               if (user!.emailVerified == true) {

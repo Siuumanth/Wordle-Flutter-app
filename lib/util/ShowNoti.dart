@@ -47,6 +47,8 @@ void showTopMessage(
 
   // Auto-remove the overlay after 3 seconds
   Future.delayed(const Duration(seconds: 3), () {
-    overlayEntry.remove();
+    if (overlay.mounted) {
+      overlayEntry.remove();
+    }
   });
 }
