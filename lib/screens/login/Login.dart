@@ -32,48 +32,53 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Color textColor = Theme.of(context).textTheme.titleMedium!.color!;
     return Scaffold(
       appBar: loginAppBar(context),
       body: Container(
-        color: white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Login",
                   style: TextStyle(
-                      fontSize: 35, fontWeight: FontWeight.w600, color: grey),
+                      fontSize: 35,
+                      fontWeight: FontWeight.w600,
+                      color: textColor),
                 ),
                 const SizedBox(
                   height: 30,
                 ),
                 textField(
                     mailController,
-                    const Icon(
+                    Icon(
                       Icons.mail,
-                      color: grey,
+                      color: textColor,
                       size: 30,
                     ),
                     "Enter your email",
                     0,
                     TextInputType.emailAddress,
-                    false),
+                    false,
+                    context),
                 const SizedBox(
                   height: 30,
                 ),
                 textField(
                     passController,
-                    const Icon(
+                    Icon(
                       Icons.lock,
-                      color: grey,
+                      color: textColor,
                       size: 30,
                     ),
                     "Password",
                     0,
                     TextInputType.visiblePassword,
-                    true),
+                    true,
+                    context),
                 const SizedBox(
                   height: 20,
                 ),
@@ -82,9 +87,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
+                      Text(
                         'Dont have an account?',
-                        style: TextStyle(fontSize: 17, color: grey),
+                        style: TextStyle(fontSize: 17, color: textColor),
                       ),
                       const SizedBox(width: 5),
                       GestureDetector(
@@ -92,10 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => const SignUp()));
                         },
-                        child: const Text(
+                        child: Text(
                           'Sign up',
                           style: TextStyle(
-                              color: darktheme,
+                              color: Theme.of(context).unselectedWidgetColor,
                               fontWeight: FontWeight.w500,
                               fontSize: 18),
                         ),
@@ -111,8 +116,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: darktheme,
-                        foregroundColor: Colors.white,
+                        backgroundColor:
+                            Theme.of(context).unselectedWidgetColor,
+                        foregroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
                         padding: const EdgeInsets.only(left: 20, right: 20)),
                     onPressed: () {
                       try {
@@ -140,14 +147,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     goToHome(context);
                   },
-                  child: const Text(
+                  child: Text(
                     "Continue as guest",
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: darktheme,
+                        color: Theme.of(context).unselectedWidgetColor,
                         decoration: TextDecoration.underline,
-                        decorationColor: darktheme),
+                        decorationColor:
+                            Theme.of(context).unselectedWidgetColor),
                   ),
                 )
               ],
@@ -184,8 +192,8 @@ void goToHome(context) {
 
 AppBar loginAppBar(BuildContext context) {
   return AppBar(
-    iconTheme: const IconThemeData(color: darkModebg),
-    backgroundColor: white,
+    iconTheme: Theme.of(context).iconTheme,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     title: const Row(
       children: [
         Text(
@@ -199,7 +207,7 @@ AppBar loginAppBar(BuildContext context) {
 }
 
 Widget textField(TextEditingController contr, Widget icon, String hintext,
-    int max, TextInputType inputType, bool isPassword) {
+    int max, TextInputType inputType, bool isPassword, BuildContext context) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     height: 60,
@@ -211,10 +219,12 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
     child: TextField(
       cursorHeight: 30,
 
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w400,
-        color: grey,
+        color: Theme.of(context).brightness == Brightness.light
+            ? Theme.of(context).textTheme.titleMedium!.color
+            : const Color.fromARGB(210, 225, 225, 225),
       ),
       controller: contr,
       obscureText: isPassword, // Hides text for password fields
@@ -223,7 +233,10 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
             const EdgeInsets.only(bottom: -2, left: 15, right: 30, top: 10),
         border: InputBorder.none,
         hintText: hintext,
-        hintStyle: const TextStyle(color: Color.fromARGB(211, 35, 35, 35)),
+        hintStyle: TextStyle(
+            color: Theme.of(context).brightness == Brightness.light
+                ? Theme.of(context).textTheme.titleMedium!.color
+                : const Color.fromARGB(211, 212, 212, 212)),
         prefixIcon: icon,
         prefixIconConstraints:
             const BoxConstraints(maxHeight: 15, minWidth: 50),

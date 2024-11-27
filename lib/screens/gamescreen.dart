@@ -230,7 +230,7 @@ class _gameScreenState extends State<gameScreen> {
           widget.isChallenge),
       body: Container(
         padding: const EdgeInsets.only(top: 20),
-        color: white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         //Theme.of(context).scaffoldBackgroundColor
         child: Column(
           children: [
@@ -284,13 +284,13 @@ class GameBox extends StatefulWidget {
 }
 
 class GameBoxState extends State<GameBox> {
-  Color boxColor = white;
-  Color textColor = const Color(0xff444242);
-
   @override
   void initState() {
     super.initState();
   }
+
+  Color boxColor = Colors.transparent;
+  Color textColor = const Color(0xff444242);
 
   void changeBoxColorGreen() {
     setState(() {
@@ -328,7 +328,9 @@ class GameBoxState extends State<GameBox> {
       decoration: BoxDecoration(
         color: boxColor,
         border: Border.all(
-            width: 1.5, color: const Color.fromARGB(177, 26, 25, 25)),
+          width: 1.5,
+          color: Theme.of(context).textTheme.displayLarge!.color!,
+        ),
         borderRadius: BorderRadius.circular(2),
       ),
       child: Center(
@@ -348,7 +350,7 @@ AppBar gameAppBar(
   return AppBar(
     iconTheme:
         IconThemeData(color: Theme.of(context).textTheme.bodyMedium!.color),
-    backgroundColor: white,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     title: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -365,9 +367,9 @@ AppBar gameAppBar(
           width: 50,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
           child: GestureDetector(
-            child: const Icon(
+            child: Icon(
               Icons.help_outline,
-              color: black,
+              color: Theme.of(context).textTheme.bodyMedium!.color,
               size: 30,
             ),
             onTap: () {

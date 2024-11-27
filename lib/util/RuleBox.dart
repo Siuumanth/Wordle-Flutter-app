@@ -1,11 +1,8 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
-import 'package:wordle/constants/constants.dart';
+import 'package:wordle/constants/constants.dart'; // Ensure this contains the necessary color constants
+//import 'package:wordle/screens/login/Login.dart';
 
-import 'package:wordle/screens/login/Login.dart';
-
-String font = 'Georgia';
+String font = 'Poppins';
 
 class RuleBox extends StatelessWidget {
   const RuleBox({super.key});
@@ -15,66 +12,120 @@ class RuleBox extends StatelessWidget {
     double sH = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      backgroundColor: white,
-      elevation: 16,
-      child: Container(
-        width: screenWidth / 1.2,
-        padding: const EdgeInsets.all(10.0),
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 10),
-            Text(
-              "How to Play",
-              style: textStyle(sH, 30, FontWeight.w800),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "Guess the Wordle in 6 tries.",
-              style: textStyle(sH, 45, FontWeight.w500),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "• Each guess must be a valid 5 letter word.\n\n• The colour of the tiles will change to show how close your guesss was to the word.",
-              style: textStyle(sH, 57, FontWeight.w500),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "Examples: \n",
-              style: textStyle(sH, 45, FontWeight.w500),
-            ),
-            const SizedBox(height: 50),
-          ],
+    Color textColor = Theme.of(context).textTheme.titleMedium!.color!;
+    Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
+
+    return Container(
+      margin: EdgeInsets.zero,
+      child: Dialog(
+        insetPadding: const EdgeInsets.all(0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? const Color.fromARGB(217, 28, 28, 28)
+            : white,
+        elevation: 16,
+        child: Container(
+          width: screenWidth / 1.2,
+          padding: const EdgeInsets.all(20.0),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 10),
+              Text(
+                "How to Play",
+                style: textStyle(sH, 30, FontWeight.w800, textColor),
+              ),
+              const SizedBox(height: 20),
+              // Rules explanation
+              Text(
+                "• You have 6 chances to guess the hidden 5-letter word. Each guess must be a word.\n\n• The color of the tiles will change to show how close your guess was to the word.",
+                style: textStyle(sH, 57, FontWeight.w500, textColor),
+              ),
+              const SizedBox(height: 20),
+              // GOL letters
+              Text(
+                "Examples: ",
+                style: textStyle(sH, 45, FontWeight.w500, textColor),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Text(
+                      "G",
+                      style: textStyle(sH, 30, FontWeight.w700, Colors.white),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.yellow,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Text(
+                      "O",
+                      style: textStyle(sH, 30, FontWeight.w700, Colors.black),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Text(
+                      "L",
+                      style: textStyle(sH, 30, FontWeight.w700, Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              // Color rule explanation
+              Text(
+                "• If the letter is in the correct spot, it will turn green.\n\n• If the letter is in the word but in the wrong spot, it will turn yellow.\n\n• If the letter is not in the word, it will turn gray.",
+                style: textStyle(sH, 57, FontWeight.w500, textColor),
+              ),
+              const SizedBox(height: 30),
+              dialogButton("Got It", sH, screenWidth, () {
+                Navigator.pop(context);
+              }, context),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-TextStyle textStyle(ht, div, FontWeight wt) {
+TextStyle textStyle(double ht, double div, FontWeight wt, Color textColor) {
   return TextStyle(
-      color: black, fontSize: ht / div, fontWeight: wt, fontFamily: font);
+      color: textColor, fontSize: ht / div, fontWeight: wt, fontFamily: font);
 }
 
-Widget dialogButton(
-    String text, double ht, double width, action, BuildContext context) {
+Widget dialogButton(String text, double ht, double width, Function action,
+    BuildContext context) {
+  //Color buttonColor = Theme.of(context).buttonTheme.colorScheme!.primary;
+  // Color buttonTextColor = Theme.of(context).buttonTheme.colorScheme!.onPrimary;
+
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 255, 221, 25),
-        foregroundColor: dialog1),
+      backgroundColor: theme,
+      foregroundColor: grey,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+    ),
     onPressed: () async {
-      if (text == "Play Another") {
-        Navigator.pop(context);
-        Navigator.pop(context);
-
-        print("Popped the screen");
-      }
-
       await action(context);
     },
     child: Text(

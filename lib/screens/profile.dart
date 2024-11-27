@@ -3,7 +3,7 @@ import 'package:wordle/constants/constants.dart';
 import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:wordle/main.dart';
+//import 'package:wordle/main.dart';
 import 'package:wordle/model/Player.dart';
 import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';

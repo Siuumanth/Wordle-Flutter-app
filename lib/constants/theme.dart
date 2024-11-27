@@ -14,13 +14,15 @@ final ThemeData lightTheme = ThemeData(
       bodyMedium: TextStyle(color: darkModebg),
       bodySmall: TextStyle(color: Color.fromARGB(195, 22, 22, 22)),
       bodyLarge: TextStyle(color: darkModebg),
-      titleSmall: TextStyle(color: cardBlue)),
+      titleSmall: TextStyle(color: cardBlue),
+      displayLarge: TextStyle(color: Color.fromARGB(255, 28, 28, 28)),
+      displayMedium: TextStyle(color: Color(0xff444242))),
 );
 
 final ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   primaryColor: theme,
-  scaffoldBackgroundColor: darkModebg,
+  scaffoldBackgroundColor: const Color.fromARGB(232, 34, 34, 34),
   appBarTheme: const AppBarTheme(color: theme),
   cardColor: const Color.fromARGB(195, 42, 42, 42),
   iconTheme: const IconThemeData(color: white),
@@ -30,14 +32,15 @@ final ThemeData darkTheme = ThemeData(
       bodySmall: TextStyle(color: white),
       bodyLarge: TextStyle(color: white),
       titleLarge: TextStyle(color: white),
-      displaySmall: TextStyle(color: black),
-      titleSmall: TextStyle(color: cardBlue)),
+      titleSmall: TextStyle(color: cardBlue),
+      displayLarge: TextStyle(color: Color.fromARGB(255, 104, 104, 104)),
+      displaySmall: TextStyle(color: white)),
 );
 
 //import 'package:flutter/material.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode _themeMode = ThemeMode.system;
 
   ThemeMode get themeMode => _themeMode;
 
