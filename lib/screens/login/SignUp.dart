@@ -6,7 +6,9 @@ import 'package:wordle/screens/login/auth_service.dart';
 //import 'package:wordle/screens/login/profilepick.dart';
 import 'package:wordle/screens/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wordle/util/ShowNoti.dart';
 import 'package:wordle/wrapper.dart';
+import 'package:wordle/model/providers/instances.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -34,6 +36,14 @@ class _SignUpState extends State<SignUp> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', nameController.text);
     print("Name has been saved");
+  }
+
+  Future<bool> doesUserExist() async {
+    if (await Instances.userRef.userNameExists(nameController.text)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -64,7 +74,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                     "Username",
                     0,
-                    TextInputType.emailAddress),
+                    TextInputType.emailAddress,
+                    false),
                 const SizedBox(
                   height: 30,
                 ),
@@ -77,7 +88,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                     "Enter your email",
                     0,
-                    TextInputType.emailAddress),
+                    TextInputType.emailAddress,
+                    false),
                 const SizedBox(
                   height: 30,
                 ),
@@ -90,7 +102,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                     "Set password",
                     0,
-                    TextInputType.visiblePassword),
+                    TextInputType.visiblePassword,
+                    true),
                 const SizedBox(
                   height: 20,
                 ),
@@ -130,7 +143,22 @@ class _SignUpState extends State<SignUp> {
                         backgroundColor: darktheme,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.only(left: 45, right: 45)),
-                    onPressed: () {
+                    onPressed: () async {
+                      if (nameController.text.length < 4) {
+                        showTopMessage(
+                            context,
+                            "Username length must be atleast 4 characters",
+                            darktheme,
+                            white);
+                        return;
+                      }
+                      if (await doesUserExist()) {
+                        print("Username does exist");
+                        showTopMessage(
+                            context, "Username is already in use", red, white);
+                        return;
+                      }
+                      print("Username does not exist");
                       _signup();
                     },
                     child: Center(
@@ -211,7 +239,7 @@ AppBar loginAppBar(BuildContext context) {
 }
 
 Widget textField(TextEditingController contr, Widget icon, String hintext,
-    int max, TextInputType inputType) {
+    int max, TextInputType inputType, bool isPassword) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     height: 60,
@@ -223,8 +251,12 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
     child: TextField(
       cursorHeight: 30,
       style: const TextStyle(
-          fontSize: 18, fontWeight: FontWeight.w400, color: grey),
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+        color: grey,
+      ),
       controller: contr,
+      obscureText: isPassword, // Hides text for password fields
       decoration: InputDecoration(
         contentPadding:
             const EdgeInsets.only(bottom: -2, left: 15, right: 30, top: 10),
@@ -235,7 +267,7 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
             const BoxConstraints(maxHeight: 15, minWidth: 50),
       ),
       maxLength: hintext == "Username" ? 10 : null,
-      keyboardType: inputType,
+      keyboardType: isPassword ? TextInputType.visiblePassword : inputType,
     ),
   );
 }

@@ -95,4 +95,33 @@ class DatabaseRef {
 
     return leaderBoardList;
   }
+
+  Future<bool> userNameExists(String username) async {
+    var snapshot = await userRef.orderByChild("name").get();
+    List<String> usernames = [];
+    try {
+      if (snapshot.exists) {
+        Map fullMap = snapshot.value as Map;
+        print(fullMap);
+        fullMap.forEach((key, value) {
+          usernames.add(value['name']);
+        });
+        print(usernames);
+      }
+      bool found = false;
+      for (int i = 0; i < usernames.length; i++) {
+        if (usernames[i] == username) {
+          found = true;
+        }
+      }
+      if (found) {
+        return true;
+      } else {
+        false;
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return true;
+  }
 }

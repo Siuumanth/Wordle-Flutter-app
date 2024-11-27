@@ -58,7 +58,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     "Enter your email",
                     0,
-                    TextInputType.emailAddress),
+                    TextInputType.emailAddress,
+                    false),
                 const SizedBox(
                   height: 30,
                 ),
@@ -71,7 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     "Password",
                     0,
-                    TextInputType.visiblePassword),
+                    TextInputType.visiblePassword,
+                    true),
                 const SizedBox(
                   height: 20,
                 ),
@@ -196,7 +198,7 @@ AppBar loginAppBar(BuildContext context) {
 }
 
 Widget textField(TextEditingController contr, Widget icon, String hintext,
-    int max, TextInputType inputType) {
+    int max, TextInputType inputType, bool isPassword) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     height: 60,
@@ -208,8 +210,12 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
     child: TextField(
       cursorHeight: 30,
       style: const TextStyle(
-          fontSize: 18, fontWeight: FontWeight.w400, color: grey),
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+        color: grey,
+      ),
       controller: contr,
+      obscureText: isPassword, // Hides text for password fields
       decoration: InputDecoration(
         contentPadding:
             const EdgeInsets.only(bottom: -2, left: 15, right: 30, top: 10),
@@ -219,8 +225,8 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
         prefixIconConstraints:
             const BoxConstraints(maxHeight: 15, minWidth: 50),
       ),
-      maxLength: max > 0 ? max : null,
-      keyboardType: inputType,
+      maxLength: hintext == "Username" ? 10 : null,
+      keyboardType: isPassword ? TextInputType.visiblePassword : inputType,
     ),
   );
 }
