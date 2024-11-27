@@ -114,7 +114,7 @@ class _SignUpState extends State<SignUp> {
                     children: [
                       const Text(
                         'Already have an account?',
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(fontSize: 17, color: grey),
                       ),
                       const SizedBox(width: 5),
                       GestureDetector(
@@ -225,6 +225,7 @@ class _SignUpState extends State<SignUp> {
 
 AppBar loginAppBar(BuildContext context) {
   return AppBar(
+    iconTheme: const IconThemeData(color: darkModebg),
     backgroundColor: white,
     title: const Row(
       children: [
@@ -258,14 +259,14 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
       controller: contr,
       obscureText: isPassword, // Hides text for password fields
       decoration: InputDecoration(
-        contentPadding:
-            const EdgeInsets.only(bottom: -2, left: 15, right: 30, top: 10),
-        border: InputBorder.none,
-        hintText: hintext,
-        prefixIcon: icon,
-        prefixIconConstraints:
-            const BoxConstraints(maxHeight: 15, minWidth: 50),
-      ),
+          contentPadding:
+              const EdgeInsets.only(bottom: -2, left: 15, right: 30, top: 10),
+          border: InputBorder.none,
+          hintText: hintext,
+          prefixIcon: icon,
+          prefixIconConstraints:
+              const BoxConstraints(maxHeight: 15, minWidth: 50),
+          hintStyle: const TextStyle(color: Color.fromARGB(211, 35, 35, 35))),
       maxLength: hintext == "Username" ? 10 : null,
       keyboardType: isPassword ? TextInputType.visiblePassword : inputType,
     ),

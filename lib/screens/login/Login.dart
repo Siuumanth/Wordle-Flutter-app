@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const Text(
                         'Dont have an account?',
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(fontSize: 17, color: grey),
                       ),
                       const SizedBox(width: 5),
                       GestureDetector(
@@ -184,6 +184,7 @@ void goToHome(context) {
 
 AppBar loginAppBar(BuildContext context) {
   return AppBar(
+    iconTheme: const IconThemeData(color: darkModebg),
     backgroundColor: white,
     title: const Row(
       children: [
@@ -209,6 +210,7 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
     margin: const EdgeInsets.symmetric(horizontal: 25),
     child: TextField(
       cursorHeight: 30,
+
       style: const TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w400,
@@ -221,6 +223,7 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
             const EdgeInsets.only(bottom: -2, left: 15, right: 30, top: 10),
         border: InputBorder.none,
         hintText: hintext,
+        hintStyle: const TextStyle(color: Color.fromARGB(211, 35, 35, 35)),
         prefixIcon: icon,
         prefixIconConstraints:
             const BoxConstraints(maxHeight: 15, minWidth: 50),
