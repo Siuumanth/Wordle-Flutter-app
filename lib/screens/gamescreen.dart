@@ -203,7 +203,7 @@ class _gameScreenState extends State<gameScreen> {
       builder: (BuildContext context) {
         return LoserBox(
           word: widget.word,
-          restart: widget.restart,
+          restart: startMadu,
           popmethod: widget.popmethod,
         );
       },

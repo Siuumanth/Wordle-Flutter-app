@@ -22,7 +22,7 @@ class LoserBox extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      backgroundColor: dialog1,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 16,
       child: Container(
         padding: const EdgeInsets.all(20.0),
@@ -34,7 +34,7 @@ class LoserBox extends StatelessWidget {
             Text(
               "YOU LOST!",
               style: TextStyle(
-                  color: lossColor,
+                  color: Theme.of(context).textTheme.bodyMedium!.color,
                   fontSize: screenHeight / 30,
                   fontWeight: FontWeight.w900),
             ),
@@ -42,12 +42,12 @@ class LoserBox extends StatelessWidget {
             Text(
               "The word was $word",
               style: TextStyle(
-                color: white,
+                color: Theme.of(context).textTheme.bodyMedium!.color,
                 fontSize: screenHeight / 40,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
             SizedBox(
               height: 50,
               width: screenWidth / 2.3,
@@ -72,8 +72,7 @@ Widget dialogButtonloss(
     String text, double ht, double width, action, BuildContext context) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
-        backgroundColor: lossColor,
-        foregroundColor: const Color.fromARGB(239, 1, 107, 98)),
+        backgroundColor: lossColor, foregroundColor: darkModebg),
     onPressed: () async {
       if (text == "Play Another") {
         Navigator.pop(context);

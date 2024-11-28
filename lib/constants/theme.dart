@@ -25,7 +25,7 @@ final ThemeData lightTheme = ThemeData(
 final ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   primaryColor: theme,
-  scaffoldBackgroundColor: const Color.fromARGB(232, 34, 34, 34),
+  scaffoldBackgroundColor: const Color.fromARGB(245, 34, 34, 34),
   appBarTheme: const AppBarTheme(color: theme),
   cardColor: const Color.fromARGB(195, 42, 42, 42),
   iconTheme: const IconThemeData(color: white),
