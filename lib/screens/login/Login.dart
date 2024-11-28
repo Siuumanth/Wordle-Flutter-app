@@ -208,6 +208,7 @@ AppBar loginAppBar(BuildContext context) {
 
 Widget textField(TextEditingController contr, Widget icon, String hintext,
     int max, TextInputType inputType, bool isPassword, BuildContext context) {
+  double screenHeight = MediaQuery.of(context).size.height;
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     height: 60,
@@ -220,7 +221,7 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
       cursorHeight: 30,
 
       style: TextStyle(
-        fontSize: 18,
+        fontSize: screenHeight / 45,
         fontWeight: FontWeight.w400,
         color: Theme.of(context).brightness == Brightness.light
             ? Theme.of(context).textTheme.titleMedium!.color

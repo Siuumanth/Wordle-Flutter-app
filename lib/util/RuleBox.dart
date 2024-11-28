@@ -13,7 +13,7 @@ class RuleBox extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     Color textColor = Theme.of(context).textTheme.titleMedium!.color!;
-    Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    //   Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
 
     return Container(
       margin: EdgeInsets.zero,

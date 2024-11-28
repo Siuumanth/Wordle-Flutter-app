@@ -48,62 +48,68 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    Color textColor = Theme.of(context).textTheme.titleMedium!.color!;
     return Scaffold(
       appBar: loginAppBar(context),
       body: Container(
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Signup",
                   style: TextStyle(
-                      fontSize: 35, fontWeight: FontWeight.w600, color: grey),
+                      fontSize: 35,
+                      fontWeight: FontWeight.w600,
+                      color: textColor),
                 ),
                 const SizedBox(
                   height: 30,
                 ),
                 textField(
                     nameController,
-                    const Icon(
+                    Icon(
                       Icons.account_circle_sharp,
-                      color: grey,
+                      color: textColor,
                       size: 30,
                     ),
                     "Username",
                     0,
                     TextInputType.emailAddress,
-                    false),
+                    false,
+                    context),
                 const SizedBox(
                   height: 30,
                 ),
                 textField(
                     emailController,
-                    const Icon(
+                    Icon(
                       Icons.mail,
-                      color: grey,
+                      color: textColor,
                       size: 30,
                     ),
                     "Enter your email",
                     0,
                     TextInputType.emailAddress,
-                    false),
+                    false,
+                    context),
                 const SizedBox(
                   height: 30,
                 ),
                 textField(
                     passController,
-                    const Icon(
+                    Icon(
                       Icons.lock,
-                      color: grey,
+                      color: textColor,
                       size: 30,
                     ),
                     "Set password",
                     0,
                     TextInputType.visiblePassword,
-                    true),
+                    true,
+                    context),
                 const SizedBox(
                   height: 20,
                 ),
@@ -112,19 +118,19 @@ class _SignUpState extends State<SignUp> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
+                      Text(
                         'Already have an account?',
-                        style: TextStyle(fontSize: 17, color: grey),
+                        style: TextStyle(fontSize: 17, color: textColor),
                       ),
                       const SizedBox(width: 5),
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
                         },
-                        child: const Text(
+                        child: Text(
                           'Log in',
                           style: TextStyle(
-                              color: darktheme,
+                              color: Theme.of(context).unselectedWidgetColor,
                               fontWeight: FontWeight.w500,
                               fontSize: 18),
                         ),
@@ -140,8 +146,10 @@ class _SignUpState extends State<SignUp> {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: darktheme,
-                        foregroundColor: Colors.white,
+                        backgroundColor:
+                            Theme.of(context).unselectedWidgetColor,
+                        foregroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
                         padding: const EdgeInsets.only(left: 45, right: 45)),
                     onPressed: () async {
                       if (nameController.text.length < 4) {
@@ -177,14 +185,15 @@ class _SignUpState extends State<SignUp> {
                   onTap: () {
                     goToHome(context);
                   },
-                  child: const Text(
+                  child: Text(
                     "Continue as guest",
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: darktheme,
+                        color: Theme.of(context).unselectedWidgetColor,
                         decoration: TextDecoration.underline,
-                        decorationColor: darktheme),
+                        decorationColor:
+                            Theme.of(context).unselectedWidgetColor),
                   ),
                 )
               ],
@@ -225,8 +234,8 @@ class _SignUpState extends State<SignUp> {
 
 AppBar loginAppBar(BuildContext context) {
   return AppBar(
-    iconTheme: const IconThemeData(color: darkModebg),
-    backgroundColor: white,
+    iconTheme: Theme.of(context).iconTheme,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     title: const Row(
       children: [
         Text(
@@ -240,7 +249,8 @@ AppBar loginAppBar(BuildContext context) {
 }
 
 Widget textField(TextEditingController contr, Widget icon, String hintext,
-    int max, TextInputType inputType, bool isPassword) {
+    int max, TextInputType inputType, bool isPassword, BuildContext context) {
+  double screenHeight = MediaQuery.of(context).size.height;
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     height: 60,
@@ -251,22 +261,29 @@ Widget textField(TextEditingController contr, Widget icon, String hintext,
     margin: const EdgeInsets.symmetric(horizontal: 25),
     child: TextField(
       cursorHeight: 30,
-      style: const TextStyle(
-        fontSize: 18,
+
+      style: TextStyle(
+        fontSize: screenHeight / 45,
         fontWeight: FontWeight.w400,
-        color: grey,
+        color: Theme.of(context).brightness == Brightness.light
+            ? Theme.of(context).textTheme.titleMedium!.color
+            : const Color.fromARGB(210, 225, 225, 225),
       ),
       controller: contr,
       obscureText: isPassword, // Hides text for password fields
       decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.only(bottom: -2, left: 15, right: 30, top: 10),
-          border: InputBorder.none,
-          hintText: hintext,
-          prefixIcon: icon,
-          prefixIconConstraints:
-              const BoxConstraints(maxHeight: 15, minWidth: 50),
-          hintStyle: const TextStyle(color: Color.fromARGB(211, 35, 35, 35))),
+        contentPadding:
+            const EdgeInsets.only(bottom: -2, left: 15, right: 30, top: 10),
+        border: InputBorder.none,
+        hintText: hintext,
+        hintStyle: TextStyle(
+            color: Theme.of(context).brightness == Brightness.light
+                ? Theme.of(context).textTheme.titleMedium!.color
+                : const Color.fromARGB(211, 212, 212, 212)),
+        prefixIcon: icon,
+        prefixIconConstraints:
+            const BoxConstraints(maxHeight: 15, minWidth: 50),
+      ),
       maxLength: hintext == "Username" ? 10 : null,
       keyboardType: isPassword ? TextInputType.visiblePassword : inputType,
     ),
