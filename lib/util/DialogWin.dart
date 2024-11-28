@@ -3,7 +3,7 @@ import 'package:wordle/constants/constants.dart';
 
 import 'package:wordle/screens/login/Login.dart';
 
-class WinnerBox extends StatelessWidget {
+class WinnerBox extends StatefulWidget {
   final String word;
   final restart;
   final popmethod;
@@ -14,6 +14,11 @@ class WinnerBox extends StatelessWidget {
       super.key});
 
   @override
+  State<WinnerBox> createState() => _WinnerBoxState();
+}
+
+class _WinnerBoxState extends State<WinnerBox> {
+  @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -22,7 +27,7 @@ class WinnerBox extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      backgroundColor: dialog1,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 16,
       child: Container(
         padding: const EdgeInsets.all(20.0),
@@ -34,7 +39,7 @@ class WinnerBox extends StatelessWidget {
             Text(
               "YOU WON!",
               style: TextStyle(
-                  color: gold,
+                  color: Theme.of(context).textTheme.bodyMedium!.color,
                   fontSize: screenHeight / 30,
                   fontWeight: FontWeight.w900),
             ),
@@ -44,9 +49,9 @@ class WinnerBox extends StatelessWidget {
               fit: BoxFit.contain,
             ),
             Text(
-              "The word was $word",
+              "The word was ${widget.word}",
               style: TextStyle(
-                color: white,
+                color: Theme.of(context).textTheme.bodyMedium!.color,
                 fontSize: screenHeight / 40,
                 fontWeight: FontWeight.w700,
               ),
@@ -55,8 +60,8 @@ class WinnerBox extends StatelessWidget {
             SizedBox(
               height: 50,
               width: screenWidth / 2.3,
-              child: dialogButton(
-                  "Play Another", screenHeight, screenWidth, restart, context),
+              child: dialogButton("Play Another", screenHeight, screenWidth,
+                  widget.restart, context),
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -73,11 +78,11 @@ class WinnerBox extends StatelessWidget {
 }
 
 Widget dialogButton(
-    String text, double ht, double width, action, BuildContext context) {
+    String text, double ht, double width, restart, BuildContext context) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
         backgroundColor: const Color.fromARGB(255, 255, 221, 25),
-        foregroundColor: dialog1),
+        foregroundColor: darkModebg),
     onPressed: () async {
       if (text == "Play Another") {
         Navigator.pop(context);
@@ -86,7 +91,7 @@ Widget dialogButton(
         print("Popped the screen");
       }
 
-      await action(context);
+      await restart(context);
     },
     child: Text(
       text,

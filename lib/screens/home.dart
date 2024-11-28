@@ -18,7 +18,7 @@ import 'package:wordle/util/ShowNoti.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:wordle/constants/theme.dart';
-import 'package:wordle/model/providers/userInfoProvider.dart';
+//import 'package:wordle/model/providers/userInfoProvider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -185,6 +185,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 margin: const EdgeInsets.only(bottom: 20),
                                 child: ElevatedButton(
                                   onPressed: () async {
+                                    if (online == false) {
+                                      print("bros offline");
+                                      showTopMessage(context, "You're offline",
+                                          darktheme, white);
+                                      return;
+                                    }
                                     if (user == null) {
                                       showTopMessage(
                                           context,
@@ -197,14 +203,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     await _initializeData();
                                     if (dailyProvider.completed < 3 &&
                                         online == true) {
-                                      print("incrementing daily cahlelges");
                                       await dailyProvider.incrementDaily();
                                       startMadu(context, isChallenge: true);
-                                    } else if (online == false) {
-                                      print("bros offline");
-                                      showTopMessage(context, "You're offline",
-                                          darkertheme, white);
-                                      return;
+                                    } else if (dailyProvider.completed == 3) {
+                                      showTopMessage(
+                                          context,
+                                          "Daily challenge limit reached.",
+                                          darkertheme,
+                                          white);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(

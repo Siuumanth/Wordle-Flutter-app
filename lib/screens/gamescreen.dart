@@ -5,6 +5,7 @@ import 'package:wordle/constants/constants.dart';
 
 import 'package:wordle/model/dbTracker.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
+import 'package:wordle/screens/home.dart';
 import 'package:wordle/util/DialogWin.dart';
 import 'package:wordle/util/keyboard.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -47,7 +48,7 @@ class _gameScreenState extends State<gameScreen> {
   final user = FirebaseAuth.instance.currentUser;
   final ref = DatabaseRef();
   final trackerRef = DailyTracker();
-
+  bool isChanging = false;
   @override
   void initState() {
     super.initState();
@@ -115,7 +116,7 @@ class _gameScreenState extends State<gameScreen> {
   }
 
   Future<void> fiveDone(String ch) async {
-    if (ch == 'Enter') {
+    if (ch == 'Enter' && isChanging == false) {
       checkTheWord();
     } else if (ch == 'Backspace') {
       backSpace();
@@ -128,10 +129,13 @@ class _gameScreenState extends State<gameScreen> {
     List<String> correctAlphaList = widget.word.split('');
     int checker = binarySearch(word);
     if (checker == -1) {
-      showTopMessage(
-          context, "Word doesn't exist, please try again", darkertheme, white);
+      showTopMessage(context, "Word doesn't exist, please try again.",
+          Color(0xff444242), white);
       return;
     }
+    setState(() {
+      isChanging = true;
+    });
     for (int i = 0; i < 5; i++) {
       if (alphaList[i] == correctAlphaList[i]) {
         _gameBoxKeys[istart + i].currentState!.changeBoxColorGreen();
@@ -151,6 +155,9 @@ class _gameScreenState extends State<gameScreen> {
       }
       await Future.delayed(const Duration(seconds: 0, milliseconds: 300));
     }
+    setState(() {
+      isChanging = false;
+    });
 
     if (currentIndex == 30 && widget.word != word) {
       gameLost();
@@ -181,9 +188,7 @@ class _gameScreenState extends State<gameScreen> {
       context: context,
       builder: (BuildContext context) {
         return WinnerBox(
-            restart: widget.restart,
-            word: widget.word,
-            popmethod: widget.popmethod);
+            restart: startMadu, word: widget.word, popmethod: widget.popmethod);
       },
     );
   }

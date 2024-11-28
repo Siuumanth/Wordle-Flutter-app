@@ -72,7 +72,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     print("setting state now");
     await Provider.of<UserDetailsProvider>(context, listen: false)
         .getUserDetails();
-    ;
     setState(() {});
   }
 
