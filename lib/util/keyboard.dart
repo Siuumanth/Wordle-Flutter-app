@@ -108,12 +108,15 @@ class ButtonBox extends StatefulWidget {
 
 class _ButtonBoxState extends State<ButtonBox> {
   Color keyColor = kbgrey;
-  Color keyTextColor = const Color.fromARGB(255, 34, 34, 34);
+  Color keyTextColor = Colors.transparent;
   bool firstTime = true;
   late ThemeMode currentTheme;
+
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Set the initial border color based on the theme
+    keyTextColor = Theme.of(context).textTheme.bodyLarge!.color!;
   }
 
   void changeButtonColorGreen() {
@@ -156,10 +159,10 @@ class _ButtonBoxState extends State<ButtonBox> {
       widget.ch,
       style: TextStyle(
           fontSize: widget.ch != "Enter"
-              ? widget.keyHeight / 3.4
+              ? widget.keyHeight / 3.1
               : widget.keyHeight / 5,
-          fontWeight: FontWeight.w700,
-          color: Theme.of(context).textTheme.titleMedium!.color),
+          fontWeight: FontWeight.w800,
+          color: keyTextColor),
     );
 
     return Container(

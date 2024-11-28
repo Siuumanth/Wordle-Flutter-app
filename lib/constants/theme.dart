@@ -11,14 +11,15 @@ final ThemeData lightTheme = ThemeData(
   iconTheme: const IconThemeData(color: grey),
   cardColor: const Color.fromARGB(255, 246, 246, 246),
   textTheme: const TextTheme(
-      bodyMedium: TextStyle(color: darkModebg),
-      bodySmall: TextStyle(color: Color.fromARGB(195, 22, 22, 22)),
-      bodyLarge: TextStyle(color: darkModebg),
-      titleSmall: TextStyle(color: cardBlue),
-      displayLarge:
-          TextStyle(color: Color.fromARGB(255, 28, 28, 28)), //boxborder
-      displayMedium: TextStyle(color: Color(0xff444242)), //boxText
-      displaySmall: TextStyle(color: kbgrey)),
+    bodyMedium: TextStyle(color: darkModebg),
+    bodySmall: TextStyle(color: Color.fromARGB(195, 22, 22, 22)),
+    bodyLarge: TextStyle(color: darkModebg),
+    titleSmall: TextStyle(color: cardBlue),
+    displayLarge: TextStyle(color: Color.fromARGB(255, 48, 48, 48)), //boxborder
+    displayMedium: TextStyle(color: Color(0xff444242)), //boxText
+    displaySmall:
+        TextStyle(color: Color.fromARGB(255, 213, 213, 213)), //keyColor
+  ),
 );
 
 final ThemeData darkTheme = ThemeData(

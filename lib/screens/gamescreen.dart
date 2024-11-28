@@ -286,11 +286,14 @@ class GameBox extends StatefulWidget {
 
 class GameBoxState extends State<GameBox> {
   late ThemeMode currentTheme;
+
+  Color borderColor = Colors.transparent; // Initial default
+
   @override
-  void initState() {
-    super.initState();
-    //currentTheme = Provider.of<ThemeProvider>(context, listen: false).themeMode;
-    // currentTheme == ThemeMode.dark ? const Color(0xff444242) : white;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Set the initial border color based on the theme
+    borderColor = Theme.of(context).textTheme.displayLarge!.color!;
   }
 
   Color boxColor = Colors.transparent;
@@ -300,12 +303,14 @@ class GameBoxState extends State<GameBox> {
     setState(() {
       boxColor = boxGreen;
       textColor = white;
+      borderColor = boxGreen;
     });
   }
 
   void changeBoxColorGrey() {
     setState(() {
       boxColor = boxGrey;
+      borderColor = boxGrey;
       textColor = white;
     });
   }
@@ -313,6 +318,7 @@ class GameBoxState extends State<GameBox> {
   void changeBoxColorYellow() {
     setState(() {
       boxColor = boxYellow;
+      borderColor = boxYellow;
       textColor = white;
     });
   }
@@ -330,7 +336,7 @@ class GameBoxState extends State<GameBox> {
         color: boxColor,
         border: Border.all(
           width: 1.5,
-          color: Theme.of(context).textTheme.displayLarge!.color!,
+          color: borderColor,
         ),
         borderRadius: BorderRadius.circular(2),
       ),
