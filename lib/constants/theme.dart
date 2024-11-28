@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: theme,
-  scaffoldBackgroundColor: const Color.fromARGB(255, 237, 237, 237),
+  scaffoldBackgroundColor: const Color.fromARGB(255, 245, 245, 245),
   unselectedWidgetColor: darkerertheme,
   appBarTheme: const AppBarTheme(color: theme),
   iconTheme: const IconThemeData(color: grey),
@@ -15,8 +15,10 @@ final ThemeData lightTheme = ThemeData(
       bodySmall: TextStyle(color: Color.fromARGB(195, 22, 22, 22)),
       bodyLarge: TextStyle(color: darkModebg),
       titleSmall: TextStyle(color: cardBlue),
-      displayLarge: TextStyle(color: Color.fromARGB(255, 28, 28, 28)),
-      displayMedium: TextStyle(color: Color(0xff444242))),
+      displayLarge:
+          TextStyle(color: Color.fromARGB(255, 28, 28, 28)), //boxborder
+      displayMedium: TextStyle(color: Color(0xff444242)), //boxText
+      displaySmall: TextStyle(color: kbgrey)),
 );
 
 final ThemeData darkTheme = ThemeData(
@@ -28,13 +30,14 @@ final ThemeData darkTheme = ThemeData(
   iconTheme: const IconThemeData(color: white),
   unselectedWidgetColor: theme,
   textTheme: const TextTheme(
-      bodyMedium: TextStyle(color: white),
-      bodySmall: TextStyle(color: white),
-      bodyLarge: TextStyle(color: white),
-      titleLarge: TextStyle(color: white),
-      titleSmall: TextStyle(color: cardBlue),
-      displayLarge: TextStyle(color: Color.fromARGB(255, 104, 104, 104)),
-      displaySmall: TextStyle(color: white)),
+    bodyMedium: TextStyle(color: white),
+    bodySmall: TextStyle(color: white),
+    bodyLarge: TextStyle(color: white),
+    titleLarge: TextStyle(color: white),
+    titleSmall: TextStyle(color: cardBlue),
+    displayLarge: TextStyle(color: Color.fromARGB(255, 104, 104, 104)),
+    displaySmall: TextStyle(color: Color.fromARGB(255, 129, 129, 129)),
+  ),
 );
 
 //import 'package:flutter/material.dart';

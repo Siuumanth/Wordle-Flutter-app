@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';
-
+import 'package:provider/provider.dart';
+import 'package:wordle/constants/theme.dart';
 //import 'package:wordle/screens/gamescreen.dart';
 
 late List<GlobalKey<_ButtonBoxState>> buttonBoxKeys;
@@ -72,11 +73,12 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
     }
 
     return Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(children: [
-      kbRow(0, 10),
-      kbRow(10, 19),
-      kbRow(19, 28),
-    ]));
+          kbRow(0, 10),
+          kbRow(10, 19),
+          kbRow(19, 28),
+        ]));
   }
   //Column(children: [GridView.count(crossAxisCount: 10)])
 }
@@ -107,11 +109,18 @@ class ButtonBox extends StatefulWidget {
 class _ButtonBoxState extends State<ButtonBox> {
   Color keyColor = kbgrey;
   Color keyTextColor = const Color.fromARGB(255, 34, 34, 34);
+  bool firstTime = true;
+  late ThemeMode currentTheme;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void changeButtonColorGreen() {
     setState(() {
       keyColor = boxGreen;
       keyTextColor = white;
+      firstTime = false;
     });
   }
 
@@ -119,6 +128,7 @@ class _ButtonBoxState extends State<ButtonBox> {
     setState(() {
       keyColor = boxGrey;
       keyTextColor = white;
+      firstTime = false;
     });
   }
 
@@ -126,6 +136,7 @@ class _ButtonBoxState extends State<ButtonBox> {
     setState(() {
       keyColor = keyColor == boxGreen ? boxGreen : boxYellow;
       keyTextColor = white;
+      firstTime = false;
     });
   }
 
@@ -145,38 +156,44 @@ class _ButtonBoxState extends State<ButtonBox> {
       widget.ch,
       style: TextStyle(
           fontSize: widget.ch != "Enter"
-              ? widget.keyHeight / 3
+              ? widget.keyHeight / 3.4
               : widget.keyHeight / 5,
           fontWeight: FontWeight.w700,
-          color: keyTextColor),
+          color: Theme.of(context).textTheme.titleMedium!.color),
     );
 
-    return InkWell(
-      onTap: () {
-        if (!isFiveDone()) {
-          if (widget.ch != 'Backspace') {
-            widget.changeAlpha(widget.ch);
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      margin: const EdgeInsets.symmetric(vertical: 0),
+      child: InkWell(
+        onTap: () {
+          if (!isFiveDone()) {
+            if (widget.ch != 'Backspace') {
+              widget.changeAlpha(widget.ch);
+            } else {
+              widget.backSpace();
+            }
           } else {
-            widget.backSpace();
+            widget.fiveDone(widget.ch);
           }
-        } else {
-          widget.fiveDone(widget.ch);
-        }
-      }, // Change here
+        }, // Change here
 
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          color: keyColor,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            color: firstTime
+                ? Theme.of(context).textTheme.displaySmall!.color
+                : keyColor,
+          ),
+          height: widget.keyHeight,
+          margin: EdgeInsets.all(widget.screenWidth / 140),
+          child: Center(
+              child: widget.ch != 'Backspace'
+                  ? text
+                  : const Icon(
+                      Icons.backspace,
+                    )),
         ),
-        height: widget.keyHeight,
-        margin: EdgeInsets.all(widget.screenWidth / 140),
-        child: Center(
-            child: widget.ch != 'Backspace'
-                ? text
-                : const Icon(
-                    Icons.backspace,
-                  )),
       ),
     );
   }

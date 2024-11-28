@@ -98,9 +98,7 @@ class RuleBox extends StatelessWidget {
                 style: textStyle(sH, 57, FontWeight.w500, textColor),
               ),
               const SizedBox(height: 30),
-              dialogButton("Got It", sH, screenWidth, () {
-                Navigator.pop(context);
-              }, context),
+              dialogButton("Got It", sH, screenWidth, context),
             ],
           ),
         ),
@@ -114,8 +112,8 @@ TextStyle textStyle(double ht, double div, FontWeight wt, Color textColor) {
       color: textColor, fontSize: ht / div, fontWeight: wt, fontFamily: font);
 }
 
-Widget dialogButton(String text, double ht, double width, Function action,
-    BuildContext context) {
+Widget dialogButton(
+    String text, double ht, double width, BuildContext context) {
   //Color buttonColor = Theme.of(context).buttonTheme.colorScheme!.primary;
   // Color buttonTextColor = Theme.of(context).buttonTheme.colorScheme!.onPrimary;
 
@@ -125,8 +123,8 @@ Widget dialogButton(String text, double ht, double width, Function action,
       foregroundColor: grey,
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
     ),
-    onPressed: () async {
-      await action(context);
+    onPressed: () {
+      Navigator.pop(context);
     },
     child: Text(
       text,

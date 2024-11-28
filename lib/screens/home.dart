@@ -137,7 +137,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> onRefreshed() async {
-    Provider.of<DailyProvider>(context, listen: false).getDailyChallenges();
+    if (user != null) {
+      Provider.of<DailyProvider>(context, listen: false).getDailyChallenges();
+    }
   }
 
   @override

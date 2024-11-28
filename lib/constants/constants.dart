@@ -6,12 +6,12 @@ const Color grey = Color.fromARGB(212, 7, 7, 7);
 const Color greyLessO = Color.fromARGB(195, 74, 74, 74);
 const Color darktheme = Color(0xff34687b);
 const Color darkertheme = Color(0xff34687b);
-const Color darkerertheme = Color(0xff2F4858);
+const Color darkerertheme = Color.fromARGB(255, 57, 87, 106);
 const Color white = Color.fromARGB(255, 255, 255, 255);
 const Color black = Color.fromARGB(255, 0, 0, 0);
 
 const Color boxGreen = Color.fromARGB(255, 78, 187, 94);
-const Color boxYellow = Color.fromARGB(255, 226, 226, 30);
+const Color boxYellow = Color.fromARGB(255, 193, 193, 21);
 const Color boxGrey = Color(0xff444242);
 
 const Color kbgrey = Color.fromARGB(255, 224, 224, 224);

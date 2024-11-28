@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
+import 'package:wordle/constants/theme.dart';
 
 import 'package:wordle/model/dbTracker.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
@@ -235,7 +236,7 @@ class _gameScreenState extends State<gameScreen> {
         child: Column(
           children: [
             Expanded(
-              flex: 4, // Adjust the flex to occupy more space
+              flex: 4,
               child: Container(
                 padding: EdgeInsets.symmetric(
                     horizontal: pad * 1.5, vertical: pad * 1.5),
@@ -284,13 +285,16 @@ class GameBox extends StatefulWidget {
 }
 
 class GameBoxState extends State<GameBox> {
+  late ThemeMode currentTheme;
   @override
   void initState() {
     super.initState();
+    //currentTheme = Provider.of<ThemeProvider>(context, listen: false).themeMode;
+    // currentTheme == ThemeMode.dark ? const Color(0xff444242) : white;
   }
 
   Color boxColor = Colors.transparent;
-  Color textColor = const Color(0xff444242);
+  Color? textColor;
 
   void changeBoxColorGreen() {
     setState(() {
@@ -313,14 +317,11 @@ class GameBoxState extends State<GameBox> {
     });
   }
 
-  void changeTextColorWhite() {
-    setState(() {
-      textColor = Colors.white;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      //  textColor = Theme.of(context).textTheme.displayMedium!.color!;
+    });
     return Container(
       margin: const EdgeInsets.all(2),
       height: widget.width,
