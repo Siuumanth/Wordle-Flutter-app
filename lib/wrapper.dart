@@ -100,7 +100,7 @@ class _WrapperState extends State<Wrapper> {
                   return const HomeScreen();
                 } else {
                   if (trackerStatusGot == false) {
-                    return const CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
                   }
                   return const ProfilePicker();
                 }

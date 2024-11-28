@@ -20,6 +20,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   void initState() {
     super.initState();
+    // Logic remains unchanged
     _auth.sendEmailVerificationLink();
 
     // Set a delay to delete the user if email is not verified
@@ -61,58 +62,113 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenH = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "A verification email has been sent. Please verify to continue.",
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                _auth.sendEmailVerificationLink();
-              },
-              child: const Text("Resend Email"),
-            ),
-            GestureDetector(
-              onTap: () async {
-                // Delete user before navigating back to SignUp
-                await deleteUserAndNavigate();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignUp()),
-                );
-              },
-              child: const Text(
-                "Back to Sign up",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: darktheme,
-                    decoration: TextDecoration.underline,
-                    decorationColor: darktheme),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.email,
+                      size: screenH / 10,
+                      color: Theme.of(context).unselectedWidgetColor,
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      "A verification email has been sent",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.titleMedium!.color!,
+                        fontSize: screenH / 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Please verify to continue.",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium!.color!,
+                        fontSize: screenH / 45,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: () async {
-                await deleteUserAndNavigate();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Wrapper()),
-                );
-              },
-              child: const Text(
-                "Continue as guest",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: darktheme,
-                    decoration: TextDecoration.underline,
-                    decorationColor: darktheme),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () async {
+                  _auth.sendEmailVerificationLink();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).unselectedWidgetColor,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                ),
+                child: Text(
+                  "Resend Email",
+                  style: TextStyle(
+                      fontSize: screenH / 40, fontWeight: FontWeight.w600),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 50),
+              TextButton(
+                onPressed: () async {
+                  await deleteUserAndNavigate();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignUp()),
+                  );
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor: Theme.of(context).unselectedWidgetColor,
+                ),
+                child: Text(
+                  "Back to Sign Up",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.underline,
+                      decorationColor: Theme.of(context).unselectedWidgetColor),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: () async {
+                  await deleteUserAndNavigate();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Wrapper()),
+                  );
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor: red,
+                ),
+                child: const Text(
+                  "Continue as Guest",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.underline,
+                      decorationColor: red),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

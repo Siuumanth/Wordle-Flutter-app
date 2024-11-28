@@ -165,9 +165,8 @@ class _ButtonBoxState extends State<ButtonBox> {
           color: keyTextColor),
     );
 
-    return Container(
+    return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
-      margin: const EdgeInsets.symmetric(vertical: 0),
       child: InkWell(
         onTap: () {
           if (!isFiveDone()) {
@@ -179,8 +178,7 @@ class _ButtonBoxState extends State<ButtonBox> {
           } else {
             widget.fiveDone(widget.ch);
           }
-        }, // Change here
-
+        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
@@ -191,11 +189,12 @@ class _ButtonBoxState extends State<ButtonBox> {
           height: widget.keyHeight,
           margin: EdgeInsets.all(widget.screenWidth / 140),
           child: Center(
-              child: widget.ch != 'Backspace'
-                  ? text
-                  : const Icon(
-                      Icons.backspace,
-                    )),
+            child: widget.ch != 'Backspace'
+                ? text
+                : const Icon(
+                    Icons.backspace,
+                  ),
+          ),
         ),
       ),
     );
