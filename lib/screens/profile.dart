@@ -45,6 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
     print("Finished fetching profile details.");
     await fetchAndSortLeaderboard(); // load
     await getUserRank();
+    setState(() {});
   }
 
   Future<void> profileRefresh() async {

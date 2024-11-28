@@ -18,6 +18,7 @@ import 'package:wordle/util/ShowNoti.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:wordle/constants/theme.dart';
+import 'package:wordle/model/providers/userInfoProvider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -89,9 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     if (user != null) {
-      print("startnig try block now");
       if (user != null) {
         refreshDaily();
+        setState(() {});
       }
     } else {
       print("User is null");
@@ -108,6 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
         if (mounted) {
           await Provider.of<DailyProvider>(context, listen: false)
               .getDailyChallenges();
+          await Provider.of<UserDetailsProvider>(context, listen: false)
+              .getUserDetails();
           print("Data has been fetched");
           setState(() {
             online = true;

@@ -21,15 +21,22 @@ class UserDetailsProvider extends ChangeNotifier {
   Future<void> getUserDetails() async {
     await initializePrefs();
     Map userData = await getDataFromCache();
+    print("Successfully got data frm cache");
+
     if (userData.isNotEmpty) {
+      print("userData is not empty");
       userDetails = profileUser(
           username: userData['name'],
           email: userData['email'],
           score: userData['score'],
           pfp: userData['pfp']);
+
       check = 1;
     } else {
+      print("userdata is empty");
       userDetails = await Instances.userRef.getUserDetails();
+      print("got data from frebase");
+      print(userDetails);
       await saveMapToSharedPreferences(userDetails!.toMap());
       check = 1;
     }

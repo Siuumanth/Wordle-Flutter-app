@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
 import 'package:wordle/screens/gamescreen.dart';
-import 'package:provider/provider.dart';
-import 'package:wordle/constants/theme.dart';
+//import 'package:provider/provider.dart';
+//import 'package:wordle/constants/theme.dart';
 //import 'package:wordle/screens/gamescreen.dart';
 
 late List<GlobalKey<_ButtonBoxState>> buttonBoxKeys;

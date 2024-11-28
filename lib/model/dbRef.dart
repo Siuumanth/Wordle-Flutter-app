@@ -5,7 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 class DatabaseRef {
   final userRef = FirebaseDatabase.instance.ref("users");
   final user = FirebaseAuth.instance.currentUser;
+
   Future<profileUser?> getUserDetails() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    print(user == null);
     var snapshot =
         await userRef.orderByChild("email").equalTo(user!.email).get();
 
@@ -14,7 +17,7 @@ class DatabaseRef {
       Map<String, dynamic> userData =
           Map<String, dynamic>.from(fullMap.values.first);
       print(userData);
-      print(userData['score'].runtimeType);
+      print("get user details was successful");
       return profileUser(
         username: userData['name'],
         email: userData['email'],
@@ -77,9 +80,12 @@ class DatabaseRef {
     List<leaderBoardDetails> leaderBoardList = [];
     try {
       if (snapshot.exists) {
+        print('snapshot exists');
         Map fullMap = snapshot.value as Map;
+        print("Printing full map");
         print(fullMap);
         fullMap.forEach((key, value) {
+          print(value);
           leaderBoardDetails temp = leaderBoardDetails(
               pfp: value['pfp'],
               username: value['name'],
@@ -108,17 +114,14 @@ class DatabaseRef {
         });
         print(usernames);
       }
+      print(username);
       bool found = false;
       for (int i = 0; i < usernames.length; i++) {
         if (usernames[i] == username) {
           found = true;
         }
       }
-      if (found) {
-        return true;
-      } else {
-        false;
-      }
+      return found;
     } catch (e) {
       print(e.toString());
     }

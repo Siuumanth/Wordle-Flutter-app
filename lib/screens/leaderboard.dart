@@ -69,6 +69,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     print("Leaderboard got");
     insertionSort();
     print("Insertion sort done");
+    print("setting state now");
+    await Provider.of<UserDetailsProvider>(context, listen: false)
+        .getUserDetails();
+    ;
     setState(() {});
   }
 
@@ -142,10 +146,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     itemBuilder: (context, index) {
                                       final details =
                                           leaderboard[scoreToIndex[index]];
+                                      print("checkinng if userDetails exists");
                                       if (user != null) {
                                         if (details.username ==
                                             userProvider
                                                 .userDetails!.username) {
+                                          print("userDetails exists");
                                           saveUserRank(index + 1);
                                           print(
                                               "User saved ${(index + 1).toString()}");

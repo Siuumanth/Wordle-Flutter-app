@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
-import 'package:wordle/constants/theme.dart';
+//import 'package:wordle/constants/theme.dart';
 
 import 'package:wordle/model/dbTracker.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
@@ -256,7 +256,7 @@ class _gameScreenState extends State<gameScreen> {
               ),
             ),
             Expanded(
-              flex: 2, // Adjust the flex to control the height of the keyboard
+              flex: 2,
               child: Container(
                 margin: const EdgeInsets.all(10),
                 color: Colors.white,
