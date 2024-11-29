@@ -32,7 +32,7 @@ Color dailyColor = dailyGreen;
 
 int completed = 0;
 
-// This function starts the game and generates a random word for the game screen.
+//  function starts the game and generates a random word for the game screen.
 Future<void> startMadu(context, {bool isChallenge = false}) async {
   String contentsF = await rootBundle.loadString("assets/filtered-words.txt");
   List<String> fwords = contentsF.split('\n');
