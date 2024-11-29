@@ -130,7 +130,7 @@ class _gameScreenState extends State<gameScreen> {
     int checker = binarySearch(word);
     if (checker == -1) {
       showTopMessage(context, "Word doesn't exist, please try again.",
-          Color(0xff444242), white);
+          const Color(0xff444242), white);
       return;
     }
     setState(() {

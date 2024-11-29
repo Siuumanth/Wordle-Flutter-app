@@ -15,6 +15,14 @@ class AuthService {
     }
   }
 
+  Future<void> sendPasswordResetLink(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future<User?> createUserWithEmailPassword(
       String email, String password) async {
     try {

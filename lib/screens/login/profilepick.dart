@@ -45,7 +45,7 @@ class _ProfilePickerState extends State<ProfilePicker> {
           score: 0,
           pfp: pfp.toString(),
         ));
-        print("creating prpfile suer objecy");
+
         final userToSave = profileUser(
           username: userName!,
           email: user!.email!,
@@ -72,9 +72,11 @@ class _ProfilePickerState extends State<ProfilePicker> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Choose Profile Picture',
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).scaffoldBackgroundColor),
         ),
         centerTitle: true,
       ),
@@ -122,7 +124,7 @@ class _ProfilePickerState extends State<ProfilePicker> {
             height: screenHeight / 10,
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: darkerertheme),
+              style: ElevatedButton.styleFrom(backgroundColor: darktheme),
               onPressed: () async {
                 await getName();
                 await saveDetailsInFire(_selectedProfileIndex);
@@ -137,10 +139,12 @@ class _ProfilePickerState extends State<ProfilePicker> {
                   print("widget is not mounted in profile pic conofirm");
                 }
               },
-              child: const Text(
+              child: Text(
                 'Confirm',
                 style: TextStyle(
-                    color: white, fontSize: 16, fontWeight: FontWeight.w500),
+                    color: white,
+                    fontSize: screenWidth / 24,
+                    fontWeight: FontWeight.w500),
               ),
             ),
           ),

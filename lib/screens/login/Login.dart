@@ -6,6 +6,7 @@ import 'package:wordle/screens/login/SignUp.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:wordle/wrapper.dart';
 import 'package:wordle/util/ShowNoti.dart';
+import 'forgotPass.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenH = MediaQuery.of(context).size.height;
     Color textColor = Theme.of(context).textTheme.titleMedium!.color!;
     return Scaffold(
       appBar: loginAppBar(context),
@@ -52,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                textField(
+                textFieldLogin(
                     mailController,
                     Icon(
                       Icons.mail,
@@ -67,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                textField(
+                textFieldLogin(
                     passController,
                     Icon(
                       Icons.lock,
@@ -80,7 +82,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     true,
                     context),
                 const SizedBox(
-                  height: 20,
+                  height: 1,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ForgotPassword()));
+                      },
+                      child: Text(
+                        "Forgot password     ",
+                        style:
+                            TextStyle(color: textColor, fontSize: screenH / 50),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Center(
                   child: Row(
@@ -157,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decorationColor:
                             Theme.of(context).unselectedWidgetColor),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -206,7 +229,7 @@ AppBar loginAppBar(BuildContext context) {
   );
 }
 
-Widget textField(TextEditingController contr, Widget icon, String hintext,
+Widget textFieldLogin(TextEditingController contr, Widget icon, String hintext,
     int max, TextInputType inputType, bool isPassword, BuildContext context) {
   double screenHeight = MediaQuery.of(context).size.height;
   return Container(
