@@ -160,7 +160,7 @@ class _gameScreenState extends State<gameScreen> {
     });
 
     if (currentIndex == 30 && widget.word != word) {
-      gameLost();
+      widget.isChallenge ? dailyGameLost() : gameLost();
     } else if (word == widget.word) {
       widget.isChallenge ? dailyGameWon() : gameWon();
     } else {
@@ -186,6 +186,23 @@ class _gameScreenState extends State<gameScreen> {
           restart: startMadu,
           word: widget.word,
           score: score,
+        );
+      },
+    );
+  }
+
+  Future<void> dailyGameLost() async {
+    setState(() {
+      over = true;
+    });
+
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return LoserBoxDaily(
+          restart: startMadu,
+          word: widget.word,
         );
       },
     );

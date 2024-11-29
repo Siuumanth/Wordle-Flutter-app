@@ -72,11 +72,9 @@ class _ProfilePickerState extends State<ProfilePicker> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Choose Profile Picture',
-          style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: Theme.of(context).scaffoldBackgroundColor),
+          style: TextStyle(fontWeight: FontWeight.w600, color: darkModebg),
         ),
         centerTitle: true,
       ),

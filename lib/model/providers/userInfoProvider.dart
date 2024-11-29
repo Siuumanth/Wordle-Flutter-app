@@ -19,6 +19,7 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
   Future<void> getUserDetails() async {
+    print("Getting user details from provider");
     await initializePrefs();
     Map userData = await getDataFromCache();
     print("Successfully got data frm cache");

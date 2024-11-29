@@ -104,14 +104,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _initializeData() async {
     if (await isInternetAvailable() == true) {
       try {
-        print("Internet is available");
-
         if (mounted) {
           await Provider.of<DailyProvider>(context, listen: false)
               .getDailyChallenges();
+          print("Daily challenges got 2");
           await Provider.of<UserDetailsProvider>(context, listen: false)
               .getUserDetails();
-          print("Data has been fetched");
+          print("User details got");
           setState(() {
             online = true;
             isLoading = false;
@@ -126,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } else {
       setState(() {
+        print("User is foffline");
         isLoading = false;
         online = false;
         buttonColor = greyLessO;
@@ -141,7 +141,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> onRefreshed() async {
     if (user != null) {
-      Provider.of<DailyProvider>(context, listen: false).getDailyChallenges();
+      await refreshDaily();
+      await Provider.of<DailyProvider>(context, listen: false)
+          .getDailyChallenges();
     }
   }
 

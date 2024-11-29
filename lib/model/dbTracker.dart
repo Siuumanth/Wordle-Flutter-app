@@ -127,7 +127,7 @@ class DailyTracker {
           Map<String, dynamic>.from(fullMap.values.first);
       print("Getting daily challenges");
       print(userData);
-      print("Games played : ${userData['gamesPlayed']}");
+
       return userData['gamesPlayed'];
     } else {
       print("User not found");
