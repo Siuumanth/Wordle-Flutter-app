@@ -56,7 +56,7 @@ void popMadu(context) {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool online = false;
-  bool isLoading = true; // To track loading state
+  bool isLoading = true;
   Color buttonColor = greyLessO;
   User? user = FirebaseAuth.instance.currentUser;
   // Checks internet connectivity and verifies if the internet is available.
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       print("started checking for connection");
       final connectivityResult = await Connectivity().checkConnectivity();
-
+      print(connectivityResult);
       if (connectivityResult[0] == ConnectivityResult.none) {
         print("no connection ter");
         return false;
@@ -210,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     } else if (dailyProvider.completed == 3) {
                                       showTopMessage(
                                           context,
-                                          "Daily challenge limit reached.",
+                                          "You've reached your daily challenge limit. It will reset at 5:30.",
                                           darkertheme,
                                           white);
                                     }
