@@ -64,7 +64,8 @@ class _ProfilePickerState extends State<ProfilePicker> {
         print(e.toString());
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text("Failed to save profile. Please try again.")),
+              content:
+                  Text("Failed to save profile. Make sure you are online.")),
         );
         return;
       }

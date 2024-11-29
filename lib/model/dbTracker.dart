@@ -42,8 +42,10 @@ class DailyTracker {
   }
 
   Future<bool> userTrackerExists() async {
+    final user = FirebaseAuth.instance.currentUser;
     var snapshot =
         await tracker.orderByChild("email").equalTo(user!.email).get();
+
     if (snapshot.exists) {
       return true;
     } else {

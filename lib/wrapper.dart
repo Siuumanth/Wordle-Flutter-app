@@ -6,6 +6,8 @@ import 'package:wordle/screens/home.dart';
 import 'package:wordle/screens/login/login.dart';
 import 'package:wordle/screens/login/Verify.dart';
 import 'package:wordle/screens/login/profilepick.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:http/http.dart' as http;
 
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});
@@ -19,8 +21,31 @@ class _WrapperState extends State<Wrapper> {
 
   bool trackerExists = false;
   bool trackerStatusGot = false;
+  bool online = false;
+
+  Future<void> isInternetAvailable() async {
+    try {
+      final connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult[0] == ConnectivityResult.none) {
+        setState(() {
+          online = false;
+        });
+      }
+      final result = await http.get(Uri.parse('https://www.google.com'));
+      if (result.statusCode == 200) {
+        online = true;
+      }
+    } catch (e) {
+      print('Error checking internet availability: $e');
+      online = false;
+    }
+    online = false;
+  }
 
   Future<void> _reloadUser() async {
+    if (user == null) {
+      return;
+    }
     print("reloading wrapper");
     try {
       await FirebaseAuth.instance.currentUser?.reload();
@@ -48,7 +73,6 @@ class _WrapperState extends State<Wrapper> {
     if (await Instances.userTracker.userTrackerExists() == true) {
       setState(() {
         trackerExists = true;
-        trackerStatusGot = true;
       });
 
       print("User and tracker does exist");
@@ -67,14 +91,11 @@ class _WrapperState extends State<Wrapper> {
   @override
   void initState() {
     super.initState();
-    if (user != null) {
+    isInternetAvailable();
+    if (user != null && online == true) {
       _reloadUser();
 
-      _checkTrackerExists().then((exists) {
-        setState(() {
-          trackerExists = exists;
-        });
-      });
+      _checkTrackerExists();
     }
   }
 
@@ -82,37 +103,35 @@ class _WrapperState extends State<Wrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return const Center(child: Text("Error"));
-          } else {
-            if (user == null) {
-              print("user is null");
-              return const LoginScreen();
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(child: Text("Error"));
             } else {
-              if (user!.emailVerified == true) {
-                if (trackerExists == true) {
+              if (user != null) {
+                if (user!.emailVerified == false) {
+                  print("Directing to verification screen");
+                  return const VerificationScreen();
+                }
+                if (trackerExists && online) {
+                  print("Directing to Home screen");
                   return const HomeScreen();
-                } else {
-                  if (trackerStatusGot == false) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+                } else if (trackerExists == false && online) {
+                  print("Directing to Profile picker screen");
                   return const ProfilePicker();
                 }
-              } else if (user!.emailVerified == false) {
-                return const VerificationScreen();
               } else {
-                return const HomeScreen();
+                print("Directing to Login screen");
+                return const LoginScreen();
               }
             }
-          }
-        },
-      ),
+            print("none of the conditions met");
+            return const HomeScreen();
+          }),
     );
   }
 }
