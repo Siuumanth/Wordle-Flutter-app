@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/constants.dart';
+//import 'package:wordle/constants/theme.dart';
 import 'package:wordle/screens/home.dart';
 import 'package:wordle/screens/login/SignUp.dart';
 //import 'package:wordle/screens/login/SignUp.dart';
@@ -197,6 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (user != null) {
       print("User logged in successfully");
+      showTopMessage(context, "Successfully logged in", darktheme, white);
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const Wrapper()),
         (Route<dynamic> route) => false, // Removes all previous routes

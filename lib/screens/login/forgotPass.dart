@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wordle/screens/login/Login.dart';
+//import 'package:wordle/screens/login/Login.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:wordle/screens/login/SignUp.dart';
 import 'package:wordle/constants/constants.dart';
@@ -61,7 +61,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             ),
             const SizedBox(height: 20),
             Center(
-              child: Container(
+              child: SizedBox(
                 height: screenH / 20,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -76,10 +76,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           darkModebg);
                       _auth.sendPasswordResetLink(email);
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text("Please enter your email")),
-                      );
+                      showTopMessage(context, "Please enter your email", theme,
+                          darkModebg);
                     }
                   },
                   child: Text(
@@ -101,7 +99,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   foregroundColor: Theme.of(context).unselectedWidgetColor,
                 ),
                 child: Text(
-                  "Back to Sign Up",
+                  "Back to Login",
                   style: TextStyle(
                       fontSize: screenH / 45,
                       fontWeight: FontWeight.w600,

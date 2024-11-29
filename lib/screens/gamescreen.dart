@@ -169,14 +169,26 @@ class _gameScreenState extends State<gameScreen> {
   }
 
   Future<void> dailyGameWon() async {
-    int score = 100 - (currentIndex ~/ 5) * 10;
-    Provider.of<UserDetailsProvider>(context, listen: false)
+    int score = getScore(currentIndex);
+    print(score);
+    await Provider.of<UserDetailsProvider>(context, listen: false)
         .updateTheScore(score);
     print("Score is updated");
     setState(() {
       over = true;
     });
-    Navigator.pop(context);
+
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return WinnerBoxDaily(
+          restart: startMadu,
+          word: widget.word,
+          score: score,
+        );
+      },
+    );
   }
 
   Future<void> gameWon() async {
@@ -399,4 +411,24 @@ AppBar gameAppBar(
       ],
     ),
   );
+}
+
+int getScore(int index) {
+  index = index ~/ 5;
+  switch (index) {
+    case 1:
+      return 150;
+    case 2:
+      return 120;
+    case 3:
+      return 100;
+    case 4:
+      return 80;
+    case 5:
+      return 70;
+    case 6:
+      return 60;
+    default:
+      return 60;
+  }
 }
