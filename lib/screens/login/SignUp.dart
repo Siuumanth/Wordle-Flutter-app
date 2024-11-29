@@ -39,7 +39,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<bool> doesUserExist() async {
-    if (await Instances.userRef.userNameExists(nameController.text)) {
+    if (await Instances.userRef.userNameExists(nameController.text.trim())) {
       return true;
     } else {
       return false;
