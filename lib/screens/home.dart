@@ -89,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       if (user != null) {
         refreshDaily();
@@ -140,6 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> onRefreshed() async {
+    print(user == null);
     if (user != null) {
       await refreshDaily();
       await Provider.of<DailyProvider>(context, listen: false)
@@ -187,6 +189,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 margin: const EdgeInsets.only(bottom: 20),
                                 child: ElevatedButton(
                                   onPressed: () async {
+                                    if (user == null) {
+                                      showTopMessage(
+                                          context,
+                                          "You need to be Signed in to access Daily Challenges",
+                                          darktheme,
+                                          white);
+                                    }
                                     if (online == false) {
                                       print("bros offline");
                                       showTopMessage(context, "You're offline",
@@ -201,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           white);
                                       return;
                                     }
-                                    print("daily challenge pressed ");
+
                                     await _initializeData();
                                     if (dailyProvider.completed < 3 &&
                                         online == true) {
@@ -310,8 +319,19 @@ class _HomeScreenState extends State<HomeScreen> {
   //
   AppBar buildAppBar(context, imagePicked, double screenWidth) {
     final user = FirebaseAuth.instance.currentUser;
-
+    double appBarHeight = AppBar().preferredSize.height;
     return AppBar(
+      leading: Builder(
+        builder: (context) => IconButton(
+          icon: Icon(
+            Icons.settings,
+            size: appBarHeight / 1.8,
+          ),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        ),
+      ),
       iconTheme: const IconThemeData(color: grey),
       backgroundColor: theme,
       title: Row(

@@ -20,7 +20,7 @@ class _WrapperState extends State<Wrapper> {
   User? user = FirebaseAuth.instance.currentUser;
 
   bool trackerExists = false;
-  bool trackerStatusGot = false;
+  bool isLoading = false;
   bool online = false;
 
   Future<void> isInternetAvailable() async {
@@ -28,44 +28,39 @@ class _WrapperState extends State<Wrapper> {
       final connectivityResult = await Connectivity().checkConnectivity();
       if (connectivityResult[0] == ConnectivityResult.none) {
         setState(() {
+          print("Online has been set false");
           online = false;
+          return;
         });
       }
       final result = await http.get(Uri.parse('https://www.google.com'));
       if (result.statusCode == 200) {
         online = true;
+        print("Online has been set true");
+        return;
       }
     } catch (e) {
       print('Error checking internet availability: $e');
       online = false;
+      print("Online has been set false");
+      return;
     }
+
     online = false;
+    print("Online has been set false");
   }
 
   Future<void> _reloadUser() async {
+    user = FirebaseAuth.instance.currentUser;
+    user!.reload();
     if (user == null) {
       return;
     }
     print("reloading wrapper");
     try {
-      await FirebaseAuth.instance.currentUser?.reload();
+      await user!.reload();
     } catch (e) {
       print("User is offline");
-    }
-  }
-
-  Future<bool> _checkProfileExistsFire() async {
-    if (user == null) {
-      print("User does not exist");
-      return false;
-    }
-    if (await Instances.userRef.userDbExists() == true) {
-      print("User does exist");
-
-      return true;
-    } else {
-      print("user DB does not exists");
-      return false;
     }
   }
 
@@ -82,7 +77,6 @@ class _WrapperState extends State<Wrapper> {
       print("user tracker does not exists");
       setState(() {
         trackerExists = false;
-        trackerStatusGot = true;
       });
       return false;
     }
@@ -91,12 +85,30 @@ class _WrapperState extends State<Wrapper> {
   @override
   void initState() {
     super.initState();
-    isInternetAvailable();
-    if (user != null && online == true) {
-      _reloadUser();
+    _initialize();
+  }
 
-      _checkTrackerExists();
+  Future<void> _initialize() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await isInternetAvailable();
+    if (user != null && online) {
+      await initialFunction();
     }
+    print("Tracker exists init state = $trackerExists");
+    print(
+        "User exists ? init state= ${FirebaseAuth.instance.currentUser != null}");
+    print("Online or not init state: $online");
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<void> initialFunction() async {
+    await _reloadUser();
+    await _checkTrackerExists();
   }
 
   @override
@@ -105,15 +117,16 @@ class _WrapperState extends State<Wrapper> {
       body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                isLoading == true) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasError) {
               return const Center(child: Text("Error"));
             } else {
-              if (user != null) {
-                if (user!.emailVerified == false) {
+              if (FirebaseAuth.instance.currentUser != null) {
+                if (FirebaseAuth.instance.currentUser!.emailVerified == false) {
                   print("Directing to verification screen");
                   return const VerificationScreen();
                 }
@@ -129,6 +142,9 @@ class _WrapperState extends State<Wrapper> {
                 return const LoginScreen();
               }
             }
+            print("Online or not : $online");
+            print("Tracker exists = $trackerExists");
+            print("User exists ? = ${user == null}");
             print("none of the conditions met");
             return const HomeScreen();
           }),

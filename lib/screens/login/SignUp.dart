@@ -220,6 +220,7 @@ class _SignUpState extends State<SignUp> {
         emailController.text, passController.text);
     print("stop");
     if (user != null) {
+      print("User is not null, i am pushing to wrapper");
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const Wrapper()),
         (Route<dynamic> route) => false,
@@ -227,8 +228,8 @@ class _SignUpState extends State<SignUp> {
     } else {
       return null;
     }
-    saveName();
-    return null;
+    await saveName();
+    return user;
   }
 }
 

@@ -121,9 +121,9 @@ class _ProfilePickerState extends State<ProfilePicker> {
           Container(
             width: screenWidth / 2.5,
             height: screenHeight / 10,
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(12.0),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: darktheme),
+              style: ElevatedButton.styleFrom(backgroundColor: theme),
               onPressed: () async {
                 await getName();
                 await saveDetailsInFire(_selectedProfileIndex);
@@ -141,8 +141,8 @@ class _ProfilePickerState extends State<ProfilePicker> {
               child: Text(
                 'Confirm',
                 style: TextStyle(
-                    color: white,
-                    fontSize: screenWidth / 24,
+                    color: darkModebg,
+                    fontSize: screenWidth / 21,
                     fontWeight: FontWeight.w500),
               ),
             ),

@@ -20,16 +20,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   void initState() {
     super.initState();
-    // Logic remains unchanged
+
     _auth.sendEmailVerificationLink();
 
-    // Set a delay to delete the user if email is not verified
     Future.delayed(const Duration(minutes: 1), () async {
       User? user = FirebaseAuth.instance.currentUser;
       await user?.reload();
       if (user != null && !user.emailVerified) {
         await user.delete();
-        // Close the app after deleting the user
+
         Navigator.of(context).pop();
       }
     });
@@ -39,6 +38,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       await user?.reload();
       if (user != null && user.emailVerified) {
         timer.cancel();
+        print("user has been verified");
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const Wrapper()),
@@ -122,7 +122,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 child: Text(
                   "Resend Email",
                   style: TextStyle(
-                      fontSize: screenH / 40, fontWeight: FontWeight.w600),
+                      fontSize: screenH / 40,
+                      fontWeight: FontWeight.w600,
+                      color: darkModebg),
                 ),
               ),
               const SizedBox(height: 50),
