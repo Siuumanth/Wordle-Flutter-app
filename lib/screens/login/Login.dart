@@ -246,7 +246,7 @@ Widget textFieldLogin(TextEditingController contr, Widget icon, String hintext,
       cursorHeight: 30,
 
       style: TextStyle(
-        fontSize: screenHeight / 45,
+        fontSize: screenHeight / 47,
         fontWeight: FontWeight.w400,
         color: Theme.of(context).brightness == Brightness.light
             ? Theme.of(context).textTheme.titleMedium!.color

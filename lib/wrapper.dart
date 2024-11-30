@@ -93,7 +93,6 @@ class _WrapperState extends State<Wrapper> {
     setState(() {
       isLoading = true;
     });
-
     await isInternetAvailable();
     if (user != null && online) {
       await initialFunction();
@@ -110,15 +109,22 @@ class _WrapperState extends State<Wrapper> {
 
   Future<void> initialFunction() async {
     await _reloadUser();
+    print("chcking if tracker exists in cache");
     bool? cachedTrackerExists = await _getCachedTrackerExists();
-    if (cachedTrackerExists != null) {
+    if (cachedTrackerExists == true) {
       setState(() {
         trackerExists = true;
       });
       print('Cached Tracker Exists: $cachedTrackerExists');
     } else {
-      bool trackerExists = await _checkTrackerExists();
-      await _cacheTrackerExists(trackerExists);
+      print("Not foubnd in cache, checking in firebase");
+      bool fbtrackerExists = await _checkTrackerExists();
+      if (fbtrackerExists) {
+        setState(() {
+          trackerExists = true;
+        });
+      }
+      await _cacheTrackerExists(fbtrackerExists);
     }
   }
 

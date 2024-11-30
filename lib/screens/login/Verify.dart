@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wordle/screens/login/SignUp.dart';
 import 'package:wordle/screens/login/auth_service.dart';
+import 'package:wordle/util/widgets/ShowNoti.dart';
 import 'dart:async';
 import 'package:wordle/wrapper.dart';
 import 'package:wordle/constants/constants.dart';
@@ -109,6 +110,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
               ElevatedButton(
                 onPressed: () async {
                   _auth.sendEmailVerificationLink();
+                  showTopMessage(context, "Verification email has been resent",
+                      darktheme, white);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).unselectedWidgetColor,

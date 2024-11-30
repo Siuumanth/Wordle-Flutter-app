@@ -19,6 +19,9 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
   Future<void> getUserDetails() async {
+    if (user == null) {
+      return;
+    }
     print("Getting user details from provider");
     await initializePrefs();
     Map userData = await getDataFromCache();
@@ -34,7 +37,7 @@ class UserDetailsProvider extends ChangeNotifier {
 
       check = 1;
     } else {
-      print("userdata is empty");
+      print("userdata cache is empty");
       userDetails = await Instances.userRef.getUserDetails();
       print("got data from frebase");
       print(userDetails);

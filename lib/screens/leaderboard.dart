@@ -9,6 +9,7 @@ import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wordle/screens/login/Login.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({
@@ -146,6 +147,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                       final details =
                                           leaderboard[scoreToIndex[index]];
                                       print("checkinng if userDetails exists");
+                                      if (userProvider.userDetails == null) {
+                                        print("User details is null");
+                                      }
                                       if (user != null) {
                                         if (details.username ==
                                             userProvider
@@ -174,6 +178,53 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       ),
                     ),
                   ),
+                  user == null
+                      ? Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          padding: EdgeInsets.all(2),
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: SizedBox(
+                              height: 50,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                LoginScreen()),
+                                      );
+                                    },
+                                    child: Text(
+                                      "Sign in to compete!",
+                                      style: TextStyle(
+                                        fontSize: screenWidth / 19,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context)
+                                            .unselectedWidgetColor,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox()
                 ],
               ),
             ),
