@@ -92,9 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
-
+    _checkFirstTime();
     if (user != null) {
-      _checkFirstTime();
       refreshDaily();
       setState(() {});
     } else {
@@ -153,7 +152,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> onRefreshed() async {
-    print(user == null);
     if (user != null) {
       await refreshDaily();
       await Provider.of<DailyProvider>(context, listen: false)

@@ -57,6 +57,8 @@ class DatabaseRef {
   }
 
   Future<void> updateScore(int score) async {
+    final user = FirebaseAuth.instance.currentUser;
+    print(user == null);
     final query = userRef.orderByChild("email").equalTo(user!.email);
     final snapshot = await query.get();
 

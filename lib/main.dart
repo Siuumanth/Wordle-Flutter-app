@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
             '/home': (context) => const HomeScreen(),
           },
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'Wordle',
           home: const Wrapper(),
         ),
       ),

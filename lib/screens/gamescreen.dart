@@ -160,24 +160,29 @@ class _gameScreenState extends State<gameScreen> {
   Future<void> dailyGameWon() async {
     int score = getScore(currentIndex);
     print(score);
-    await Provider.of<UserDetailsProvider>(context, listen: false)
-        .updateTheScore(score);
-    print("Score is updated");
-    setState(() {
-      over = true;
-    });
-
-    showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (BuildContext context) {
-        return WinnerBoxDaily(
-          restart: startMadu,
-          word: widget.word,
-          score: score,
-        );
-      },
-    );
+    try {
+      await Provider.of<UserDetailsProvider>(context, listen: false)
+          .updateTheScore(score);
+      print("Score is updated");
+      setState(() {
+        over = true;
+      });
+      showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (BuildContext context) {
+          return WinnerBoxDaily(
+            restart: startMadu,
+            word: widget.word,
+            score: score,
+          );
+        },
+      );
+    } catch (e) {
+      showTopMessage(context, "Failed to save score, make sure you are online.",
+          darkertheme, white);
+      Navigator.pop(context);
+    }
   }
 
   Future<void> dailyGameLost() async {
