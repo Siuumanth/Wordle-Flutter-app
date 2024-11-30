@@ -6,7 +6,7 @@ import 'package:wordle/screens/login/SignUp.dart';
 //import 'package:wordle/screens/login/SignUp.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:wordle/wrapper.dart';
-import 'package:wordle/util/ShowNoti.dart';
+import 'package:wordle/util/widgets/ShowNoti.dart';
 import 'forgotPass.dart';
 
 class LoginScreen extends StatefulWidget {

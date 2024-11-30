@@ -8,6 +8,7 @@ import 'package:wordle/screens/login/Verify.dart';
 import 'package:wordle/screens/login/profilepick.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});
@@ -96,6 +97,7 @@ class _WrapperState extends State<Wrapper> {
     await isInternetAvailable();
     if (user != null && online) {
       await initialFunction();
+      print(user!.email);
     }
     print("Tracker exists init state = $trackerExists");
     print(
@@ -108,7 +110,26 @@ class _WrapperState extends State<Wrapper> {
 
   Future<void> initialFunction() async {
     await _reloadUser();
-    await _checkTrackerExists();
+    bool? cachedTrackerExists = await _getCachedTrackerExists();
+    if (cachedTrackerExists != null) {
+      setState(() {
+        trackerExists = true;
+      });
+      print('Cached Tracker Exists: $cachedTrackerExists');
+    } else {
+      bool trackerExists = await _checkTrackerExists();
+      await _cacheTrackerExists(trackerExists);
+    }
+  }
+
+  Future<void> _cacheTrackerExists(bool exists) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('trackerExists', exists);
+  }
+
+  Future<bool?> _getCachedTrackerExists() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('trackerExists');
   }
 
   @override

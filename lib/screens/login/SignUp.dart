@@ -6,7 +6,7 @@ import 'package:wordle/screens/login/auth_service.dart';
 //import 'package:wordle/screens/login/profilepick.dart';
 import 'package:wordle/screens/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wordle/util/ShowNoti.dart';
+import 'package:wordle/util/widgets/ShowNoti.dart';
 import 'package:wordle/wrapper.dart';
 import 'package:wordle/model/providers/instances.dart';
 
@@ -39,6 +39,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<bool> doesUserExist() async {
+    print(nameController.text.trim());
     if (await Instances.userRef.userNameExists(nameController.text.trim())) {
       return true;
     } else {
@@ -162,6 +163,7 @@ class _SignUpState extends State<SignUp> {
                       }
                       if (await doesUserExist()) {
                         print("Username does exist");
+                        print(nameController.text);
                         showTopMessage(
                             context, "Username is already in use", red, white);
                         return;

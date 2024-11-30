@@ -123,9 +123,8 @@ class DatabaseRef {
       }
       return found;
     } catch (e) {
-      print("Exception agaya");
       print(e.toString());
-      return false;
     }
+    return true;
   }
 }

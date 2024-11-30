@@ -3,21 +3,11 @@ import 'package:wordle/constants/constants.dart';
 
 import 'package:wordle/screens/login/Login.dart';
 
-class WinnerBox extends StatefulWidget {
+class LoserBox extends StatelessWidget {
   final String word;
   final restart;
-  final popmethod;
-  const WinnerBox(
-      {required this.popmethod,
-      required this.restart,
-      required this.word,
-      super.key});
+  const LoserBox({required this.restart, required this.word, super.key});
 
-  @override
-  State<WinnerBox> createState() => _WinnerBoxState();
-}
-
-class _WinnerBoxState extends State<WinnerBox> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -37,37 +27,33 @@ class _WinnerBoxState extends State<WinnerBox> {
           children: [
             const SizedBox(height: 10),
             Text(
-              "YOU WON!",
+              "YOU LOST!",
               style: TextStyle(
                   color: Theme.of(context).textTheme.bodyMedium!.color,
                   fontSize: screenHeight / 30,
                   fontWeight: FontWeight.w900),
             ),
-            Image.asset(
-              'assets/images/winner.png',
-              height: screenHeight * 0.3,
-              fit: BoxFit.contain,
-            ),
+            const SizedBox(height: 30),
             Text(
-              "The word was ${widget.word}",
+              "The word was $word",
               style: TextStyle(
                 color: Theme.of(context).textTheme.bodyMedium!.color,
                 fontSize: screenHeight / 40,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             SizedBox(
               height: 50,
               width: screenWidth / 2.3,
-              child: dialogButton("Play Another", screenHeight, screenWidth,
-                  widget.restart, context),
+              child: dialogButtonloss(
+                  "Play Another", screenHeight, screenWidth, restart, context),
             ),
             const SizedBox(height: 20),
             SizedBox(
               height: 50,
               width: screenWidth / 2.3,
-              child: dialogButton(
+              child: dialogButtonloss(
                   "Back to Home", screenHeight, screenWidth, goToHome, context),
             )
           ],
@@ -77,12 +63,11 @@ class _WinnerBoxState extends State<WinnerBox> {
   }
 }
 
-Widget dialogButton(
-    String text, double ht, double width, restart, BuildContext context) {
+Widget dialogButtonloss(
+    String text, double ht, double width, action, BuildContext context) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 255, 221, 25),
-        foregroundColor: darkModebg),
+        backgroundColor: lossColor, foregroundColor: darkModebg),
     onPressed: () async {
       if (text == "Play Another") {
         Navigator.pop(context);
@@ -91,30 +76,21 @@ Widget dialogButton(
         print("Popped the screen");
       }
 
-      await restart(context);
+      await action(context);
     },
     child: Text(
       text,
-      style: TextStyle(fontSize: ht / 47, fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: ht / 47, fontWeight: FontWeight.w700),
     ),
   );
 }
 
-class WinnerBoxDaily extends StatefulWidget {
+class LoserBoxDaily extends StatelessWidget {
   final String word;
   final restart;
-  final int score;
-  const WinnerBoxDaily(
-      {required this.restart,
-      required this.score,
-      required this.word,
-      super.key});
 
-  @override
-  State<WinnerBoxDaily> createState() => _WinnerBoxDailyState();
-}
+  const LoserBoxDaily({required this.restart, required this.word, super.key});
 
-class _WinnerBoxDailyState extends State<WinnerBoxDaily> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -133,41 +109,16 @@ class _WinnerBoxDailyState extends State<WinnerBoxDaily> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 10),
-            Text.rich(TextSpan(
-              children: [
-                TextSpan(
-                  text: "YOU WON ",
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyMedium!.color,
-                    fontSize: screenHeight / 35,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                TextSpan(
-                  text: "${widget.score} ",
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 235, 200, 0),
-                    fontSize: screenHeight / 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                TextSpan(
-                  text: "points!",
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyMedium!.color,
-                    fontSize: screenHeight / 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
-            )),
-            Image.asset(
-              'assets/images/winner.png',
-              height: screenHeight * 0.3,
-              fit: BoxFit.contain,
-            ),
             Text(
-              "The word was ${widget.word}",
+              "YOU LOST!",
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyMedium!.color,
+                  fontSize: screenHeight / 30,
+                  fontWeight: FontWeight.w900),
+            ),
+            const SizedBox(height: 30),
+            Text(
+              "The word was $word",
               style: TextStyle(
                 color: Theme.of(context).textTheme.bodyMedium!.color,
                 fontSize: screenHeight / 40,
@@ -178,7 +129,7 @@ class _WinnerBoxDailyState extends State<WinnerBoxDaily> {
             SizedBox(
               height: 50,
               width: screenWidth / 2.3,
-              child: dialogButton(
+              child: dialogButtonloss(
                   "Back to Home", screenHeight, screenWidth, goToHome, context),
             )
           ],

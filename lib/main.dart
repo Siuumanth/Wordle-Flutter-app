@@ -7,13 +7,16 @@ import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/model/providers/dailyProvider.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'constants/theme.dart';
+import 'package:wordle/Services/NotiService.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  await DailyNotificationService.initialize();
+  await DailyNotificationService().scheduleDailyNotification();
+  print("runnning my app");
   runApp(const MyApp());
 }
 

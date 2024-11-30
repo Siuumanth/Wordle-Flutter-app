@@ -14,7 +14,7 @@ import 'package:wordle/model/providers/instances.dart';
 import 'package:wordle/model/providers/dailyProvider.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:wordle/util/ShowNoti.dart';
+import 'package:wordle/util/widgets/ShowNoti.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:wordle/constants/theme.dart';
@@ -43,10 +43,10 @@ Future<void> startMadu(context, {bool isChallenge = false}) async {
 
   await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => gameScreen(
-          word: finalWord,
-          isChallenge: isChallenge,
-          restart: () => startMadu(context, isChallenge: isChallenge),
-          popmethod: () => popMadu(context))));
+            word: finalWord,
+            isChallenge: isChallenge,
+            restart: () => startMadu(context, isChallenge: isChallenge),
+          )));
 }
 
 // Placeholder for popping back from the game screen.
@@ -91,10 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      if (user != null) {
-        refreshDaily();
-        setState(() {});
-      }
+      refreshDaily();
+      setState(() {});
     } else {
       print("User is null");
       return;
@@ -136,8 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> refreshDaily() async {
     print("Refreshing and updating");
-    await _initializeData();
     await Instances.userTracker.updateEveryday();
+    await _initializeData();
   }
 
   Future<void> onRefreshed() async {
@@ -176,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: screenHeight - appBarHeight - statusBarHeight,
                         child: Stack(
                           children: [
-                            buildFAB(context, "chubs"),
+                            buildFAB(context),
                             Align(
                               alignment: Alignment.center,
                               child:
@@ -195,6 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           "You need to be Signed in to access Daily Challenges",
                                           darktheme,
                                           white);
+                                      return;
                                     }
                                     if (online == false) {
                                       print("bros offline");
@@ -219,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     } else if (dailyProvider.completed == 3) {
                                       showTopMessage(
                                           context,
-                                          "You've reached your daily challenge limit. It will reset at 5:30.",
+                                          "You've reached your daily challenge limit. It will reset at 5:30 am",
                                           darkertheme,
                                           white);
                                     }
@@ -404,7 +403,7 @@ Widget buildStartButton(BuildContext context) {
   );
 }
 
-Widget buildFAB(context, username) {
+Widget buildFAB(context) {
   return Padding(
     padding: const EdgeInsets.only(left: 8.0, top: 20),
     child: SizedBox(

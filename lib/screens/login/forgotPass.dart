@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wordle/screens/login/auth_service.dart';
 import 'package:wordle/screens/login/SignUp.dart';
 import 'package:wordle/constants/constants.dart';
-import 'package:wordle/util/ShowNoti.dart';
+import 'package:wordle/util/widgets/ShowNoti.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});

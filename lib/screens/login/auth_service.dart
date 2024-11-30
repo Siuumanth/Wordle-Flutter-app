@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/main.dart';
-import 'package:wordle/util/ShowNoti.dart';
+import 'package:wordle/util/widgets/ShowNoti.dart';
 import 'package:wordle/constants/constants.dart';
 
 class AuthService {

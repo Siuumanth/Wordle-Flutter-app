@@ -275,7 +275,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
 AppBar buildAppBar(context) {
   return AppBar(
-    iconTheme: const IconThemeData(color: darkModedark),
+    iconTheme: IconThemeData(color: Theme.of(context).scaffoldBackgroundColor),
     backgroundColor: theme,
     title: const Text(
       "Profile",

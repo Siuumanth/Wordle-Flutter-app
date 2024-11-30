@@ -6,16 +6,16 @@ import 'package:wordle/constants/constants.dart';
 import 'package:wordle/model/dbTracker.dart';
 import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:wordle/screens/home.dart';
-import 'package:wordle/util/DialogWin.dart';
-import 'package:wordle/util/keyboard.dart';
+import 'package:wordle/util/widgets/DialogWin.dart';
+import 'package:wordle/util/widgets/keyboard.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:wordle/util/RuleBox.dart';
-import 'package:wordle/util/DialogLoss.dart';
+import 'package:wordle/util/widgets/RuleBox.dart';
+import 'package:wordle/util/widgets/DialogLoss.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wordle/model/dbRef.dart';
 //import 'package:wordle/model/providers/instances.dart';
 import 'package:provider/provider.dart';
-import 'package:wordle/util/ShowNoti.dart';
+import 'package:wordle/util/widgets/ShowNoti.dart';
 
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;
@@ -26,12 +26,10 @@ bool? over;
 class gameScreen extends StatefulWidget {
   final String word;
   final restart;
-  final popmethod;
   final bool isChallenge;
 
   const gameScreen(
-      {required this.popmethod,
-      required this.restart,
+      {required this.restart,
       required this.word,
       required this.isChallenge,
       super.key});
@@ -217,7 +215,9 @@ class _gameScreenState extends State<gameScreen> {
       context: context,
       builder: (BuildContext context) {
         return WinnerBox(
-            restart: startMadu, word: widget.word, popmethod: widget.popmethod);
+          restart: startMadu,
+          word: widget.word,
+        );
       },
     );
   }
@@ -233,7 +233,6 @@ class _gameScreenState extends State<gameScreen> {
         return LoserBox(
           word: widget.word,
           restart: startMadu,
-          popmethod: widget.popmethod,
         );
       },
     );
@@ -261,8 +260,8 @@ class _gameScreenState extends State<gameScreen> {
     double pad = screenWidth / 35;
 
     return Scaffold(
-      appBar: gameAppBar(context, widget.word, widget.restart, widget.popmethod,
-          widget.isChallenge),
+      appBar:
+          gameAppBar(context, widget.word, widget.restart, widget.isChallenge),
       body: Container(
         padding: const EdgeInsets.only(top: 20),
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -387,7 +386,7 @@ class GameBoxState extends State<GameBox> {
 }
 
 AppBar gameAppBar(
-    BuildContext context, String word, restart, popmethod, bool isChallenge) {
+    BuildContext context, String word, restart, bool isChallenge) {
   return AppBar(
     iconTheme:
         IconThemeData(color: Theme.of(context).textTheme.bodyMedium!.color),
