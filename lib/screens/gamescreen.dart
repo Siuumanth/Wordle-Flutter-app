@@ -16,6 +16,7 @@ import 'package:wordle/model/dbRef.dart';
 //import 'package:wordle/model/providers/instances.dart';
 import 'package:provider/provider.dart';
 import 'package:wordle/util/widgets/ShowNoti.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 List<String> grid = List.filled(30, '');
 int currentIndex = 0;
@@ -47,16 +48,6 @@ class _gameScreenState extends State<gameScreen> {
   final ref = DatabaseRef();
   final trackerRef = DailyTracker();
   bool isChanging = false;
-  @override
-  void initState() {
-    super.initState();
-    grid = List.filled(30, '');
-    currentIndex = 0;
-    istart = 0;
-    istop = 5;
-    read_files();
-    over = false;
-  }
 
   @override
   void dispose() {
@@ -250,6 +241,47 @@ class _gameScreenState extends State<gameScreen> {
     var wordList = grid.sublist(istart, istop);
 
     await checkLetters(wordList.join(''), wordList);
+  }
+
+  bool isFirstTimeVar = false;
+
+  void showRuleBox() {
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return const RuleBox();
+      },
+    );
+  }
+
+  Future<void> isFirstTime() async {
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    bool result = prefs.getBool('firstTime') ?? true;
+    if (result == true) {
+      prefs.setBool('firstTime', false);
+      setState(() {
+        isFirstTimeVar = true;
+      });
+      showRuleBox();
+    } else {
+      setState(() {
+        isFirstTimeVar = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    isFirstTime();
+
+    grid = List.filled(30, '');
+    currentIndex = 0;
+    istart = 0;
+    istop = 5;
+    read_files();
+    over = false;
   }
 
   @override

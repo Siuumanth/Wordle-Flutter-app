@@ -149,26 +149,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              TextButton(
-                onPressed: () async {
-                  await deleteUserAndNavigate();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Wrapper()),
-                  );
-                },
-                style: TextButton.styleFrom(
-                  foregroundColor: red,
-                ),
-                child: const Text(
-                  "Continue as Guest",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
-                      decorationColor: red),
-                ),
-              ),
             ],
           ),
         ),
