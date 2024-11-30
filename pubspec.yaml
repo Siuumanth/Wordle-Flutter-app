@@ -42,6 +42,12 @@ dependencies:
   provider: ^6.1.2
   connectivity_plus: ^6.1.0
   http: ^1.2.2
+  flutter_launcher_icons: ^0.14.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon.jpg"
 
   
 
@@ -76,6 +82,7 @@ flutter:
     - assets/images/winner.png
     - assets/images/
     - assets/profiles/
+    - assets/images/icon.jpg
 
     
   # An image asset can refer to one or more resolution-specific "variants", see

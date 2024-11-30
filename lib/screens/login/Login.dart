@@ -97,8 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text(
                         "Forgot password     ",
-                        style:
-                            TextStyle(color: textColor, fontSize: screenH / 50),
+                        style: TextStyle(
+                            color: textColor,
+                            fontSize: screenH / 50,
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                   ],
