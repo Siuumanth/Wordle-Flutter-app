@@ -19,6 +19,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:wordle/constants/theme.dart';
 //import 'package:wordle/model/providers/userInfoProvider.dart';
+import 'package:wordle/util/widgets/Welcome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -92,11 +94,22 @@ class _HomeScreenState extends State<HomeScreen> {
     user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
+      _checkFirstTime();
       refreshDaily();
       setState(() {});
     } else {
       print("User is null");
       return;
+    }
+  }
+
+  Future<void> _checkFirstTime() async {
+    final prefs = await SharedPreferences.getInstance();
+    final firstTime = prefs.getBool('firstTimePlaying') ?? true;
+
+    if (firstTime) {
+      showWelcomeDialog(context);
+      prefs.setBool('firstTimePlaying', false);
     }
   }
 
@@ -219,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     } else if (dailyProvider.completed == 3) {
                                       showTopMessage(
                                           context,
-                                          "You've reached your daily challenge limit. It will reset at 5:30 am",
+                                          "You've reached your daily challenge limit,it resets at 5:30 am daily.",
                                           darkertheme,
                                           white);
                                     }
@@ -397,7 +410,7 @@ Widget buildStartButton(BuildContext context) {
               )),
         ),
         const SizedBox(
-          height: 20,
+          height: 40,
         )
       ],
     ),

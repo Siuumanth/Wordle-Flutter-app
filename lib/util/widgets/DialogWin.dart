@@ -135,7 +135,7 @@ class _WinnerBoxDailyState extends State<WinnerBoxDaily> {
                   text: "YOU WON ",
                   style: TextStyle(
                     color: Theme.of(context).textTheme.bodyMedium!.color,
-                    fontSize: screenHeight / 35,
+                    fontSize: screenHeight / 40,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -143,7 +143,7 @@ class _WinnerBoxDailyState extends State<WinnerBoxDaily> {
                   text: "${widget.score} ",
                   style: TextStyle(
                     color: const Color.fromARGB(255, 235, 200, 0),
-                    fontSize: screenHeight / 30,
+                    fontSize: screenHeight / 35,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -151,7 +151,7 @@ class _WinnerBoxDailyState extends State<WinnerBoxDaily> {
                   text: "points!",
                   style: TextStyle(
                     color: Theme.of(context).textTheme.bodyMedium!.color,
-                    fontSize: screenHeight / 30,
+                    fontSize: screenHeight / 40,
                     fontWeight: FontWeight.bold,
                   ),
                 )

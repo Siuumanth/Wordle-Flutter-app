@@ -125,7 +125,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 child: Text(
                   "Resend Email",
                   style: TextStyle(
-                      fontSize: screenH / 40,
+                      fontSize: screenH / 44,
                       fontWeight: FontWeight.w600,
                       color: darkModebg),
                 ),
