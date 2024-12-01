@@ -39,8 +39,11 @@ Future<void> startMadu(context, {bool isChallenge = false}) async {
   String contentsF = await rootBundle.loadString("assets/filtered-words.txt");
   List<String> fwords = contentsF.split('\n');
   var random = Random();
-  String finalWord =
-      fwords[random.nextInt(fwords.length)].substring(0, 5).toUpperCase();
+  int randomIndex =
+      (random.nextInt(fwords.length) + random.nextInt(fwords.length)) %
+          fwords.length;
+  fwords.shuffle();
+  String finalWord = fwords[randomIndex].substring(0, 5).toUpperCase();
   print(finalWord);
 
   await Navigator.of(context).push(MaterialPageRoute(
@@ -49,11 +52,6 @@ Future<void> startMadu(context, {bool isChallenge = false}) async {
             isChallenge: isChallenge,
             restart: () => startMadu(context, isChallenge: isChallenge),
           )));
-}
-
-// Placeholder for popping back from the game screen.
-void popMadu(context) {
-  return;
 }
 
 class _HomeScreenState extends State<HomeScreen> {
