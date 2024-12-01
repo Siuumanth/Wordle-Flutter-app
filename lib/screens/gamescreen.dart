@@ -414,8 +414,8 @@ class GameBoxState extends State<GameBox> {
           child: Text(
         widget.alpha,
         style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: widget.width / 1.2,
+            fontWeight: FontWeight.w900,
+            fontSize: widget.width / 1.3,
             color: textColor),
       )),
     );
@@ -437,7 +437,7 @@ AppBar gameAppBar(
           style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Theme.of(context).textTheme.bodyMedium!.color,
-              fontSize: 24),
+              fontSize: 26),
         ),
         Container(
           height: 50,

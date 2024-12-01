@@ -433,8 +433,8 @@ Widget buildFAB(context, double screenW) {
   return Padding(
     padding: const EdgeInsets.only(left: 8.0, top: 20),
     child: SizedBox(
-      height: dim,
-      width: dim,
+      height: 75,
+      width: 75,
       child: FloatingActionButton(
         backgroundColor: darktheme,
         shape: const CircleBorder(),

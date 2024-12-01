@@ -80,7 +80,7 @@ Widget dialogButtonloss(
     },
     child: Text(
       text,
-      style: TextStyle(fontSize: ht / 47, fontWeight: FontWeight.w700),
+      style: TextStyle(fontSize: ht / 49, fontWeight: FontWeight.w700),
     ),
   );
 }

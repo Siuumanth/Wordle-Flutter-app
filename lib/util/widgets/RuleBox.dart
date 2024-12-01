@@ -69,12 +69,12 @@ class RuleBox extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                      color: Colors.yellow,
+                      color: boxYellow,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
                       "O",
-                      style: textStyle(sH, 30, FontWeight.w700, Colors.black),
+                      style: textStyle(sH, 30, FontWeight.w700, white),
                     ),
                   ),
                   const SizedBox(width: 10),

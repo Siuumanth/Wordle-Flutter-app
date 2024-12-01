@@ -91,7 +91,7 @@ Widget dialogButton(
     },
     child: Text(
       text,
-      style: TextStyle(fontSize: ht / 47, fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: ht / 49, fontWeight: FontWeight.w600),
     ),
   );
 }
