@@ -88,20 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return false;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    user = FirebaseAuth.instance.currentUser;
-    _checkFirstTime();
-    if (user != null) {
-      refreshDaily();
-      setState(() {});
-    } else {
-      print("User is null");
-      return;
-    }
-  }
-
   Future<void> _checkFirstTime() async {
     final prefs = await SharedPreferences.getInstance();
     final firstTime = prefs.getBool('firstTimePlaying') ?? true;
@@ -160,6 +146,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    user = FirebaseAuth.instance.currentUser;
+    _checkFirstTime();
+    if (user != null) {
+      refreshDaily();
+      setState(() {});
+    } else {
+      print("User is null");
+      return;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -167,162 +167,174 @@ class _HomeScreenState extends State<HomeScreen> {
     double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Consumer<DailyProvider>(
-        builder: (context, dailyProvider, child) => Consumer<
-                UserDetailsProvider>(
-            builder: (context, userProvider, child) => Scaffold(
-                  appBar: buildAppBar(
-                      context,
-                      user == null
-                          ? "0"
-                          : userProvider.check == 1
-                              ? userProvider.userDetails!.pfp.toString()
-                              : "0",
-                      screenWidth),
-                  body: RefreshIndicator(
-                    onRefresh: onRefreshed,
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: SizedBox(
-                        height: screenHeight - appBarHeight - statusBarHeight,
-                        child: Stack(
-                          children: [
-                            buildFAB(context),
-                            Align(
-                              alignment: Alignment.center,
-                              child:
-                                  Container(child: buildStartButton(context)),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                height: screenHeight / 15,
-                                margin: const EdgeInsets.only(bottom: 20),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    if (user == null) {
-                                      showTopMessage(
-                                          context,
-                                          "You need to be Signed in to access Daily Challenges",
-                                          darktheme,
-                                          white);
-                                      return;
-                                    }
-                                    if (online == false) {
-                                      print("bros offline");
-                                      showTopMessage(context, "You're offline",
-                                          darktheme, white);
-                                      return;
-                                    }
-                                    if (user == null) {
-                                      showTopMessage(
-                                          context,
-                                          "You need to be Signed in to access daily challenges",
-                                          darkertheme,
-                                          white);
-                                      return;
-                                    }
+      builder: (context, dailyProvider, child) => Consumer<UserDetailsProvider>(
+        builder: (context, userProvider, child) => Scaffold(
+          appBar: buildAppBar(
+              context,
+              user == null
+                  ? "0"
+                  : userProvider.check == 1
+                      ? userProvider.userDetails!.pfp.toString()
+                      : "0",
+              screenWidth),
+          body: RefreshIndicator(
+            onRefresh: onRefreshed,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: SizedBox(
+                height: screenHeight - appBarHeight - statusBarHeight,
+                child: Stack(
+                  children: [
+                    buildFAB(context, screenWidth),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(child: buildStartButton(context)),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: screenHeight / 15,
+                        margin: const EdgeInsets.only(bottom: 20),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (user == null) {
+                              showTopMessage(
+                                  context,
+                                  "You need to be Signed in to access Daily Challenges",
+                                  darktheme,
+                                  white);
+                              return;
+                            }
+                            if (online == false) {
+                              print("bros offline");
+                              showTopMessage(
+                                  context, "You're offline", darktheme, white);
+                              return;
+                            }
+                            if (user == null) {
+                              showTopMessage(
+                                  context,
+                                  "You need to be Signed in to access daily challenges",
+                                  darkertheme,
+                                  white);
+                              return;
+                            }
 
-                                    await _initializeData();
-                                    if (dailyProvider.completed < 3 &&
-                                        online == true) {
-                                      await dailyProvider.incrementDaily();
-                                      startMadu(context, isChallenge: true);
-                                    } else if (dailyProvider.completed == 3) {
-                                      showTopMessage(
-                                          context,
-                                          "You've reached your daily challenge limit,it resets at 5:30 am daily.",
-                                          darkertheme,
-                                          white);
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          dailyProvider.completed >= 3
-                                              ? theme
-                                              : theme,
-                                      foregroundColor: grey,
-                                      fixedSize: Size(
-                                          screenWidth / 1.4, screenHeight / 18),
-                                      textStyle: TextStyle(
-                                        fontSize: user == null
-                                            ? screenHeight / 36
-                                            : screenHeight / 41,
-                                        fontWeight: FontWeight.w700,
-                                      )),
-                                  child: user != null
-                                      ? (dailyProvider.completed != 5
-                                          ? Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Expanded(
-                                                  child: Center(
-                                                    child: Text(
-                                                      user == null
-                                                          ? "Daily Challenges"
-                                                          : "Daily Challenges ${dailyProvider.completed}/3",
-                                                    ),
-                                                  ),
-                                                ),
-                                                user == null
-                                                    ? const SizedBox()
-                                                    : dailyProvider.completed >=
-                                                            3
-                                                        ? const Icon(
-                                                            Icons.check,
-                                                          )
-                                                        : const Icon(
-                                                            Icons.flag),
-                                              ],
-                                            )
-                                          : (isLoading == true
-                                              ? const CircularProgressIndicator(
-                                                  color: grey,
-                                                )
-                                              : const Text("Daily Challenges")))
-                                      : const Text("Daily challenges"),
-                                ),
-                              ),
-                            ),
-                          ],
+                            await _initializeData();
+                            if (dailyProvider.completed < 3 && online == true) {
+                              await dailyProvider.incrementDaily();
+                              startMadu(context, isChallenge: true);
+                            } else if (dailyProvider.completed == 3) {
+                              showTopMessage(
+                                  context,
+                                  "You've reached your daily challenge limit,it resets at 5:30 am daily.",
+                                  darkertheme,
+                                  white);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  dailyProvider.completed >= 3 ? theme : theme,
+                              foregroundColor: grey,
+                              fixedSize:
+                                  Size(screenWidth / 1.4, screenHeight / 18),
+                              textStyle: TextStyle(
+                                fontSize: user == null
+                                    ? screenHeight / 36
+                                    : screenHeight / 41,
+                                fontWeight: FontWeight.w700,
+                              )),
+                          child: user != null
+                              ? (dailyProvider.completed != 5
+                                  ? Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Center(
+                                            child: Text(
+                                              user == null
+                                                  ? "Daily Challenges"
+                                                  : "Daily Challenges ${dailyProvider.completed}/3",
+                                            ),
+                                          ),
+                                        ),
+                                        user == null
+                                            ? const SizedBox()
+                                            : dailyProvider.completed >= 3
+                                                ? const Icon(
+                                                    Icons.check,
+                                                  )
+                                                : const Icon(Icons.flag),
+                                      ],
+                                    )
+                                  : (isLoading == true
+                                      ? const CircularProgressIndicator(
+                                          color: grey,
+                                        )
+                                      : const Text("Daily Challenges")))
+                              : const Text("Daily challenges"),
                         ),
                       ),
                     ),
-                  ),
-                  drawer: Drawer(
-                    child: ListView(
-                      children: [
-                        DrawerHeader(
-                          decoration: const BoxDecoration(color: theme),
-                          child: Center(
-                            child: Text(
-                              "Settings",
-                              style: TextStyle(
-                                fontSize: screenWidth / 13,
-                                color: darkModedark,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(
-                            Icons.dark_mode,
-                            color:
-                                Theme.of(context).textTheme.bodyMedium!.color,
-                          ),
-                          title: const Text('Toggle Dark Mode'),
-                          onTap: () {
-                            Provider.of<ThemeProvider>(context, listen: false)
-                                .toggleTheme();
-
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
+                  ],
+                ),
+              ),
+            ),
+          ),
+          drawer: Drawer(
+            child: ListView(
+              children: [
+                DrawerHeader(
+                  decoration: const BoxDecoration(color: theme),
+                  child: Center(
+                    child: Text(
+                      "Settings",
+                      style: TextStyle(
+                        fontSize: screenWidth / 13,
+                        color: darkModedark,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                )));
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.dark_mode,
+                    color: Theme.of(context).textTheme.bodyMedium!.color,
+                  ),
+                  title: Text(
+                    'Toggle Dark Mode',
+                    style: TextStyle(fontSize: screenWidth / 22),
+                  ),
+                  onTap: () {
+                    Provider.of<ThemeProvider>(context, listen: false)
+                        .toggleTheme();
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.info_outline,
+                    color: Theme.of(context).textTheme.bodyMedium!.color,
+                  ),
+                  title: Text(
+                    'Overview',
+                    style: TextStyle(
+                      fontSize: screenWidth / 22,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    showWelcomeDialog(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   //
@@ -415,12 +427,14 @@ Widget buildStartButton(BuildContext context) {
   );
 }
 
-Widget buildFAB(context) {
+Widget buildFAB(context, double screenW) {
+  double dim = screenW / 5.1;
+  print(dim);
   return Padding(
     padding: const EdgeInsets.only(left: 8.0, top: 20),
     child: SizedBox(
-      height: 70,
-      width: 70,
+      height: dim,
+      width: dim,
       child: FloatingActionButton(
         backgroundColor: darktheme,
         shape: const CircleBorder(),

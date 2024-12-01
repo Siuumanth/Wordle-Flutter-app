@@ -10,7 +10,7 @@ import 'package:wordle/model/providers/userInfoProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/wrapper.dart';
-import 'package:wordle/model/providers/dailyProvider.dart';
+//import 'package:wordle/model/providers/dailyProvider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -98,21 +98,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<int> getUserRank() async {
-    if (Provider.of<DailyProvider>(context, listen: false).updated == false) {
-      final prefs = await SharedPreferences.getInstance();
-      if (prefs.containsKey('userRank')) {
-        setState(() {
-          userRank = prefs.getInt('userRank')!;
-          rankFetched = true; // Mark as fetched
-        });
-        return userRank;
-      }
-    }
-
+    print("Fetching user rank...");
     for (int index = 0; index < scoreToIndex.length; index++) {
       final leader = leaderboard[scoreToIndex[index]];
       if (leader.username == userDetails!.username) {
         final rank = index + 1;
+        print("User rank determined: $rank");
         await saveUserRank(rank);
         setState(() {
           userRank = rank;
@@ -121,9 +112,9 @@ class _ProfilePageState extends State<ProfilePage> {
         return rank;
       }
     }
-
+    print("User not found in the leaderboard.");
     setState(() {
-      userRank = -1;
+      userRank = -1; // User not found
       rankFetched = false;
     });
     return -1;
@@ -275,7 +266,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
 AppBar buildAppBar(context) {
   return AppBar(
-    iconTheme: IconThemeData(color: Theme.of(context).scaffoldBackgroundColor),
+    iconTheme: const IconThemeData(color: darkModebg),
     backgroundColor: theme,
     title: const Text(
       "Profile",
