@@ -90,6 +90,9 @@ class _gameScreenState extends State<gameScreen> {
   }
 
   void backSpace() {
+    if (isChanging == true) {
+      return;
+    }
     if (currentIndex == istart) {
       return;
     } else if (over == true) {
